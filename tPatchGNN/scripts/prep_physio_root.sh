@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Paths
-REPO="$HOME/Test/t-PatchGNN"
+REPO="$HOME/Test/MSP-IMTS"
 CODE="$REPO/tPatchGNN"
 DATA="$REPO/data/physionet"
 
