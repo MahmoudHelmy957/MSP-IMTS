@@ -9,7 +9,7 @@ import torch
 from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import DataLoader
 from torchvision.datasets.utils import download_url
-from lib.utils import get_device
+# from utils import get_device
 
 # Adapted from: https://github.com/rtqichen/time-series-datasets
 
@@ -63,6 +63,7 @@ class PhysioNet(object):
 
 	def download(self):
 		if self._check_exists():
+			print("jo")
 			return
 
 		self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -453,6 +454,6 @@ def variable_time_collate_fn(batch, args, device = torch.device("cpu"), data_typ
 if __name__ == '__main__':
 	torch.manual_seed(1991)
 
-	dataset = PhysioNet('../data/physionet', train=False, download=True)
+	dataset = PhysioNet('./Data/physionet', download=True)
 	dataloader = DataLoader(dataset, batch_size=10, shuffle=True, collate_fn=variable_time_collate_fn)
 	print(dataloader.__iter__().next())
