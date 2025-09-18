@@ -13,8 +13,6 @@ from torch.distributions.multivariate_normal import MultivariateNormal
 from torch.distributions.normal import Normal
 from torch.distributions import kl_divergence, Independent
 
-from tqdm import tqdm
-import einops
 
 def gaussian_log_likelihood(mu_2d, data_2d, obsrv_std, indices = None):
 	n_data_points = mu_2d.size()[-1]
@@ -264,8 +262,6 @@ def compute_error(truth, pred_y, mask, func, reduce, norm_dict=None):
 	n_traj_samples, n_batch, n_tp, n_dim = pred_y.size()
 	truth_repeated = truth.repeat(pred_y.size(0), 1, 1, 1)
 	mask = mask.repeat(pred_y.size(0), 1, 1, 1)
- 
-	# print(truth_repeated.device, pred_y.device, mask.device)
 
 	if(func == "MSE"):
 		error = ((truth_repeated - pred_y)**2) * mask # (n_traj_samples, n_batch, n_tp, n_dim)
@@ -296,14 +292,8 @@ def compute_error(truth, pred_y, mask, func, reduce, norm_dict=None):
 		error_var_avg = error_var_sum / (mask_count + 1e-8) # (n_dim, ) 
 		# print("error_var_avg", error_var_avg.max().item(), error_var_avg.min().item(), (1.0*error_var_avg).mean().item())
 		n_avai_var = torch.count_nonzero(mask_count)
-  
-		## 才加的
-		if n_avai_var == 0:
-			n_avai_var = torch.tensor(1e-8)
 		error_avg = error_var_avg.sum() / n_avai_var # (1, )
-		##		
-  
-  
+		
 		return error_avg # a scalar (1, ) 
 	
 	elif(reduce == "sum"):
@@ -319,39 +309,16 @@ def compute_all_losses(model, batch_dict):
 	# Make predictions for all the points
 	# shape of pred --- [n_traj_samples=1, n_batch, n_tp, n_dim]
 
-  
+	pred_y = model.forecasting(batch_dict["tp_to_predict"], 
+		batch_dict["observed_data"], batch_dict["observed_tp"], 
+		batch_dict["observed_mask"]) 
+	# print("pred:", pred_y.shape, batch_dict["mask_predicted_data"].shape)
 
-	# truth: [B, L, N]  
-	# pred: [B, L, N]
-	# mask: [B, L, N]
-
-	if model.train_mode == 'fine-tune':
-		pred_y = model(batch_dict["tp_to_predict"], 
-			batch_dict["observed_data"], batch_dict["observed_tp"], 
-			batch_dict["observed_mask"], batch_dict["mask_predicted_data"], batch_dict["pred_patch_index"]) 
-  
-		# Compute avg error of each variable first, then compute avg error of all variables
-		mse = compute_error(batch_dict["data_to_predict"], pred_y, mask = batch_dict["mask_predicted_data"], func="MSE", reduce="mean") # a scalar
-		rmse = torch.sqrt(mse)
-		mae = compute_error(batch_dict["data_to_predict"], pred_y, mask = batch_dict["mask_predicted_data"], func="MAE", reduce="mean") # a scalar
-	
-	elif model.train_mode == 'pre-train' or model.train_mode == 'ttt':
-		pred_y, mask_ssl = model(batch_dict["tp_to_predict"], 
-			batch_dict["observed_data"], batch_dict["observed_tp"], 
-			batch_dict["observed_mask"], batch_dict["mask_predicted_data"], batch_dict["pred_patch_index"]) 
-		# reshape
-		truth = einops.rearrange(batch_dict["observed_data"], 'b m l n -> b (m l) n')
-		pred_y = einops.rearrange(pred_y, '(b n) ml -> b ml n', b=len(batch_dict["tp_to_predict"]))
-		mask_tt = einops.rearrange(batch_dict["observed_mask"], 'b m l n -> b (m l) n')
-		mask_ssl = einops.rearrange(mask_ssl, '(b n) ml -> b ml n', b=len(batch_dict["tp_to_predict"]))
-		mask = mask_tt * mask_ssl
-		# Compute avg error of each variable first, then compute avg error of all variables
-		mse = compute_error(truth, pred_y, mask, func="MSE", reduce="mean") # a scalar
-		rmse = torch.sqrt(mse)
-		mae = compute_error(truth, pred_y, mask, func="MAE", reduce="mean") # a scalar
-  
-	else:
-		raise Exception("Train mode not supported yet! Choose 'fine-tune' or 'pre-train' or 'ttt'.")
+	# Compute avg error of each variable first, then compute avg error of all variables
+	mse = compute_error(batch_dict["data_to_predict"], pred_y, mask = batch_dict["mask_predicted_data"], func="MSE", reduce="mean") # a scalar
+	rmse = torch.sqrt(mse)
+	# print(mse, rmse)
+	mae = compute_error(batch_dict["data_to_predict"], pred_y, mask = batch_dict["mask_predicted_data"], func="MAE", reduce="mean") # a scalar
 
 	################################
 	# mse loss
@@ -376,35 +343,22 @@ def evaluation(model, dataloader, n_batches):
 	total_results["rmse"] = 0
 	total_results["mape"] = 0
 
-	for _ in tqdm(range(n_batches)):
+	for _ in range(n_batches):
 		batch_dict = utils.get_next_batch(dataloader)
 
-		if model.train_mode == 'fine-tune':
-			pred_y = model(batch_dict["tp_to_predict"], 
-				batch_dict["observed_data"], batch_dict["observed_tp"], 
-				batch_dict["observed_mask"], batch_dict["mask_predicted_data"], batch_dict["pred_patch_index"]) 			
-			# (n_dim, ) , (n_dim, ) 
-			se_var_sum, mask_count = compute_error(batch_dict["data_to_predict"], pred_y, mask=batch_dict["mask_predicted_data"], func="MSE", reduce="sum") # a vector
-			ae_var_sum, _ = compute_error(batch_dict["data_to_predict"], pred_y, mask = batch_dict["mask_predicted_data"], func="MAE", reduce="sum") # a vector
-			ape_var_sum, mask_count_mape = compute_error(batch_dict["data_to_predict"], pred_y, mask = batch_dict["mask_predicted_data"], func="MAPE", reduce="sum") # a vector
-
-		elif model.train_mode == 'pre-train' or model.train_mode == 'ttt':
-			pred_y, mask_ssl = model(batch_dict["tp_to_predict"], 
+		pred_y = model.forecasting(batch_dict["tp_to_predict"], 
 			batch_dict["observed_data"], batch_dict["observed_tp"], 
-			batch_dict["observed_mask"], batch_dict["mask_predicted_data"], batch_dict["pred_patch_index"]) 
-			# rearrange the shape of the data for computing error
-			truth = einops.rearrange(batch_dict["observed_data"], 'b m l n -> b (m l) n')
-			pred_y = einops.rearrange(pred_y, '(b n) ml -> b ml n', b=len(batch_dict["tp_to_predict"]))
-			mask_tt = einops.rearrange(batch_dict["observed_mask"], 'b m l n -> b (m l) n')
-			mask_ssl = einops.rearrange(mask_ssl, '(b n) ml -> b ml n', b=len(batch_dict["tp_to_predict"]))
-			mask = mask_tt * mask_ssl
-   			# Compute avg error of each variable first, then compute avg error of all variables
-			se_var_sum, mask_count= compute_error(truth, pred_y, mask, func="MSE", reduce="sum") # a scalar
-			ae_var_sum, _= compute_error(truth, pred_y, mask, func="MAE", reduce="sum") # a scalar
-			ape_var_sum, mask_count_mape = compute_error(truth, pred_y, mask, func="MAPE", reduce="sum") # a scalar
+			batch_dict["observed_mask"]) 
+		
+		# print('consistency test:', batch_dict["data_to_predict"][batch_dict["mask_predicted_data"].bool()].sum(), batch_dict["mask_predicted_data"].sum()) # consistency test
+		
+		# (n_dim, ) , (n_dim, ) 
+		se_var_sum, mask_count = compute_error(batch_dict["data_to_predict"], pred_y, mask=batch_dict["mask_predicted_data"], func="MSE", reduce="sum") # a vector
 
-		else:
-			raise Exception("Train mode not supported yet! Choose 'fine-tune' or 'pre-train' or 'ttt'.")
+		ae_var_sum, _ = compute_error(batch_dict["data_to_predict"], pred_y, mask = batch_dict["mask_predicted_data"], func="MAE", reduce="sum") # a vector
+
+		# norm_dict = {"data_max": batch_dict["data_max"], "data_min": batch_dict["data_min"]}
+		ape_var_sum, mask_count_mape = compute_error(batch_dict["data_to_predict"], pred_y, mask = batch_dict["mask_predicted_data"], func="MAPE", reduce="sum") # a vector
 
 		# add a tensor (n_dim, )
 		total_results["loss"] += se_var_sum
@@ -431,3 +385,4 @@ def evaluation(model, dataloader, n_batches):
 		total_results[key] = var
 
 	return total_results
+

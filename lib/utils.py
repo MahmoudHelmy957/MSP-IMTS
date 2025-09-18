@@ -219,8 +219,9 @@ def get_ckpt_model(ckpt_path, model, device):
 	if not os.path.exists(ckpt_path):
 		raise Exception("Checkpoint " + ckpt_path + " does not exist.")
 	# Load checkpoint.
-	state_dict = torch.load(ckpt_path)
-	# ckpt_args = checkpt['args']
+	checkpt = torch.load(ckpt_path)
+	ckpt_args = checkpt['args']
+	state_dict = checkpt['state_dict']
 	model_dict = model.state_dict()
 
 	# 1. filter out unnecessary keys
@@ -228,9 +229,8 @@ def get_ckpt_model(ckpt_path, model, device):
 	# 2. overwrite entries in the existing state dict
 	model_dict.update(state_dict) 
 	# 3. load the new state dict
-	model.load_state_dict(state_dict,strict=False)
+	model.load_state_dict(state_dict)
 	model.to(device)
-	return model
 
 
 def update_learning_rate(optimizer, decay_rate = 0.999, lowest = 1e-3):
@@ -358,8 +358,7 @@ def split_and_patch_batch(data_dict, args, n_observed_tp, patch_indices):
 
 	split_dict = {"tp_to_predict": data_dict["tp_to_predict"].clone(),
 			"data_to_predict": data_dict["data_to_predict"].clone(),
-			"mask_predicted_data": data_dict["mask_predicted_data"].clone(),
-			"pred_patch_index": data_dict["pred_patch_index"].clone(),
+			"mask_predicted_data": data_dict["mask_predicted_data"].clone()
 			}
 	
 	observed_tp = data_dict["time_steps"].clone() # (n_observed_tp, )
@@ -367,9 +366,9 @@ def split_and_patch_batch(data_dict, args, n_observed_tp, patch_indices):
 	observed_mask = data_dict["mask"].clone() # (bs, n_observed_tp, D)
 
 	n_batch, n_tp, n_dim = observed_data.shape
-	observed_tp_patches = observed_tp.view(1, 1, -1, 1).repeat(n_batch, args.npatch, 1, n_dim).to(device)
-	observed_data_patches = observed_data.view(n_batch, 1, n_tp, n_dim).repeat(1, args.npatch, 1, 1).to(device)
-	observed_mask_patches = observed_mask.view(n_batch, 1, n_tp, n_dim).repeat(1, args.npatch, 1, 1).to(device)
+	observed_tp_patches = observed_tp.view(1, 1, -1, 1).repeat(n_batch, args.npatch, 1, n_dim)
+	observed_data_patches = observed_data.view(n_batch, 1, n_tp, n_dim).repeat(1, args.npatch, 1, 1)
+	observed_mask_patches = observed_mask.view(n_batch, 1, n_tp, n_dim).repeat(1, args.npatch, 1, 1)
 
 	max_patch_len = 0
 	for i in range(args.npatch):
@@ -422,7 +421,7 @@ def split_data_forecast(data_dict, dataset, n_observed_tp):
 
 	if ("mask" in data_dict) and (data_dict["mask"] is not None):
 		split_dict["observed_mask"] = data_dict["mask"][:, :n_observed_tp].clone()
-		split_dict["mask_predicted_data"] = data_dict["mask"][:, n_observed_tp:].clone().to(get_device(data_dict["data"]))
+		split_dict["mask_predicted_data"] = data_dict["mask"][:, n_observed_tp:].clone()
 
 	split_dict["mode"] = "forecast"
 
@@ -617,6 +616,51 @@ def check_mask(data, mask):
 
 	# all masked out elements should be zeros
 	assert(torch.sum(data[mask == 0.] != 0.) == 0)
+
+# === Multi-scale helpers ===
+def _build_time_bins_from_normalized_tp(observed_tp_1d, patch_size_hours, stride_hours, history_hours):
+    p = float(patch_size_hours) / float(history_hours)
+    s = float(stride_hours) / float(history_hours)
+    bins, start = [], 0.0
+    while start < 1.0 - 1e-8:
+        end = min(start + p, 1.0)
+        bins.append((start, end))
+        start += s
+        if s <= 0: break
+    if len(bins) == 0 or bins[-1][1] < 1.0 - 1e-8:
+        bins.append((max(0.0, 1.0 - p), 1.0))
+    return bins
+
+def build_patch_indices_time(observed_tp, patch_size_hours, stride_hours, history_hours):
+    assert observed_tp.dim() == 1
+    obs = observed_tp.detach().cpu().numpy()
+    bins = _build_time_bins_from_normalized_tp(observed_tp, patch_size_hours, stride_hours, history_hours)
+    last = len(bins) - 1
+    patch_indices = []
+    for i, (st, ed) in enumerate(bins):
+        if i == last:
+            sel = np.where((obs >= st - 1e-9) & (obs <= ed + 1e-9))[0]
+        else:
+            sel = np.where((obs >= st - 1e-9) & (obs <  ed - 1e-9))[0]
+        patch_indices.append(sel.tolist())
+    return patch_indices
+
+def multiscale_split_and_patch_batch(data_dict, args, history_hours, scales_hours, strides_hours):
+    assert len(scales_hours) == len(strides_hours)
+    observed_tp_1d = data_dict["time_steps"]
+    X_list, tt_list, mk_list, npatches = [], [], [], []
+    for ps_h, st_h in zip(scales_hours, strides_hours):
+        indices = build_patch_indices_time(observed_tp_1d, ps_h, st_h, history_hours)
+        old_npatch = getattr(args, "npatch")
+        setattr(args, "npatch", len(indices))
+        split_dict = split_and_patch_batch(data_dict, args, n_observed_tp=len(observed_tp_1d), patch_indices=indices)
+        X_list.append( split_dict["observed_data"] )
+        tt_list.append(split_dict["observed_tp"])
+        mk_list.append(split_dict["observed_mask"])
+        npatches.append(len(indices))
+        setattr(args, "npatch", old_npatch)
+    return {"X_list": X_list, "tt_list": tt_list, "mk_list": mk_list, "npatches": npatches}
+
 
 
 

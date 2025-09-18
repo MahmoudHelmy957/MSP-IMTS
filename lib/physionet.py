@@ -1,6 +1,5 @@
 import os
-
-from matplotlib import pyplot as plt
+import re
 
 import lib.utils as utils
 import numpy as np
@@ -9,7 +8,7 @@ import torch
 from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import DataLoader
 from torchvision.datasets.utils import download_url
-# from utils import get_device
+from lib.utils import get_device
 
 # Adapted from: https://github.com/rtqichen/time-series-datasets
 
@@ -39,7 +38,20 @@ class PhysioNet(object):
 		self.root = root
 		self.reduce = "average"
 		self.quantization = quantization
-
+# 		# If not provided, infer from processed filenames or fall back to 1.0
+# 		if self.quantization is None:
+# 			try:
+# 				os.makedirs(self.processed_folder, exist_ok=True)
+# 				for fn in os.listdir(self.processed_folder):
+# 					m = re.match(r"set-a_([0-9.]+)\.pt$", fn)
+# 					if m:
+# 						self.quantization = float(m.group(1))
+# 						break
+# 			except Exception:
+# 				pass
+# 			if self.quantization is None:
+# 				self.quantization = 1.0
+# ###################################
 		if download:
 			self.download()
 
@@ -54,6 +66,19 @@ class PhysioNet(object):
 			data_a = torch.load(os.path.join(self.processed_folder, self.set_a))
 			data_b = torch.load(os.path.join(self.processed_folder, self.set_b))
 			data_c = torch.load(os.path.join(self.processed_folder, self.set_c))
+		
+		# >>> Add this block (move loaded CPU tensors to the requested device)
+		def _move_records_to_device(records, dev):
+			moved = []
+			for (record_id, tt, vals, mask) in records:
+				moved.append((record_id, tt.to(dev), vals.to(dev), mask.to(dev)))
+			return moved
+		
+		if device != torch.device("cpu"):
+			data_a = _move_records_to_device(data_a, device)
+			data_b = _move_records_to_device(data_b, device)
+			data_c = _move_records_to_device(data_c, device)
+		# <<< End
 
 		self.data = data_a + data_b + data_c # a list with length 12000
 
@@ -63,10 +88,9 @@ class PhysioNet(object):
 
 	def download(self):
 		if self._check_exists():
-			print("jo")
 			return
 
-		self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+		self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 		os.makedirs(self.raw_folder, exist_ok=True)
 		os.makedirs(self.processed_folder, exist_ok=True)
@@ -232,7 +256,7 @@ def get_data_min_max(records, device):
 		batch_min = []
 		batch_max = []
 		for i in range(n_features):
-			non_missing_vals = vals[:,i][mask[:,i] == 1].to(device)
+			non_missing_vals = vals[:,i][mask[:,i] == 1]
 			if len(non_missing_vals) == 0:
 				batch_min.append(inf)
 				batch_max.append(-inf)
@@ -250,7 +274,7 @@ def get_data_min_max(records, device):
 			data_min = torch.min(data_min, batch_min)
 			data_max = torch.max(data_max, batch_max)
 
-		time_max = torch.max(time_max, tt.max().to(device))
+		time_max = torch.max(time_max, tt.max())
 
 	print('data_max:', data_max)
 	print('data_min:', data_min)
@@ -298,12 +322,7 @@ def patch_variable_time_collate_fn(batch, args, device = torch.device("cpu"), da
 	# the number of observed time points 
 	n_observed_tp = torch.lt(combined_tt, args.history).sum()
 	observed_tp = combined_tt[:n_observed_tp] # (n_observed_tp, )
- 
-	# # the number of prediction time points
-	# n_pred_tp = len(combined_tt) - n_observed_tp
-	# pred_tp = combined_tt[n_observed_tp:] # (n_pred_tp, )
 
-	# calculating history patch indices
 	patch_indices = []
 	st, ed = 0, args.patch_size
 	for i in range(args.npatch):
@@ -315,52 +334,22 @@ def patch_variable_time_collate_fn(batch, args, device = torch.device("cpu"), da
 		st += args.stride
 		ed += args.stride
 
-	# # calculating prediction patch indices (目前仅支持ushcn & activity)
-	# pred_patch_indices = []
-	# st, ed = args.history, args.history + args.patch_size
-	# for i in range(args.npred_patch):
-	# 	if(i == args.npred_patch-1):
-	# 		inds = torch.where((pred_tp >= st) & (pred_tp <= ed))[0]
-	# 	else:
-	# 		inds = torch.where((pred_tp >= st) & (pred_tp < ed))[0]
-	# 	pred_patch_indices.append((torch.ones_like(inds)*i).long())
-	# 	st += args.stride
-	# 	ed += args.stride
-	# pred_patch_indices = torch.cat(pred_patch_indices, dim=0)
-	# del st, ed
-
-	def get_patch_indices(tt, stride, n_patch, st, ed):
-		patch_indices = []	
-		for i in range(n_patch):
-			if(i == n_patch-1):
-				inds = torch.where((tt >= st) & (tt <= ed))[0]
-			else:
-				inds = torch.where((tt >= st) & (tt < ed))[0]
-			patch_indices.append((torch.ones_like(inds)*i).long())
-			st += stride
-			ed += stride
-		patch_indices = torch.cat(patch_indices, dim=0)
-		return patch_indices
-
 	offset = 0
 	combined_vals = torch.zeros([len(batch), len(combined_tt), D]).to(device)
 	combined_mask = torch.zeros([len(batch), len(combined_tt), D]).to(device)
 	predicted_tp = []
 	predicted_data = []
-	predicted_mask = []
-	predicted_patch_index = []
+	predicted_mask = [] 
 	for b, (record_id, tt, vals, mask) in enumerate(batch):
 		indices = inverse_indices[offset:offset+len(tt)]
 		offset += len(tt)
-		combined_vals[b, indices] = vals.to(device)
-		combined_mask[b, indices] = mask.to(device)
+		combined_vals[b, indices] = vals
+		combined_mask[b, indices] = mask
 
 		tmp_n_observed_tp = torch.lt(tt, args.history).sum()
 		predicted_tp.append(tt[tmp_n_observed_tp:])
 		predicted_data.append(vals[tmp_n_observed_tp:])
 		predicted_mask.append(mask[tmp_n_observed_tp:])
-		predicted_patch_index.append(get_patch_indices(predicted_tp[b], \
-      args.stride, args.npred_patch, st=args.history, ed=args.history + args.patch_size))
 
 	combined_tt = combined_tt[:n_observed_tp]
 	combined_vals = combined_vals[:, :n_observed_tp]
@@ -368,32 +357,126 @@ def patch_variable_time_collate_fn(batch, args, device = torch.device("cpu"), da
 	predicted_tp = pad_sequence(predicted_tp, batch_first=True)
 	predicted_data = pad_sequence(predicted_data, batch_first=True)
 	predicted_mask = pad_sequence(predicted_mask, batch_first=True)
-	predicted_patch_index = pad_sequence(predicted_patch_index, batch_first=True)
 
 	if(args.dataset != 'ushcn'):
 		combined_vals = utils.normalize_masked_data(combined_vals, combined_mask, 
-			att_min = data_min.to(device), att_max = data_max.to(device))
-		predicted_data = utils.normalize_masked_data(predicted_data.to(device), predicted_mask, 
-			att_min = data_min.to(device), att_max = data_max.to(device))
+			att_min = data_min, att_max = data_max)
+		predicted_data = utils.normalize_masked_data(predicted_data, predicted_mask, 
+			att_min = data_min, att_max = data_max)
 
-	combined_tt = utils.normalize_masked_tp(combined_tt.to(device), att_min = 0, att_max = time_max.to(device))
-	predicted_tp = utils.normalize_masked_tp(predicted_tp.to(device), att_min = 0, att_max = time_max.to(device))
+	combined_tt = utils.normalize_masked_tp(combined_tt, att_min = 0, att_max = time_max)
+	predicted_tp = utils.normalize_masked_tp(predicted_tp, att_min = 0, att_max = time_max)
 		
 	data_dict = {
-		"data": combined_vals.to(device), # (n_batch, T_o, D)
-		"time_steps": combined_tt.to(device), # (T_o, )
-		"mask": combined_mask.to(device), # (n_batch, T_o, D)
-		"data_to_predict": predicted_data.to(device),
-		"tp_to_predict": predicted_tp.to(device),
-		"mask_predicted_data": predicted_mask.to(device),
-		"pred_patch_index": predicted_patch_index.to(device),
+		"data": combined_vals, # (n_batch, T_o, D)
+		"time_steps": combined_tt, # (T_o, )
+		"mask": combined_mask, # (n_batch, T_o, D)
+		"data_to_predict": predicted_data,
+		"tp_to_predict": predicted_tp,
+		"mask_predicted_data": predicted_mask,
 		}
 
 	data_dict = utils.split_and_patch_batch(data_dict, args, n_observed_tp, patch_indices)
 
 	return data_dict
 
+#####################" multi scale" ######################
+def patch_variable_time_collate_fn_ms(
+    batch, args, device=torch.device("cpu"),
+    data_min=None, data_max=None, time_max=None,
+    scales_hours=(2.0, 8.0, 24.0), strides_hours=None, history_hours=24.0
+):
+    """
+    Multi-scale collate:
+      - builds a union timeline over the batch (1-D combined_tt),
+      - aligns values/masks to that timeline,
+      - normalizes data and time,
+      - returns per-scale patched tensors via utils.multiscale_split_and_patch_batch.
+    Output keys:
+      X_list, tt_list, mk_list, npatches, tp_to_predict, data_to_predict, mask_predicted_data
+    """
+    if strides_hours is None:
+        strides_hours = scales_hours
 
+    # Build union timeline across the batch (exactly like patch_variable_time_collate_fn)
+    D = batch[0][2].shape[1]
+    combined_tt, inverse_indices = torch.unique(
+        torch.cat([ex[1] for ex in batch]), sorted=True, return_inverse=True
+    )
+
+    # number of observed time points (< history)
+    n_observed_tp = torch.lt(combined_tt, args.history).sum()
+    observed_tt = combined_tt[:n_observed_tp]  # (T_obs,)
+
+    # Allocate aligned arrays (B, T_all, D), then trim to T_obs
+    B = len(batch)
+    combined_vals = torch.zeros([B, len(combined_tt), D], device=device)
+    combined_mask = torch.zeros_like(combined_vals)
+
+    predicted_tp_list, predicted_data_list, predicted_mask_list = [], [], []
+
+    offset = 0
+    for b, (record_id, tt, vals, mask) in enumerate(batch):
+        idx = inverse_indices[offset:offset + len(tt)]
+        offset += len(tt)
+        combined_vals[b, idx] = vals.to(device)
+        combined_mask[b, idx] = mask.to(device)
+
+        n_obs_cur = torch.lt(tt, args.history).sum()
+        predicted_tp_list.append(tt[n_obs_cur:])
+        predicted_data_list.append(vals[n_obs_cur:])
+        predicted_mask_list.append(mask[n_obs_cur:])
+
+    # Trim to observed window
+    combined_vals = combined_vals[:, :n_observed_tp]
+    combined_mask = combined_mask[:, :n_observed_tp]
+
+    # Pad future (prediction) parts
+    from torch.nn.utils.rnn import pad_sequence
+    predicted_tp   = pad_sequence(predicted_tp_list,   batch_first=True)
+    predicted_data = pad_sequence(predicted_data_list, batch_first=True)
+    predicted_mask = pad_sequence(predicted_mask_list, batch_first=True)
+
+    # Normalize values (same logic as original)
+    if args.dataset != 'ushcn':
+        combined_vals = utils.normalize_masked_data(
+            combined_vals, combined_mask, att_min=data_min, att_max=data_max
+        )
+        predicted_data = utils.normalize_masked_data(
+            predicted_data, predicted_mask, att_min=data_min, att_max=data_max
+        )
+
+    # Normalize time to [0,1] by time_max
+    observed_tt  = utils.normalize_masked_tp(observed_tt,  att_min=0, att_max=time_max)
+    predicted_tp = utils.normalize_masked_tp(predicted_tp, att_min=0, att_max=time_max)
+
+    # Build the "single" dict expected by split_and_patch_batch
+    single = {
+        "data": combined_vals,           # (B, T_obs, D)
+        "time_steps": observed_tt,       # (T_obs,)
+        "mask": combined_mask,           # (B, T_obs, D)
+        "data_to_predict": predicted_data,
+        "tp_to_predict": predicted_tp,
+        "mask_predicted_data": predicted_mask,
+    }
+
+    # Multi-scale split using union timeline (1-D)
+    ms = utils.multiscale_split_and_patch_batch(
+        data_dict=single, args=args, history_hours=float(history_hours),
+        scales_hours=list(scales_hours), strides_hours=list(strides_hours)
+    )
+
+    return {
+        "X_list": ms["X_list"], "tt_list": ms["tt_list"], "mk_list": ms["mk_list"],
+        "npatches": ms["npatches"],
+        "tp_to_predict": single["tp_to_predict"],
+        "data_to_predict": single["data_to_predict"],
+        "mask_predicted_data": single["mask_predicted_data"],
+    }
+
+
+
+##############################################################
 def variable_time_collate_fn(batch, args, device = torch.device("cpu"), data_type = "train", 
 	data_min = None, data_max = None, time_max = None):
 	"""
@@ -454,6 +537,6 @@ def variable_time_collate_fn(batch, args, device = torch.device("cpu"), data_typ
 if __name__ == '__main__':
 	torch.manual_seed(1991)
 
-	dataset = PhysioNet('./Data/physionet', download=True)
+	dataset = PhysioNet('../data/physionet', train=False, download=True)
 	dataloader = DataLoader(dataset, batch_size=10, shuffle=True, collate_fn=variable_time_collate_fn)
 	print(dataloader.__iter__().next())
