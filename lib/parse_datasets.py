@@ -43,6 +43,14 @@ def parse_datasets(args, patch_ts=False, length_stat=False):
 		seen_data, test_data = model_selection.train_test_split(total_dataset, train_size= 0.8, random_state = 42, shuffle = True)
 		train_data, val_data = model_selection.train_test_split(seen_data, train_size= 0.75, random_state = 42, shuffle = False)
 		print("Dataset n_samples:", len(total_dataset), len(train_data), len(val_data), len(test_data))
+		# --- Sanity: make sure splits are disjoint ---
+		train_ids = {rid for rid, _, _, _ in train_data}
+		val_ids   = {rid for rid, _, _, _ in val_data}
+		test_ids  = {rid for rid, _, _, _ in test_data}
+		print("overlap train∩val:", len(train_ids & val_ids),
+			"train∩test:", len(train_ids & test_ids),
+			"val∩test:", len(val_ids & test_ids))
+		# ---------------------------------------------
 		test_record_ids = [record_id for record_id, tt, vals, mask in test_data]
 		print("Test record ids (first 20):", test_record_ids[:20])
 		print("Test record ids (last 20):", test_record_ids[-20:])
@@ -77,6 +85,20 @@ def parse_datasets(args, patch_ts=False, length_stat=False):
 			train_dataloader = DataLoader(train_data, batch_size=batch_size, shuffle=True,  collate_fn=collate_fn_ms)
 			val_dataloader   = DataLoader(val_data,   batch_size=batch_size, shuffle=False, collate_fn=collate_fn_ms)
 			test_dataloader  = DataLoader(test_data,  batch_size=batch_size, shuffle=False, collate_fn=collate_fn_ms)
+			# --- Sanity: pull one val batch and check masks ---
+			try:
+				_one = next(iter(val_dataloader))
+				# Expect lists of length K
+				print("[MS] batch keys:", list(_one.keys()))
+				print("[MS] #scales:", len(_one["X_list"]))
+				print("[MS] per-scale shapes:",
+					[tuple(x.shape) for x in _one["X_list"]])  # (B, M_k, L, N) each
+				print("[MS] data_to_predict:", tuple(_one["data_to_predict"].shape))
+				print("[MS] mask_predicted_data sum:",
+					_one["mask_predicted_data"].sum().item())
+			except Exception as e:
+				print("[MS] sanity batch failed:", repr(e))
+			# -------------------------------------------------
 
 		else:
 			# original single-scale path
@@ -94,6 +116,17 @@ def parse_datasets(args, patch_ts=False, length_stat=False):
 			test_dataloader = DataLoader(test_data, batch_size = batch_size, shuffle=False, 
 				collate_fn= lambda batch: collate_fn(batch, args, device, data_type = "test",
 					data_min = data_min, data_max = data_max, time_max = time_max))
+			# --- Sanity: pull one val batch and check masks ---
+			try:
+				_one = next(iter(val_dataloader))
+				print("[SS] observed_data:", tuple(_one["observed_data"].shape))
+				print("[SS] data_to_predict:", tuple(_one["data_to_predict"].shape))
+				print("[SS] mask_predicted_data sum:",
+					_one["mask_predicted_data"].sum().item())
+			except Exception as e:
+				print("[SS] sanity batch failed:", repr(e))
+			# -------------------------------------------------
+
 		# ------------------------- CHANGED BLOCK END -------------------------
 
 		data_objects = {

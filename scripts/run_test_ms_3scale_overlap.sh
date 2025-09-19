@@ -20,9 +20,9 @@ echo "Host: $(hostname)"; echo "CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES"; pyt
 
 SEED=0
 GPU=0
-EPOCHS=60          # still fine for TEST
+EPOCHS=60          
 PATIENCE=20
-BATCH=16           # bump to 32 if it fits
+BATCH=16           
 LR=1e-3
 HISTORY=24
 QUANT=1.0
