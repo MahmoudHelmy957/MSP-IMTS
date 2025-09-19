@@ -18,6 +18,11 @@ import torch.optim as optim
 import lib.utils as utils
 from lib.parse_datasets import parse_datasets
 from model.tPatchGNN import *
+import lib.utils as U, lib.physionet as P, model.tPatchGNN as TP, inspect
+print("USING:", U.__file__)
+print("USING:", P.__file__)
+print("USING:", TP.__file__)
+print("CWD:", os.getcwd())
 
 parser = argparse.ArgumentParser('IMTS Forecasting')
 
