@@ -30,6 +30,13 @@ parser = argparse.ArgumentParser('IMTS Forecasting')
 parser.add_argument('--multi_scales', type=str, default='', help='Comma list of patch sizes in hours, e.g. "2,8,24". Empty = single-scale.')
 parser.add_argument('--multi_strides', type=str, default='', help='Comma list of strides in hours. Empty = same as multi_scales.')
 parser.add_argument('--fusion', type=str, default='concat', choices=['concat','scale_attn'], help='Fusion method for multi-scale.')
+# --- scale-attention hyperparams (	defaults keep concat behavior) ---
+parser.add_argument('--attn_hidden',  type=int,   default=32,   help='Hidden dim of scale-attn MLP.')
+parser.add_argument('--attn_temp',    type=float, default=1.0,  help='Softmax temperature for scale weights.')
+parser.add_argument('--attn_dropout', type=float, default=0.0,  help='Dropout on scale weights.')
+parser.add_argument('--attn_norm',    action='store_true',      help='LayerNorm on fused features (post-proj).')
+parser.add_argument('--attn_reg',     type=float, default=0.0,  help='Entropy regularization weight on scale weights.')
+
 ################################################
 
 parser.add_argument('--state', type=str, default='def')
@@ -122,8 +129,13 @@ if __name__ == '__main__':
 		model = MultiScaleTPatchGNN(
 			submodels=submodels,
 			te_dim=args.te_dim,
-			proj_dim=args.hid_dim,                   # project concat back to hid_dim
-			fusion=args.fusion
+			proj_dim=args.hid_dim,         # project concat back to hid_dim
+			fusion=args.fusion,
+			attn_hidden=args.attn_hidden,
+			attn_temp=args.attn_temp,
+			attn_dropout=args.attn_dropout,
+			attn_norm=args.attn_norm,
+			attn_reg=args.attn_reg,
 		).to(args.device)
 	else:
 		model = tPatchGNN(args).to(args.device)
