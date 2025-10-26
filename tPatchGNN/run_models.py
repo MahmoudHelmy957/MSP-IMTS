@@ -215,9 +215,14 @@ if __name__ == '__main__':
 	for itr in range(args.epoch):
 		st = time.time()
 		model.train()
-		for _ in range(num_batches):
+
+		for i in range(num_batches):
 			optimizer.zero_grad()
 			batch_dict = utils.get_next_batch(data_obj["train_dataloader"])
+
+			if use_ms and itr == 0 and i == 0:
+				print(f"[DEBUG] X_list scales at epoch {itr}: {[x.shape for x in batch_dict['X_list']]}")
+
 			if use_ms:
 				out = model(batch_dict["X_list"], batch_dict["tt_list"], batch_dict["mk_list"], batch_dict["tp_to_predict"])
 				pred = out[0]  # (B, Lp, N)
@@ -228,7 +233,7 @@ if __name__ == '__main__':
 				optimizer.step()
 				train_res = {"loss": loss.detach()}
 			else:
-				train_res = compute_all_losses(model, batch_dict)   # original path
+				train_res = compute_all_losses(model, batch_dict)
 				train_res["loss"].backward()
 				optimizer.step()
 

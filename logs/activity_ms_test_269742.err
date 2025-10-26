@@ -1,0 +1,51 @@
+Traceback (most recent call last):
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/urllib/request.py", line 1346, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/http/client.py", line 1285, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/http/client.py", line 1331, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/http/client.py", line 1280, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/http/client.py", line 1040, in _send_output
+    self.send(msg)
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/http/client.py", line 980, in send
+    self.connect()
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/http/client.py", line 1447, in connect
+    super().connect()
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/http/client.py", line 946, in connect
+    self.sock = self._create_connection(
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/socket.py", line 835, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/socket.py", line 966, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -3] Temporary failure in name resolution
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/solgi/MSP-IMTS/tPatchGNN/run_models.py", line 101, in <module>
+    data_obj = parse_datasets(args, patch_ts=True)
+  File "/home/solgi/MSP-IMTS/lib/parse_datasets.py", line 290, in parse_datasets
+    total_dataset = PersonActivity('../data/activity/', n_samples = args.n, download=True, device = device)
+  File "/home/solgi/MSP-IMTS/lib/person_activity.py", line 64, in __init__
+    self.download()
+  File "/home/solgi/MSP-IMTS/lib/person_activity.py", line 106, in download
+    download_url(url, self.raw_folder, filename, None)
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 134, in download_url
+    url = _get_redirect_url(url, max_hops=max_redirect_hops)
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/site-packages/torchvision/datasets/utils.py", line 82, in _get_redirect_url
+    with urllib.request.urlopen(urllib.request.Request(url, headers=headers)) as response:
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/urllib/request.py", line 214, in urlopen
+    return opener.open(url, data, timeout)
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/urllib/request.py", line 517, in open
+    response = self._open(req, data)
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/urllib/request.py", line 534, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/urllib/request.py", line 494, in _call_chain
+    result = func(*args)
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/urllib/request.py", line 1389, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/urllib/request.py", line 1349, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error [Errno -3] Temporary failure in name resolution>

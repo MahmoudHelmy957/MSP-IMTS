@@ -9,13 +9,13 @@
 
 source ~/.bashrc
 conda activate solgiland   # or source .venv/bin/activate if using virtualenv
-cd ~/srptpatch
+cd ~/MSP-IMTS
 
 # Run over 5 seeds
 for seed in {1..5}; do
   echo "Running with seed $seed"
 
-  python run_models.py \
+  python tPatchGNN/scripts/run_models.py \
     --dataset activity \
     --state def \
     --history 3000 \
