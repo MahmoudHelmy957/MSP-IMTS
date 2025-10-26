@@ -232,13 +232,24 @@ if __name__ == '__main__':
 			batch_dict = utils.get_next_batch(data_obj["train_dataloader"])
 			if use_ms:
 				out = model(batch_dict["X_list"], batch_dict["tt_list"], batch_dict["mk_list"], batch_dict["tp_to_predict"])
-				pred = out[0]  # (B, Lp, N)
-				tgt  = batch_dict["data_to_predict"]
-				msk  = batch_dict["mask_predicted_data"]
-				loss = ((pred - tgt)[msk.bool()] ** 2).mean()
-				loss.backward()
-				optimizer.step()
-				train_res = {"loss": loss.detach()}
+			    pred = out[0]                                # (B, Lp, N)
+			    tgt  = batch_dict["data_to_predict"]
+			    msk  = batch_dict["mask_predicted_data"]
+			
+			    # Split out MSE and (optional) attention regularizer for logging
+			    mse_loss = ((pred - tgt)[msk.bool()] ** 2).mean()
+			    reg_loss = model.extra_loss()                # =0 for 'concat'; >0 (or <0 if entropy) for 'scale_attn'
+			    loss = mse_loss + reg_loss
+			
+			    loss.backward()
+			    optimizer.step()
+			
+			    # keep both numbers so they appear in the log (nice for debugging)
+			    train_res = {
+			        "loss": loss.detach(),
+			        "mse_loss": mse_loss.detach(),
+			        "reg_loss": reg_loss.detach()
+			    }
 			else:
 				train_res = compute_all_losses(model, batch_dict)   # original path
 				train_res["loss"].backward()
