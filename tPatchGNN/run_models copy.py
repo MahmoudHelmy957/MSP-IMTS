@@ -230,27 +230,24 @@ if __name__ == '__main__':
 		for _ in range(num_batches):
 			optimizer.zero_grad()
 			batch_dict = utils.get_next_batch(data_obj["train_dataloader"])
-
 			if use_ms:
 				out = model(batch_dict["X_list"], batch_dict["tt_list"], batch_dict["mk_list"], batch_dict["tp_to_predict"])
-				pred = out[0]  # (B, Lp, N)
+				pred = out[0]                                # (B, Lp, N)
 				tgt  = batch_dict["data_to_predict"]
 				msk  = batch_dict["mask_predicted_data"]
 
-				# Split out MSE and (optional) attention regularizer for logging
 				mse_loss = ((pred - tgt)[msk.bool()] ** 2).mean()
-				reg_loss = model.extra_loss() if hasattr(model, "extra_loss") else torch.tensor(0.0, device=pred.device)
+				reg_loss = model.extra_loss()                # 0 for 'concat', >0 only for 'scale_attn'
 				loss = mse_loss + reg_loss
 
 				loss.backward()
 				optimizer.step()
-
-				# keep both numbers so they appear in the log (nice for debugging)
 				train_res = {
-					"loss": loss.detach(),
-					"mse_loss": mse_loss.detach(),
-					"reg_loss": reg_loss.detach(),
+					"loss": float(loss.detach().item()),
+					"mse":  float(mse_loss.detach().item()),
+					"reg":  float(reg_loss.detach().item())
 				}
+
 			else:
 				train_res = compute_all_losses(model, batch_dict)   # original path
 				train_res["loss"].backward()
@@ -278,21 +275,27 @@ if __name__ == '__main__':
 						test_logs.append(_masked_metrics(pred, tgt, msk))
 					test_res = {k: float(np.mean([d[k] for d in test_logs])) for k in test_logs[0].keys()}
 			else:
-				val_res = evaluation(model, data_obj["val_dataloader"], data_obj["n_val_batches"])
+				val_res  = evaluation(model, data_obj["val_dataloader"],  data_obj["n_val_batches"])
 				if val_res["mse"] < best_val_mse:
 					best_val_mse = val_res["mse"]; best_iter = itr
 					test_res = evaluation(model, data_obj["test_dataloader"], data_obj["n_test_batches"])
 
 			logger.info('- Epoch {:03d}, ExpID {}'.format(itr, experimentID))
-			logger.info("Train - Loss (one batch): {:.5f}".format(
-				train_res["loss"].item() if isinstance(train_res["loss"], torch.Tensor) else train_res["loss"]))
+			# logger.info("Train - Loss (one batch): {:.5f}".format(
+			# 	train_res["loss"].item() if isinstance(train_res["loss"], torch.Tensor) else train_res["loss"]))
+			logger.info("Train - Loss (one batch): {:.5f}  [mse={:.5f}, reg={:.5f}]"
+    			.format(train_res["loss"], train_res.get("mse", train_res["loss"]), train_res.get("reg", 0.0)))
 			logger.info("Val - Loss, MSE, RMSE, MAE, MAPE: {:.5f}, {:.5f}, {:.5f}, {:.5f}, {:.2f}%"
-						.format(val_res["loss"], val_res["mse"], val_res["rmse"], val_res["mae"], val_res["mape"]*100))
+				.format(val_res["loss"], val_res["mse"], val_res["rmse"], val_res["mae"], val_res["mape"]*100))
 			if test_res is not None:
 				logger.info("Test - Best epoch, Loss, MSE, RMSE, MAE, MAPE: {}, {:.5f}, {:.5f}, {:.5f}, {:.5f}, {:.2f}%"
-							.format(best_iter, test_res["loss"], test_res["mse"], test_res["rmse"], test_res["mae"], test_res["mape"]*100))
-			logger.info("Time spent: {:.2f}s".format(time.time() - st))
+					.format(best_iter, test_res["loss"], test_res["mse"], test_res["rmse"], test_res["mae"], test_res["mape"]*100))
+			logger.info("Time spent: {:.2f}s".format(time.time()-st))
 
 		if (itr - best_iter) >= args.patience:
 			print("Exp has been early stopped!")
 			sys.exit(0)
+
+
+
+
