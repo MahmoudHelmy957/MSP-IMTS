@@ -119,25 +119,35 @@ if __name__ == '__main__':
 
 	if use_ms:
 		from model.multiscale_tpatchgnn import MultiScaleTPatchGNN
-		# Prime a batch to get per-scale npatches
 		first_batch = utils.get_next_batch(data_obj["train_dataloader"])
 		submodels = []
 		for M_k in first_batch["npatches"]:
 			sub_args = deepcopy(args)
-			sub_args.npatch = int(M_k)               # Linear(hid_dim * M_k -> hid_dim)
+			sub_args.npatch = int(M_k)
 			submodels.append(tPatchGNN(sub_args, supports=None, dropout=0).to(args.device))
-		model = MultiScaleTPatchGNN(
-			submodels=submodels,
-			te_dim=args.te_dim,
-			proj_dim=args.hid_dim,         # project concat back to hid_dim
-			fusion=args.fusion,
-			attn_hidden=args.attn_hidden,
-			attn_temp=args.attn_temp,
-			attn_dropout=args.attn_dropout,
-			attn_norm=args.attn_norm,
-			attn_reg=args.attn_reg,
-		).to(args.device)
+
+		if args.fusion == "scale_attn":
+			model = MultiScaleTPatchGNN(
+				submodels=submodels,
+				te_dim=args.te_dim,
+				proj_dim=args.hid_dim,
+				fusion=args.fusion,
+				attn_hidden=args.attn_hidden,
+				attn_temp=args.attn_temp,
+				attn_dropout=args.attn_dropout,
+				attn_norm=args.attn_norm,
+				attn_reg=args.attn_reg,
+			).to(args.device)
+		else:
+			model = MultiScaleTPatchGNN(
+				submodels=submodels,
+				te_dim=args.te_dim,
+				proj_dim=args.hid_dim,
+				fusion="concat",
+			).to(args.device)
 	else:
+		# Single-scale: use the standard tPatchGNN
+		args.ndim = input_dim
 		model = tPatchGNN(args).to(args.device)
 
 	##################################################################
@@ -234,13 +244,21 @@ if __name__ == '__main__':
 
 			if use_ms:
 				out = model(batch_dict["X_list"], batch_dict["tt_list"], batch_dict["mk_list"], batch_dict["tp_to_predict"])
+<<<<<<< Updated upstream
 				pred = out[0]  # (B, Lp, N)
+=======
+				pred = out[0]                                # (B, Lp, N)
+>>>>>>> Stashed changes
 				tgt  = batch_dict["data_to_predict"]
 				msk  = batch_dict["mask_predicted_data"]
 
 				# Split out MSE and (optional) attention regularizer for logging
 				mse_loss = ((pred - tgt)[msk.bool()] ** 2).mean()
+<<<<<<< Updated upstream
 				reg_loss = model.extra_loss() if hasattr(model, "extra_loss") else torch.tensor(0.0, device=pred.device)
+=======
+				reg_loss = model.extra_loss()                # =0 for 'concat'; >0 (or <0 if entropy) for 'scale_attn'
+>>>>>>> Stashed changes
 				loss = mse_loss + reg_loss
 
 				loss.backward()
@@ -250,7 +268,11 @@ if __name__ == '__main__':
 				train_res = {
 					"loss": loss.detach(),
 					"mse_loss": mse_loss.detach(),
+<<<<<<< Updated upstream
 					"reg_loss": reg_loss.detach(),
+=======
+					"reg_loss": reg_loss.detach()
+>>>>>>> Stashed changes
 				}
 			else:
 				train_res = compute_all_losses(model, batch_dict)

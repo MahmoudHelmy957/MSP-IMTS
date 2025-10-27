@@ -288,6 +288,7 @@ def parse_datasets(args, patch_ts=False, length_stat=False):
 		# Units here are milliseconds
 		args.pred_window = 1000  # predict future 1000 ms
 
+<<<<<<< Updated upstream
 		total_dataset = PersonActivity('../data/activity/', n_samples=args.n, download=True, device=device)
 
 		# Shuffle and split
@@ -297,6 +298,13 @@ def parse_datasets(args, patch_ts=False, length_stat=False):
 		train_data, val_data = model_selection.train_test_split(
 			seen_data, train_size=0.75, random_state=42, shuffle=False
 		)
+=======
+		total_dataset = PersonActivity('../data/activity/', n_samples=args.n, download=False, device=device)
+
+		# Shuffle and split
+		seen_data, test_data = model_selection.train_test_split(total_dataset, train_size=0.8, random_state=42, shuffle=True)
+		train_data, val_data = model_selection.train_test_split(seen_data, train_size=0.75, random_state=42, shuffle=False)
+>>>>>>> Stashed changes
 		print("Dataset n_samples:", len(total_dataset), len(train_data), len(val_data), len(test_data))
 		test_record_ids = [record_id for record_id, tt, vals, mask in test_data]
 		print("Test record ids (first 20):", test_record_ids[:20])
@@ -366,6 +374,7 @@ def parse_datasets(args, patch_ts=False, length_stat=False):
 
 			batch_size = args.batch_size
 			print("Dataset n_samples after time split:", len(train_data)+len(val_data)+len(test_data),
+<<<<<<< Updated upstream
 				len(train_data), len(val_data), len(test_data))
 
 			train_dataloader = DataLoader(
@@ -389,6 +398,19 @@ def parse_datasets(args, patch_ts=False, length_stat=False):
 					data_min=data_min, data_max=data_max, time_max=time_max
 				)
 			)
+=======
+				  len(train_data), len(val_data), len(test_data))
+
+			train_dataloader = DataLoader(train_data, batch_size=batch_size, shuffle=True,
+				collate_fn=lambda batch: collate_fn(batch, args, device, data_type="train",
+					data_min=data_min, data_max=data_max, time_max=time_max))
+			val_dataloader   = DataLoader(val_data,   batch_size=batch_size, shuffle=False,
+				collate_fn=lambda batch: collate_fn(batch, args, device, data_type="val",
+					data_min=data_min, data_max=data_max, time_max=time_max))
+			test_dataloader  = DataLoader(test_data,  batch_size=batch_size, shuffle=False,
+				collate_fn=lambda batch: collate_fn(batch, args, device, data_type="test",
+					data_min=data_min, data_max=data_max, time_max=time_max))
+>>>>>>> Stashed changes
 
 		data_objects = {
 			"train_dataloader": utils.inf_generator(train_dataloader),
