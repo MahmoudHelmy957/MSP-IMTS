@@ -10,7 +10,7 @@ import pandas as pd
 import random
 from random import SystemRandom
 from sklearn import model_selection
-
+import re
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -18,11 +18,6 @@ import torch.optim as optim
 import lib.utils as utils
 from lib.parse_datasets import parse_datasets
 from model.tPatchGNN import *
-import lib.utils as U, lib.physionet as P, model.tPatchGNN as TP, inspect
-print("USING:", U.__file__)
-print("USING:", P.__file__)
-print("USING:", TP.__file__)
-print("CWD:", os.getcwd())
 
 parser = argparse.ArgumentParser('IMTS Forecasting')
 
@@ -30,13 +25,6 @@ parser = argparse.ArgumentParser('IMTS Forecasting')
 parser.add_argument('--multi_scales', type=str, default='', help='Comma list of patch sizes in hours, e.g. "2,8,24". Empty = single-scale.')
 parser.add_argument('--multi_strides', type=str, default='', help='Comma list of strides in hours. Empty = same as multi_scales.')
 parser.add_argument('--fusion', type=str, default='concat', choices=['concat','scale_attn'], help='Fusion method for multi-scale.')
-# --- scale-attention hyperparams (	defaults keep concat behavior) ---
-parser.add_argument('--attn_hidden',  type=int,   default=32,   help='Hidden dim of scale-attn MLP.')
-parser.add_argument('--attn_temp',    type=float, default=1.0,  help='Softmax temperature for scale weights.')
-parser.add_argument('--attn_dropout', type=float, default=0.0,  help='Dropout on scale weights.')
-parser.add_argument('--attn_norm',    action='store_true',      help='LayerNorm on fused features (post-proj).')
-parser.add_argument('--attn_reg',     type=float, default=0.0,  help='Entropy regularization weight on scale weights.')
-
 ################################################
 
 parser.add_argument('--state', type=str, default='def')
@@ -129,13 +117,8 @@ if __name__ == '__main__':
 		model = MultiScaleTPatchGNN(
 			submodels=submodels,
 			te_dim=args.te_dim,
-			proj_dim=args.hid_dim,         # project concat back to hid_dim
-			fusion=args.fusion,
-			attn_hidden=args.attn_hidden,
-			attn_temp=args.attn_temp,
-			attn_dropout=args.attn_dropout,
-			attn_norm=args.attn_norm,
-			attn_reg=args.attn_reg,
+			proj_dim=args.hid_dim,                   # project concat back to hid_dim
+			fusion=args.fusion
 		).to(args.device)
 	else:
 		model = tPatchGNN(args).to(args.device)
@@ -230,27 +213,15 @@ if __name__ == '__main__':
 		for _ in range(num_batches):
 			optimizer.zero_grad()
 			batch_dict = utils.get_next_batch(data_obj["train_dataloader"])
-
 			if use_ms:
 				out = model(batch_dict["X_list"], batch_dict["tt_list"], batch_dict["mk_list"], batch_dict["tp_to_predict"])
 				pred = out[0]  # (B, Lp, N)
 				tgt  = batch_dict["data_to_predict"]
 				msk  = batch_dict["mask_predicted_data"]
-
-				# Split out MSE and (optional) attention regularizer for logging
-				mse_loss = ((pred - tgt)[msk.bool()] ** 2).mean()
-				reg_loss = model.extra_loss() if hasattr(model, "extra_loss") else torch.tensor(0.0, device=pred.device)
-				loss = mse_loss + reg_loss
-
+				loss = ((pred - tgt)[msk.bool()] ** 2).mean()
 				loss.backward()
 				optimizer.step()
-
-				# keep both numbers so they appear in the log (nice for debugging)
-				train_res = {
-					"loss": loss.detach(),
-					"mse_loss": mse_loss.detach(),
-					"reg_loss": reg_loss.detach(),
-				}
+				train_res = {"loss": loss.detach()}
 			else:
 				train_res = compute_all_losses(model, batch_dict)   # original path
 				train_res["loss"].backward()
@@ -278,7 +249,7 @@ if __name__ == '__main__':
 						test_logs.append(_masked_metrics(pred, tgt, msk))
 					test_res = {k: float(np.mean([d[k] for d in test_logs])) for k in test_logs[0].keys()}
 			else:
-				val_res = evaluation(model, data_obj["val_dataloader"], data_obj["n_val_batches"])
+				val_res  = evaluation(model, data_obj["val_dataloader"],  data_obj["n_val_batches"])
 				if val_res["mse"] < best_val_mse:
 					best_val_mse = val_res["mse"]; best_iter = itr
 					test_res = evaluation(model, data_obj["test_dataloader"], data_obj["n_test_batches"])
@@ -287,12 +258,16 @@ if __name__ == '__main__':
 			logger.info("Train - Loss (one batch): {:.5f}".format(
 				train_res["loss"].item() if isinstance(train_res["loss"], torch.Tensor) else train_res["loss"]))
 			logger.info("Val - Loss, MSE, RMSE, MAE, MAPE: {:.5f}, {:.5f}, {:.5f}, {:.5f}, {:.2f}%"
-						.format(val_res["loss"], val_res["mse"], val_res["rmse"], val_res["mae"], val_res["mape"]*100))
+				.format(val_res["loss"], val_res["mse"], val_res["rmse"], val_res["mae"], val_res["mape"]*100))
 			if test_res is not None:
 				logger.info("Test - Best epoch, Loss, MSE, RMSE, MAE, MAPE: {}, {:.5f}, {:.5f}, {:.5f}, {:.5f}, {:.2f}%"
-							.format(best_iter, test_res["loss"], test_res["mse"], test_res["rmse"], test_res["mae"], test_res["mape"]*100))
-			logger.info("Time spent: {:.2f}s".format(time.time() - st))
+					.format(best_iter, test_res["loss"], test_res["mse"], test_res["rmse"], test_res["mae"], test_res["mape"]*100))
+			logger.info("Time spent: {:.2f}s".format(time.time()-st))
 
 		if (itr - best_iter) >= args.patience:
 			print("Exp has been early stopped!")
 			sys.exit(0)
+
+
+
+

@@ -1,41 +1,45 @@
 #!/usr/bin/env bash
-#SBATCH --job-name=physio_STUD_ms_2_8
+#SBATCH --job-name=act_repro_ss_24ms
 #SBATCH --partition=TEST
 #SBATCH --gres=gpu:1
-#SBATCH --cpus-per-task=8
+#SBATCH --cpus-per-task=4
 #SBATCH --mem=30G
-#SBATCH --array=1
-#SBATCH --output=%x_%A_%a.out
-#SBATCH --error=%x_%A_%a.err
-#SBATCH --chdir=/home/ouass/Test/MSP-IMTS/logs
+#SBATCH --output=%x_%j.out
+#SBATCH --error=%x_%j.err
+#SBATCH --chdir=/home/ouass/Test/MSP-IMTS/act
 
 set -euo pipefail
+
+# ==== env ====
 source "$HOME/venv310/bin/activate"
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export MKL_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export PYTHONPATH="/home/ouass/Test/MSP-IMTS:/home/ouass/Test/MSP-IMTS/tPatchGNN:${PYTHONPATH-}"
 
+
 cd /home/ouass/Test/MSP-IMTS/tPatchGNN
 
-SEED=${SLURM_ARRAY_TASK_ID}
+SEED=1
 GPU=0
-EPOCHS=600
-PATIENCE=60
-BATCH=32
+EPOCHS=300
+PATIENCE=40
+BATCH=64
 LR=1e-3
-HISTORY=24
-QUANT=1.0
 
-SCALES="2,8"
-STRIDES="2,8"
+# ms units; history=3000 ms, pred_window=1000 ms 
+HISTORY=3000
+PATCH_SIZE=24       # 24 ms windows
+STRIDE=24           # 24 ms stride
 
-echo "STUD MS run: seed=$SEED scales=$SCALES strides=$STRIDES"
+echo "Reproducing Activity single-scale baseline:"
+echo "seed=$SEED history=${HISTORY}ms patch=${PATCH_SIZE}ms stride=${STRIDE}ms B=$BATCH lr=$LR"
 
 python run_models.py \
-  --dataset physionet \
+  --dataset activity \
   --history $HISTORY \
-  --quantization $QUANT \
-  --hid_dim 64 \
+  --patch_size $PATCH_SIZE \
+  --stride $STRIDE \
+  --hid_dim 32 \
   --te_dim 10 \
   --node_dim 10 \
   --nlayer 1 \
@@ -47,6 +51,4 @@ python run_models.py \
   --epoch $EPOCHS \
   --seed $SEED \
   --gpu $GPU \
-  --multi_scales "$SCALES" \
-  --multi_strides "$STRIDES" \
-  --fusion concat
+  --fusion concat 

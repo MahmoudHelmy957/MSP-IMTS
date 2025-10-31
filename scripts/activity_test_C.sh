@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-#SBATCH --job-name=physio_STUD_ms_2_8
-#SBATCH --partition=TEST
+#SBATCH --job-name=act_MS_C
+#SBATCH --partition=STUD
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=8
-#SBATCH --mem=30G
-#SBATCH --array=1
-#SBATCH --output=%x_%A_%a.out
-#SBATCH --error=%x_%A_%a.err
-#SBATCH --chdir=/home/ouass/Test/MSP-IMTS/logs
+#SBATCH --mem=32G
+#SBATCH --time=01:00:00
+#SBATCH --output=%x_%j.out
+#SBATCH --error=%x_%j.err
+#SBATCH --chdir=/home/ouass/Test/MSP-IMTS/act
 
 set -euo pipefail
 source "$HOME/venv310/bin/activate"
@@ -17,24 +17,22 @@ export PYTHONPATH="/home/ouass/Test/MSP-IMTS:/home/ouass/Test/MSP-IMTS/tPatchGNN
 
 cd /home/ouass/Test/MSP-IMTS/tPatchGNN
 
-SEED=${SLURM_ARRAY_TASK_ID}
+SEED=1
 GPU=0
-EPOCHS=600
-PATIENCE=60
-BATCH=32
+EPOCHS=400
+PATIENCE=80
+BATCH=64
 LR=1e-3
-HISTORY=24
-QUANT=1.0
+WDECAY=1e-4
+HISTORY=4000
 
-SCALES="2,8"
-STRIDES="2,8"
+SCALES="150,1000"
+STRIDES="75,500"
 
-echo "STUD MS run: seed=$SEED scales=$SCALES strides=$STRIDES"
-
+echo "Running ACTIVITY MS (concat): seed=$SEED scales=$SCALES strides=$STRIDES"
 python run_models.py \
-  --dataset physionet \
+  --dataset activity \
   --history $HISTORY \
-  --quantization $QUANT \
   --hid_dim 64 \
   --te_dim 10 \
   --node_dim 10 \
@@ -43,6 +41,7 @@ python run_models.py \
   --nhead 1 \
   --batch_size $BATCH \
   --lr $LR \
+  --w_decay $WDECAY \
   --patience $PATIENCE \
   --epoch $EPOCHS \
   --seed $SEED \

@@ -1,42 +1,32 @@
 #!/usr/bin/env bash
-#SBATCH --job-name=activity_ms2_concat
+#SBATCH --job-name=activity_STUD_ms_F
 #SBATCH --partition=STUD
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=32G
-#SBATCH --time=08:00:00
 #SBATCH --output=%x_%j.out
 #SBATCH --error=%x_%j.err
-#SBATCH --chdir=/home/ouass/Test/MSP-IMTS/logs
+#SBATCH --chdir=/home/ouass/Test/MSP-IMTS/act
 
 set -euo pipefail
-
-# ==== env ====
 source "$HOME/venv310/bin/activate"
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export MKL_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export PYTHONPATH="/home/ouass/Test/MSP-IMTS:/home/ouass/Test/MSP-IMTS/tPatchGNN:${PYTHONPATH-}"
-
-
 cd /home/ouass/Test/MSP-IMTS/tPatchGNN
 
-SEED=1
-GPU=0
-EPOCHS=300
-PATIENCE=40
-BATCH=64         # use 32 if OOM
-LR=1e-3
-HISTORY=3000     # ms
-
-SCALES="60,300"  # ms
-STRIDES="30,150" # ms (50% overlap)
-
-echo "Activity MS2 concat | seed=$SEED scales=$SCALES strides=$STRIDES"
+SEED=1; GPU=0
+EPOCHS=450; PATIENCE=90
+BATCH=64
+LR=1e-3; WDECAY=1e-4
+HISTORY=4000
+SCALES="200,1400"
+STRIDES="100,700"
 
 python run_models.py \
   --dataset activity \
   --history $HISTORY \
-  --hid_dim 32 \
+  --hid_dim 64 \
   --te_dim 10 \
   --node_dim 10 \
   --nlayer 1 \
@@ -44,6 +34,7 @@ python run_models.py \
   --nhead 1 \
   --batch_size $BATCH \
   --lr $LR \
+  --w_decay $WDECAY \
   --patience $PATIENCE \
   --epoch $EPOCHS \
   --seed $SEED \

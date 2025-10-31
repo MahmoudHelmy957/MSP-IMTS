@@ -311,11 +311,10 @@ def parse_datasets(args, patch_ts=False, length_stat=False):
 		print('manual set time_max:', time_max)
 
 		# --- Multi-scale vs single-scale switch ---
-		import re
 		use_ms = hasattr(args, "multi_scales") and args.multi_scales not in (None, "", [])
 
 		if use_ms:
-			# KEEP time chunking for Activity even in MS mode
+			# We KEEP time chunking for Activity even in MS mode so sequences are pre-windowed
 			train_data = Activity_time_chunk(train_data, args, device)
 			val_data   = Activity_time_chunk(val_data,   args, device)
 			test_data  = Activity_time_chunk(test_data,  args, device)
@@ -403,3 +402,4 @@ def parse_datasets(args, patch_ts=False, length_stat=False):
 			"time_max": time_max
 		}
 		return data_objects
+	
