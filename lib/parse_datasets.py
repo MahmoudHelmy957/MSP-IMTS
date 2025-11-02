@@ -96,6 +96,10 @@ def parse_datasets(args, patch_ts=False, length_stat=False):
 				print("[MS] data_to_predict:", tuple(_one["data_to_predict"].shape))
 				print("[MS] mask_predicted_data sum:",
 					_one["mask_predicted_data"].sum().item())
+				print("[MS] tt_list mins/maxes:",
+          			[(float(t.min()), float(t.max())) for t in _one["tt_list"]])
+				print("[MS] tp_to_predict min/max:",
+          			float(_one["tp_to_predict"].min()), float(_one["tp_to_predict"].max()))	
 			except Exception as e:
 				print("[MS] sanity batch failed:", repr(e))
 			# -------------------------------------------------
@@ -255,8 +259,7 @@ def parse_datasets(args, patch_ts=False, length_stat=False):
 		use_ms = hasattr(args, "multi_scales") and args.multi_scales not in (None, "", [])
 
 		if use_ms:
-			# Reuse the unit-agnostic MS collate (name says "*hours*" but it just uses the same units
-			# as history/time stamps; here they are "months")
+			# inside the USHCN dataset block, MS path
 			from lib.physionet import patch_variable_time_collate_fn_ms
 			import re
 
@@ -267,17 +270,30 @@ def parse_datasets(args, patch_ts=False, length_stat=False):
 				strides = [float(x) for x in re.split(r"[,\s]+", args.multi_strides.strip()) if x]
 				assert len(scales) == len(strides), "multi_scales and multi_strides length mismatch"
 
-			# Bind all context so DataLoader sees only (batch)->dict
-			collate_fn_ms = lambda batch: patch_variable_time_collate_fn_ms(
-				batch, args, device=device,
-				data_min=data_min, data_max=data_max, time_max=time_max,
-				# names "*hours*" but treated as the same units as your time axis (months here)
-				scales_hours=scales, strides_hours=strides, history_hours=float(args.history)
-			)
+			def collate_fn_ms(batch):
+				# Convert (rid, tt_rel, vals, mask, t_bias) -> absolute months (0..48)
+				batch4 = []
+				for rid, tt_rel, vals, mask, t_bias in batch:
+					tt_abs = tt_rel + t_bias              # absolute months
+					batch4.append((rid, tt_abs, vals, mask))
+
+				# IMPORTANT:
+				#  - time_max must match the baseline (48.0), so the model sees the *same* time range as SS.
+				#  - history_hours still drives MS windowing inside the collate.
+				return patch_variable_time_collate_fn_ms(
+					batch4, args, device=device,
+					data_min=data_min, data_max=data_max,
+					time_max=time_max,                   # <- keep baseline 48.0 here
+					scales_hours=scales, strides_hours=strides,
+					history_hours=float(args.history)    # <- used only to define MS bins
+				)
+
+
 
 			train_dataloader = DataLoader(train_data, batch_size=batch_size, shuffle=True,  collate_fn=collate_fn_ms)
 			val_dataloader   = DataLoader(val_data,   batch_size=batch_size, shuffle=False, collate_fn=collate_fn_ms)
 			test_dataloader  = DataLoader(test_data,  batch_size=batch_size, shuffle=False, collate_fn=collate_fn_ms)
+
 
 			# Optional sanity pull
 			try:
@@ -287,6 +303,10 @@ def parse_datasets(args, patch_ts=False, length_stat=False):
 				print("[USHCN-MS] per-scale shapes:", [tuple(x.shape) for x in _one["X_list"]])  # (B, M_k, L, N)
 				print("[USHCN-MS] data_to_predict:", tuple(_one["data_to_predict"].shape))
 				print("[USHCN-MS] mask_predicted_data sum:", _one["mask_predicted_data"].sum().item())
+				print("[USHCN-MS] tt_list mins/maxes:",
+          [(float(t.min()), float(t.max())) for t in _one["tt_list"]])
+				print("[USHCN-MS] tp_to_predict min/max:",
+          float(_one["tp_to_predict"].min()), float(_one["tp_to_predict"].max()))
 			except Exception as e:
 				print("[USHCN-MS] sanity batch failed:", repr(e))
 
@@ -381,7 +401,7 @@ def parse_datasets(args, patch_ts=False, length_stat=False):
 
 			# Reuse generic MS collate (unit-agnostic). Param names say "hours", but here they are ms.
 			from lib.physionet import patch_variable_time_collate_fn_ms
-
+			import re
 			scales_ms = [float(x) for x in re.split(r"[,\s]+", args.multi_scales.strip()) if x]
 			if getattr(args, "multi_strides", None) in (None, "", []):
 				strides_ms = scales_ms[:]
@@ -409,6 +429,10 @@ def parse_datasets(args, patch_ts=False, length_stat=False):
 				print("[MS] per-scale shapes:", [tuple(x.shape) for x in _one["X_list"]])
 				print("[MS] data_to_predict:", tuple(_one["data_to_predict"].shape))
 				print("[MS] mask_predicted_data sum:", _one["mask_predicted_data"].sum().item())
+				print("[MS] tt_list mins/maxes:",
+          [(float(t.min()), float(t.max())) for t in _one["tt_list"]])
+				print("[MS] tp_to_predict min/max:",
+          float(_one["tp_to_predict"].min()), float(_one["tp_to_predict"].max()))
 			except Exception as e:
 				print("[MS] sanity batch failed:", repr(e))
 

@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 #SBATCH --job-name=act_ms2_concat_60_300
-#SBATCH --partition=STUD
+#SBATCH --partition=TEST
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=8
-#SBATCH --mem=32G
+#SBATCH --mem=30G
 #SBATCH --output=%x_%j.out
 #SBATCH --error=%x_%j.err
 #SBATCH --chdir=/home/ouass/Test/MSP-IMTS/logs
@@ -26,7 +26,7 @@ BATCH=64
 LR=1e-3
 HISTORY=3000
 SCALES="60,300"
-STRIDES="30,150"
+STRIDES="60,300"
 
 python run_models.py \
   --dataset activity \
