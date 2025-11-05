@@ -109,6 +109,13 @@ if __name__ == '__main__':
 		from model.multiscale_tpatchgnn import MultiScaleTPatchGNN
 		# Prime a batch to get per-scale npatches
 		first_batch = utils.get_next_batch(data_obj["train_dataloader"])
+
+		#  debug line:
+		print(f"[MS] use_ms={use_ms} fusion={args.fusion} "
+			f"scales={args.multi_scales or 'single-scale'} "
+			f"strides={(args.multi_strides or args.multi_scales) or 'same-as-scales'} "
+			f"npatches_per_scale={list(map(int, first_batch['npatches']))}")
+
 		submodels = []
 		for M_k in first_batch["npatches"]:
 			sub_args = deepcopy(args)
@@ -122,6 +129,7 @@ if __name__ == '__main__':
 		).to(args.device)
 	else:
 		model = tPatchGNN(args).to(args.device)
+
 
 	##################################################################
 	

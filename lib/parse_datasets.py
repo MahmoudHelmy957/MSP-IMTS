@@ -67,6 +67,7 @@ def parse_datasets(args, patch_ts=False, length_stat=False):
 		use_ms = hasattr(args, "multi_scales") and args.multi_scales not in (None, "", [])
 		if use_ms:
 			from lib.physionet import patch_variable_time_collate_fn_ms
+			import re
 			# parse --multi_scales / --multi_strides as hours
 			scales_hours = [float(x) for x in re.split(r"[,\s]+", args.multi_scales.strip()) if x]
 			if getattr(args, "multi_strides", None) in (None, "", []):

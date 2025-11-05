@@ -191,20 +191,47 @@ class tPatchGNN(nn.Module):
 		out2 = torch.sin(self.te_periodic(tt))
 		return torch.cat([out1, out2], -1)
 	
-	def TTCN(self, X_int, mask_X):
-		# X_int: shape (B*N*M, L, F)
-		# mask_X: shape (B*N*M, L, 1)
+	# def TTCN(self, X_int, mask_X):
+	# 	# X_int: shape (B*N*M, L, F)
+	# 	# mask_X: shape (B*N*M, L, 1)
 
+	# 	N, Lx, _ = mask_X.shape
+	# 	Filter = self.Filter_Generators(X_int) # (N, Lx, F_in*ttcn_dim)
+	# 	Filter_mask = Filter * mask_X + (1 - mask_X) * (-1e8)
+	# 	# normalize along with sequence dimension
+	# 	Filter_seqnorm = F.softmax(Filter_mask, dim=-2)  # (N, Lx, F_in*ttcn_dim)
+	# 	Filter_seqnorm = Filter_seqnorm.view(N, Lx, self.ttcn_dim, -1) # (N, Lx, ttcn_dim, F_in)
+	# 	X_int_broad = X_int.unsqueeze(dim=-2).repeat(1, 1, self.ttcn_dim, 1)
+	# 	ttcn_out = torch.sum(torch.sum(X_int_broad * Filter_seqnorm, dim=-3), dim=-1) # (N, ttcn_dim)
+	# 	h_t = torch.relu(ttcn_out + self.T_bias) # (N, ttcn_dim)
+	# 	return h_t
+	
+	def TTCN(self, X_int, mask_X):
+		"""
+		X_int:  (B*N*M, L, F_in)
+		mask_X: (B*N*M, L, 1)
+		returns: (B*N*M, ttcn_dim)
+		"""
 		N, Lx, _ = mask_X.shape
-		Filter = self.Filter_Generators(X_int) # (N, Lx, F_in*ttcn_dim)
-		Filter_mask = Filter * mask_X + (1 - mask_X) * (-1e8)
-		# normalize along with sequence dimension
-		Filter_seqnorm = F.softmax(Filter_mask, dim=-2)  # (N, Lx, F_in*ttcn_dim)
-		Filter_seqnorm = Filter_seqnorm.view(N, Lx, self.ttcn_dim, -1) # (N, Lx, ttcn_dim, F_in)
-		X_int_broad = X_int.unsqueeze(dim=-2).repeat(1, 1, self.ttcn_dim, 1)
-		ttcn_out = torch.sum(torch.sum(X_int_broad * Filter_seqnorm, dim=-3), dim=-1) # (N, ttcn_dim)
-		h_t = torch.relu(ttcn_out + self.T_bias) # (N, ttcn_dim)
+
+		# Per-time filters
+		Filter = self.Filter_Generators(X_int)                      # (N, L, F_in*ttcn_dim)
+
+		# Mask invalid time steps before softmax (sequence dim = -2)
+		Filter_mask = Filter * mask_X + (1.0 - mask_X) * (-1e8)     # (N, L, F_in*ttcn_dim)
+		Filter_seqnorm = F.softmax(Filter_mask, dim=-2)             # (N, L, F_in*ttcn_dim)
+
+		# Separate (ttcn_dim, F_in): (N, L, Q, F_in)
+		Filter_seqnorm = Filter_seqnorm.view(N, Lx, self.ttcn_dim, -1).contiguous()
+
+		# Contract over time and features WITHOUT broadcasting temp:
+		# (N, L, F_in) × (N, L, Q, F_in)  ->  (N, Q)
+		ttcn_out = torch.einsum('nlf,nlqf->nq', X_int, Filter_seqnorm)
+
+		# Bias + activation
+		h_t = torch.relu(ttcn_out + self.T_bias)                    # (N, ttcn_dim)
 		return h_t
+
 
 	def IMTS_Model(self, x, mask_X):
 		"""
