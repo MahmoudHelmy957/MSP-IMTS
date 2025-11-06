@@ -17,3 +17,44 @@ Train - Loss (one batch): 0.00777
 Val - Loss, MSE, RMSE, MAE, MAPE: 0.00797, 0.00797, 0.08607, 0.04769, 12837912.01%
 Test - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 2, 0.00812, 0.00812, 0.08683, 0.04800, 14190660.26%
 Time spent: 212.81s
+- Epoch 003, ExpID 67257
+Train - Loss (one batch): 0.00380
+Val - Loss, MSE, RMSE, MAE, MAPE: 0.00789, 0.00789, 0.08551, 0.04679, 12195309.23%
+Test - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 3, 0.00799, 0.00799, 0.08603, 0.04704, 13449750.92%
+Time spent: 213.05s
+- Epoch 004, ExpID 67257
+Train - Loss (one batch): 0.00834
+Val - Loss, MSE, RMSE, MAE, MAPE: 0.00794, 0.00794, 0.08599, 0.04867, 12142146.54%
+Test - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 3, 0.00799, 0.00799, 0.08603, 0.04704, 13449750.92%
+Time spent: 188.79s
+- Epoch 005, ExpID 67257
+Train - Loss (one batch): 0.00464
+Val - Loss, MSE, RMSE, MAE, MAPE: 0.00799, 0.00799, 0.08640, 0.05048, 14697382.49%
+Test - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 3, 0.00799, 0.00799, 0.08603, 0.04704, 13449750.92%
+Time spent: 189.52s
+- Epoch 006, ExpID 67257
+Train - Loss (one batch): 0.00346
+Val - Loss, MSE, RMSE, MAE, MAPE: 0.00883, 0.00883, 0.09149, 0.05808, 15210491.82%
+Test - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 3, 0.00799, 0.00799, 0.08603, 0.04704, 13449750.92%
+Time spent: 187.64s
+- Epoch 007, ExpID 67257
+Train - Loss (one batch): 0.00869
+Val - Loss, MSE, RMSE, MAE, MAPE: 0.00819, 0.00819, 0.08757, 0.05339, 15404070.94%
+Test - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 3, 0.00799, 0.00799, 0.08603, 0.04704, 13449750.92%
+Time spent: 188.86s
+Traceback (most recent call last):
+  File "/home/ouass/Test/MSP-IMTS/tPatchGNN/run_models.py", line 225, in <module>
+    out = model(batch_dict["X_list"], batch_dict["tt_list"], batch_dict["mk_list"], batch_dict["tp_to_predict"])
+  File "/home/ouass/venv310/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/ouass/Test/MSP-IMTS/tPatchGNN/model/multiscale_tpatchgnn.py", line 70, in forward
+    reps.append(mdl.encode_from_patched(X.to(device), tt.to(device), mk.to(device)))  # (B, N, D_k)
+  File "/home/ouass/Test/MSP-IMTS/tPatchGNN/model/tPatchGNN.py", line 306, in encode_from_patched
+    h = self.IMTS_Model(X_, mk_)  # (B, N, hid_dim)
+  File "/home/ouass/Test/MSP-IMTS/tPatchGNN/model/tPatchGNN.py", line 245, in IMTS_Model
+    x_patch = self.TTCN(x, mask_X) # (B*N*M, hid_dim-1)
+  File "/home/ouass/Test/MSP-IMTS/tPatchGNN/model/tPatchGNN.py", line 229, in TTCN
+    ttcn_out = torch.einsum('nlf,nlqf->nq', X_int, Filter_seqnorm)
+  File "/home/ouass/venv310/lib/python3.10/site-packages/torch/functional.py", line 378, in einsum
+    return _VF.einsum(equation, operands)  # type: ignore[attr-defined]
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.02 GiB (GPU 0; 10.91 GiB total capacity; 7.40 GiB already allocated; 490.12 MiB free; 10.24 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
