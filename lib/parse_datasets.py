@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import numpy as np
 import pandas as pd
 import random
@@ -18,6 +19,41 @@ from sklearn import model_selection
 
 
 #####################################################################################################
+def _ensure_dir(path: Path) -> Path:
+        """Create *path* if needed and return it.  Works with PathLike strings."""
+        path.mkdir(parents=True, exist_ok=True)
+        return path
+
+
+def _resolve_activity_root() -> Path:
+        """Return a writable directory to store the Activity dataset.
+
+        Preference order:
+        1. Environment override via ``MSP_IMTS_DATA_DIR``.
+        2. ``<repo>/data/activity`` (the historical default).
+        3. ``~/.cache/msp-imts/activity`` as a per-user fallback when the
+           repository path is read-only (e.g. when ``data`` is a shared symlink).
+        """
+
+        env_override = os.environ.get("MSP_IMTS_DATA_DIR")
+        candidate_bases = []
+        if env_override:
+                candidate_bases.append(Path(env_override).expanduser())
+
+        repo_root = Path(__file__).resolve().parents[1]
+        candidate_bases.append(repo_root / 'data')
+
+        fallback_base = Path.home() / '.cache' / 'msp-imts'
+
+        for base in candidate_bases:
+                try:
+                        return _ensure_dir(base / 'activity')
+                except PermissionError:
+                        continue
+
+        return _ensure_dir(fallback_base / 'activity')
+
+
 def parse_datasets(args, patch_ts=False, length_stat=False):
 
 	device = args.device
@@ -369,7 +405,14 @@ def parse_datasets(args, patch_ts=False, length_stat=False):
 		# Units here are milliseconds
 		args.pred_window = 1000  # predict future 1000 ms
 
-		total_dataset = PersonActivity('../data/activity/', n_samples=args.n, download=True, device=device)
+                # Resolve a writable root for the Activity dataset.  This keeps the
+                # historical location (``<repo>/data/activity``) when it is writable
+                # but automatically falls back to a per-user cache or an explicit
+                # ``MSP_IMTS_DATA_DIR`` override when the default lives on a
+                # read-only symlink (the source of the reported failure).
+                activity_root = _resolve_activity_root()
+
+                total_dataset = PersonActivity(str(activity_root), n_samples=args.n, download=True, device=device)
 
 		# Shuffle and split
 		seen_data, test_data = model_selection.train_test_split(
