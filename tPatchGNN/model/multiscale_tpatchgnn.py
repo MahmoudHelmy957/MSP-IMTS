@@ -1,6 +1,7 @@
 # model/multiscale_tpatchgnn.py
 import torch
 import torch.nn as nn
+from model.fusion_blocks import NodeMixerBlock
 
 
 class MultiScaleTPatchGNN(nn.Module):
@@ -73,6 +74,18 @@ class MultiScaleTPatchGNN(nn.Module):
         if self._fusion != "concat":
             raise NotImplementedError("Only 'concat' fusion is implemented in this version.")
         H = torch.cat(reps, dim=-1)  # (B, N, sum_k D_k)
+        # --- Node Mixer (cross-node interactions) ---
+        if getattr(self, "node_mixer", None) is None:
+            self.node_mixer = NodeMixerBlock(
+                n_tokens=H.shape[1],
+                d_model=H.shape[-1],
+                hidden_mult=2,
+                drop=0.1
+            ).to(device)
+        
+        H = self.node_mixer(H)
+        # --- end Mixer block ---
+
 
         # Build heads lazily on first forward
         if self.decoder is None:
