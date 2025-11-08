@@ -1,0 +1,35 @@
+/home/solgi/MSP-IMTS/tPatchGNN/run_models.py
+2025-11-08 17:32:40
+run_models.py --dataset activity --history 3000 --hid_dim 64 --te_dim 10 --node_dim 10 --nlayer 1 --tf_layer 1 --nhead 1 --batch_size 32 --lr 1e-3 --w_decay 1e-4 --patience 80 --epoch 400 --seed 1 --gpu 0 --multi_scales 200,1200 --multi_strides 100,600 --fusion scale_attn --state compare_scaleattn
+Namespace(multi_scales='200,1200', multi_strides='100,600', fusion='scale_attn', state='compare_scaleattn', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=400, patience=80, history=3000, patch_size=24, stride=24, logmode='a', lr=0.001, w_decay=0.0001, batch_size=32, save='experiments/', load=None, seed=1, dataset='activity', quantization=0.0, model='tPatchGNN', outlayer='Linear', hid_dim=64, te_dim=10, node_dim=10, gpu='0', npatch=125, device=device(type='cuda'), PID=1687691, pred_window=1000, ndim=12)
+- Epoch 000, ExpID 93784
+Train - Loss (one batch): 0.12800
+Val - Loss, MSE, RMSE, MAE, MAPE: 0.12016, 0.12016, 0.34526, 0.32240, 125336.40%
+Test - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 0, 0.12674, 0.12674, 0.35528, 0.33282, 62.63%
+Time spent: 20.95s
+- Epoch 001, ExpID 93784
+Train - Loss (one batch): 0.10002
+Val - Loss, MSE, RMSE, MAE, MAPE: 0.09854, 0.09854, 0.31246, 0.28764, 151047.81%
+Test - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 1, 0.10436, 0.10436, 0.32229, 0.29777, 55.52%
+Time spent: 20.58s
+- Epoch 002, ExpID 93784
+Train - Loss (one batch): 0.08250
+Val - Loss, MSE, RMSE, MAE, MAPE: 0.08665, 0.08665, 0.29289, 0.26704, 166004.88%
+Test - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 2, 0.09202, 0.09202, 0.30259, 0.27683, 51.36%
+Time spent: 20.64s
+- Epoch 003, ExpID 93784
+Train - Loss (one batch): 0.07431
+Val - Loss, MSE, RMSE, MAE, MAPE: 0.07897, 0.07897, 0.27952, 0.25306, 176583.88%
+Test - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 3, 0.08402, 0.08402, 0.28910, 0.26254, 48.56%
+Time spent: 20.70s
+- Epoch 004, ExpID 93784
+Train - Loss (one batch): 0.07666
+Val - Loss, MSE, RMSE, MAE, MAPE: 0.07370, 0.07370, 0.26997, 0.24310, 184243.51%
+Test - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 4, 0.07851, 0.07851, 0.27944, 0.25236, 46.60%
+Time spent: 20.72s
+- Epoch 005, ExpID 93784
+Train - Loss (one batch): 0.06827
+Val - Loss, MSE, RMSE, MAE, MAPE: 0.06883, 0.06883, 0.26084, 0.23363, 191538.44%
+Test - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 5, 0.07343, 0.07343, 0.27021, 0.24262, 44.74%
+Time spent: 20.73s
+slurmstepd: error: *** JOB 276541 ON test-000 CANCELLED AT 2025-11-08T17:34:59 DUE TO TIME LIMIT ***

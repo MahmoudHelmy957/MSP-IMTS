@@ -1,0 +1,20 @@
+/home/solgi/MSP-IMTS/tPatchGNN/run_models.py
+2025-11-08 16:53:02
+run_models.py --dataset activity --history 3000 --hid_dim 32 --te_dim 10 --node_dim 10 --nlayer 1 --tf_layer 1 --nhead 1 --batch_size 8 --lr 1e-3 --patience 1 --epoch 1 --seed 1 --gpu 0 --multi_scales 300,1200 --multi_strides 150,600 --fusion scale_attn --state debug
+Namespace(multi_scales='300,1200', multi_strides='150,600', fusion='scale_attn', state='debug', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=1, patience=1, history=3000, patch_size=24, stride=24, logmode='a', lr=0.001, w_decay=0.0, batch_size=8, save='experiments/', load=None, seed=1, dataset='activity', quantization=0.0, model='tPatchGNN', outlayer='Linear', hid_dim=32, te_dim=10, node_dim=10, gpu='0', npatch=125, device=device(type='cuda'), PID=1687148, pred_window=1000, ndim=12)
+Traceback (most recent call last):
+  File "/home/solgi/MSP-IMTS/tPatchGNN/run_models.py", line 225, in <module>
+    out = model(batch_dict["X_list"], batch_dict["tt_list"], batch_dict["mk_list"], batch_dict["tp_to_predict"])
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/solgi/MSP-IMTS/tPatchGNN/model/multiscale_tpatchgnn.py", line 96, in forward
+    fused, attw = self.scale_fuser(Z_list)     # fused: (B, d_hid)
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/solgi/MSP-IMTS/tPatchGNN/model/fusion_blocks.py", line 18, in forward
+    z = torch.tanh(self.proj(Z))     # (B, d_hid)
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/site-packages/torch/nn/modules/linear.py", line 114, in forward
+    return F.linear(input, self.weight, self.bias)
+RuntimeError: Expected all tensors to be on the same device, but found at least two devices, cpu and cuda:0! (when checking argument for argument mat1 in method wrapper_CUDA_addmm)

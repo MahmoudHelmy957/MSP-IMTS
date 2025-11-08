@@ -1,0 +1,30 @@
+/home/solgi/MSP-IMTS/tPatchGNN/run_models.py
+2025-11-08 17:07:24
+run_models.py --dataset activity --history 3000 --hid_dim 16 --te_dim 10 --node_dim 8 --nlayer 1 --tf_layer 1 --nhead 1 --batch_size 4 --lr 1e-3 --patience 5 --epoch 100 --seed 1 --gpu 0 --multi_scales 300,1200 --multi_strides 150,600 --fusion scale_attn --state testcluster
+Namespace(multi_scales='300,1200', multi_strides='150,600', fusion='scale_attn', state='testcluster', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=100, patience=5, history=3000, patch_size=24, stride=24, logmode='a', lr=0.001, w_decay=0.0, batch_size=4, save='experiments/', load=None, seed=1, dataset='activity', quantization=0.0, model='tPatchGNN', outlayer='Linear', hid_dim=16, te_dim=10, node_dim=8, gpu='0', npatch=125, device=device(type='cuda'), PID=1687397, pred_window=1000, ndim=12)
+- Epoch 000, ExpID 28281
+Train - Loss (one batch): 0.15336
+Val - Loss, MSE, RMSE, MAE, MAPE: 0.17853, 0.17853, 0.42004, 0.40261, 58787.56%
+Test - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 0, 0.18642, 0.18642, 0.43013, 0.41266, 78.97%
+Time spent: 24.62s
+- Epoch 001, ExpID 28281
+Train - Loss (one batch): 0.17639
+Val - Loss, MSE, RMSE, MAE, MAPE: 0.17318, 0.17318, 0.41363, 0.39593, 62872.96%
+Test - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 1, 0.18093, 0.18093, 0.42371, 0.40598, 77.58%
+Time spent: 24.14s
+- Epoch 002, ExpID 28281
+Train - Loss (one batch): 0.17264
+Val - Loss, MSE, RMSE, MAE, MAPE: 0.16548, 0.16548, 0.40422, 0.38610, 68473.42%
+Test - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 2, 0.17303, 0.17303, 0.41429, 0.39615, 75.55%
+Time spent: 24.25s
+- Epoch 003, ExpID 28281
+Train - Loss (one batch): 0.16912
+Val - Loss, MSE, RMSE, MAE, MAPE: 0.16442, 0.16442, 0.40291, 0.38473, 69210.80%
+Test - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 3, 0.17194, 0.17194, 0.41297, 0.39478, 75.26%
+Time spent: 24.20s
+- Epoch 004, ExpID 28281
+Train - Loss (one batch): 0.12905
+Val - Loss, MSE, RMSE, MAE, MAPE: 0.16308, 0.16308, 0.40125, 0.38300, 70054.11%
+Test - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 4, 0.17057, 0.17057, 0.41131, 0.39304, 74.90%
+Time spent: 24.18s
+slurmstepd: error: *** JOB 276537 ON test-000 CANCELLED AT 2025-11-08T17:09:29 DUE TO TIME LIMIT ***

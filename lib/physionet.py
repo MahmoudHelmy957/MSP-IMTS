@@ -487,7 +487,7 @@ def patch_variable_time_collate_fn_ms(
     for i in range(len(ms["X_list"])):
         Xk, Mk = ms["X_list"][i], ms["mk_list"][i]   # (B, M_k, L, D)
         mean, std = _masked_stats(Xk, Mk)
-        ms["X_list"][i] = (Xk - mean) / std
+        ms["X_list"][i] = (Xk - mean) / (std + 1.0)
 
     # Time: normalize each scale’s support to [0, 1] (relative timing)
     norm_tt_list = []

@@ -1,0 +1,20 @@
+/home/solgi/MSP-IMTS/tPatchGNN/run_models.py
+2025-11-08 17:23:20
+run_models.py --dataset activity --history 4000 --hid_dim 64 --te_dim 10 --node_dim 10 --nlayer 1 --tf_layer 1 --nhead 1 --batch_size 64 --lr 1e-3 --w_decay 1e-4 --patience 80 --epoch 400 --seed 1 --gpu 0 --multi_scales 200,1200 --multi_strides 100,600 --fusion scale_attn --state compare_scaleattn
+Namespace(multi_scales='200,1200', multi_strides='100,600', fusion='scale_attn', state='compare_scaleattn', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=400, patience=80, history=4000, patch_size=24, stride=24, logmode='a', lr=0.001, w_decay=0.0001, batch_size=64, save='experiments/', load=None, seed=1, dataset='activity', quantization=0.0, model='tPatchGNN', outlayer='Linear', hid_dim=64, te_dim=10, node_dim=10, gpu='0', npatch=167, device=device(type='cuda'), PID=1687553, pred_window=1000, ndim=12)
+Traceback (most recent call last):
+  File "/home/solgi/MSP-IMTS/tPatchGNN/run_models.py", line 225, in <module>
+    out = model(batch_dict["X_list"], batch_dict["tt_list"], batch_dict["mk_list"], batch_dict["tp_to_predict"])
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/solgi/MSP-IMTS/tPatchGNN/model/multiscale_tpatchgnn.py", line 78, in forward
+    reps.append(mdl.encode_from_patched(X.to(device), tt.to(device), mk.to(device)))  # (B, N, D_k)
+  File "/home/solgi/MSP-IMTS/tPatchGNN/model/tPatchGNN.py", line 306, in encode_from_patched
+    h = self.IMTS_Model(X_, mk_)  # (B, N, hid_dim)
+  File "/home/solgi/MSP-IMTS/tPatchGNN/model/tPatchGNN.py", line 245, in IMTS_Model
+    x_patch = self.TTCN(x, mask_X) # (B*N*M, hid_dim-1)
+  File "/home/solgi/MSP-IMTS/tPatchGNN/model/tPatchGNN.py", line 229, in TTCN
+    ttcn_out = torch.einsum('nlf,nlqf->nq', X_int, Filter_seqnorm)
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/site-packages/torch/functional.py", line 378, in einsum
+    return _VF.einsum(equation, operands)  # type: ignore[attr-defined]
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.94 GiB (GPU 0; 10.91 GiB total capacity; 9.64 GiB already allocated; 818.12 MiB free; 9.95 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF

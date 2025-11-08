@@ -15,6 +15,8 @@ import subprocess
 import datetime
 import random
 
+from typing import Optional
+
 def setup_seed(seed):
 	torch.manual_seed(seed)
 	torch.cuda.manual_seed(seed)
@@ -670,7 +672,9 @@ def multiscale_split_and_patch_batch(data_dict, args, history_hours, scales_hour
     return {"X_list": X_list, "tt_list": tt_list, "mk_list": mk_list, "npatches": npatches}
 
 
-def _normalize_timelines_for_history(data_dict, history_hours: float, *, n_months: float | None = None):
+def _normalize_timelines_for_history(
+    data_dict, history_hours: float, *, n_months: Optional[float] = None
+):
     """
     Normalize time axes to [0,1] over the history window.
     - If times already in [0,1] over a total window (e.g., USHCN over n_months=48),

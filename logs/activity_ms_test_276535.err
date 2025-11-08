@@ -1,0 +1,9 @@
+/home/solgi/MSP-IMTS/tPatchGNN/run_models.py
+2025-11-08 17:02:27
+run_models.py --dataset activity --history 3000 --hid_dim 16 --te_dim 10 --node_dim 8 --nlayer 1 --tf_layer 1 --nhead 1 --batch_size 4 --lr 1e-3 --patience 1 --epoch 1 --seed 1 --gpu 0 --multi_scales 300,1200 --multi_strides 150,600 --fusion scale_attn --state testcluster
+Namespace(multi_scales='300,1200', multi_strides='150,600', fusion='scale_attn', state='testcluster', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=1, patience=1, history=3000, patch_size=24, stride=24, logmode='a', lr=0.001, w_decay=0.0, batch_size=4, save='experiments/', load=None, seed=1, dataset='activity', quantization=0.0, model='tPatchGNN', outlayer='Linear', hid_dim=16, te_dim=10, node_dim=8, gpu='0', npatch=125, device=device(type='cuda'), PID=1687341, pred_window=1000, ndim=12)
+- Epoch 000, ExpID 66220
+Train - Loss (one batch): 0.15336
+Val - Loss, MSE, RMSE, MAE, MAPE: 0.17853, 0.17853, 0.42004, 0.40261, 58787.56%
+Test - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 0, 0.18642, 0.18642, 0.43013, 0.41266, 78.97%
+Time spent: 24.44s

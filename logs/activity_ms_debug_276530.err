@@ -1,0 +1,18 @@
+/home/solgi/MSP-IMTS/tPatchGNN/run_models.py
+2025-11-08 16:39:48
+run_models.py --dataset activity --history 3000 --hid_dim 32 --te_dim 10 --node_dim 10 --nlayer 1 --tf_layer 1 --nhead 1 --batch_size 8 --lr 1e-3 --patience 1 --epoch 1 --seed 1 --gpu 0 --multi_scales 300,1200 --multi_strides 150,600 --fusion scale_attn --state debug
+Namespace(multi_scales='300,1200', multi_strides='150,600', fusion='scale_attn', state='debug', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=1, patience=1, history=3000, patch_size=24, stride=24, logmode='a', lr=0.001, w_decay=0.0, batch_size=8, save='experiments/', load=None, seed=1, dataset='activity', quantization=0.0, model='tPatchGNN', outlayer='Linear', hid_dim=32, te_dim=10, node_dim=10, gpu='0', npatch=125, device=device(type='cuda'), PID=1686974, pred_window=1000, ndim=12)
+Traceback (most recent call last):
+  File "/home/solgi/MSP-IMTS/tPatchGNN/run_models.py", line 225, in <module>
+    out = model(batch_dict["X_list"], batch_dict["tt_list"], batch_dict["mk_list"], batch_dict["tp_to_predict"])
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/solgi/MSP-IMTS/tPatchGNN/model/multiscale_tpatchgnn.py", line 100, in forward
+    fused, attw = self.scale_fuser(H_list, M_list)  # fused: (B, d_hid)
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/solgi/MSP-IMTS/tPatchGNN/model/fusion_blocks.py", line 20, in forward
+    pooled = self.masked_gap(Hk, Mk)
+  File "/home/solgi/MSP-IMTS/tPatchGNN/model/fusion_blocks.py", line 13, in masked_gap
+    num = (x * m).sum(dim=(1, 2))             # (B, D)
+RuntimeError: The size of tensor a (32) must match the size of tensor b (12) at non-singleton dimension 3

@@ -2,6 +2,7 @@
 import torch
 import torch.nn as nn
 from model.fusion_blocks import ScaleAttentionFusion
+from typing import Optional
 
 
 class MultiScaleTPatchGNN(nn.Module):
@@ -16,7 +17,8 @@ class MultiScaleTPatchGNN(nn.Module):
     Returns:
       - out: (1, B, Lp, N)  # same shape convention as original tPatchGNN forward
     """
-    def __init__(self, submodels, te_dim: int = 10, proj_dim: int | None = None, fusion: str = "concat"):
+    def __init__(self, submodels, te_dim: int = 10, proj_dim: Optional[int] = None, fusion: str = "concat"):
+
         super().__init__()
         assert len(submodels) >= 2, "Use >= 2 scales."
         self.submodels = nn.ModuleList(submodels)
@@ -80,25 +82,30 @@ class MultiScaleTPatchGNN(nn.Module):
             H = torch.cat(reps, dim=-1)  # (B, N, sum_k D_k)
 
         elif self._fusion == "scale_attn":
-            # Each rep is (B, N, D_k)
-            # Stack into (K, B, N, D)
-            H_stack = torch.stack(reps, dim=0)  # (K, B, N, D)
-            K, B, N, D = H_stack.shape
-            H_stack = H_stack.permute(1, 0, 2, 3)  # (B, K, N, D)
-
-            # Masks are (B, M_k, L, N) but we only need per-node masks
-            M_list = [mk for mk in mk_list]
-
-            # Lazy init fuser after we know D
+            # reps: list of K tensors, each (B, N, D_k). Use a common D (usually same across submodels).
+            D = reps[0].shape[-1]
+            B, N, _ = reps[0].shape
+        
+            # Lazy init
             if self.scale_fuser is None:
-                self.scale_fuser = ScaleAttentionFusion(d_in=D, d_hid=self._proj_dim or 128)
+                self.scale_fuser = ScaleAttentionFusion(d_in=D, d_hid=self._proj_dim or 128).to(device)
+        
+            # Node-average each scale → (B, D)
+            Z_list = [r.mean(dim=1) for r in reps]     # list of (B, D)
+        
+            fused, attw = self.scale_fuser(Z_list)     # fused: (B, d_hid)
+            # Print mean attention per scale once for sanity check
+            if not hasattr(self, "_printed"):
+                print("Mean attention per scale:", attw.mean(0).detach().cpu().numpy())
+                self._printed = True
+            # Add fine-scale residual (first scale is usually the most detailed)
+            #fused = fused + Z_list[0]
+            # Optional stronger residual: blend fine + coarse scales
+            fused = fused + 0.5 * (Z_list[0] + Z_list[-1])
 
-            # For attention, reuse the same encoder features (here "reps")
-            H_list = [r.unsqueeze(1) for r in reps]  # make shape (B, 1, N, D)
-            fused, attw = self.scale_fuser(H_list, M_list)  # fused: (B, d_hid)
-
-            # Expand fused to per-node context (N nodes)
-            H = fused.unsqueeze(1).repeat(1, N, 1)  # (B, N, d_hid)
+        
+            # Broadcast fused vector back to all nodes
+            H = fused.unsqueeze(1).repeat(1, N, 1)     # (B, N, d_hid)
 
         else:
             raise ValueError(f"Unknown fusion mode: {self._fusion}")
