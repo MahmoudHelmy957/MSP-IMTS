@@ -396,7 +396,9 @@ def patch_variable_time_collate_fn_ms(
       X_list, tt_list, mk_list, npatches, tp_to_predict, data_to_predict, mask_predicted_data
     """
     if strides_hours is None:
-        strides_hours = scales_hours
+        strides_hours = list(scales_hours)
+    else:
+        strides_hours = list(strides_hours)
 
     # Build union timeline across the batch (exactly like patch_variable_time_collate_fn)
     D = batch[0][2].shape[1]
@@ -432,7 +434,6 @@ def patch_variable_time_collate_fn_ms(
     combined_mask = combined_mask[:, :n_observed_tp]
 
     # Pad future (prediction) parts
-    from torch.nn.utils.rnn import pad_sequence
     predicted_tp   = pad_sequence(predicted_tp_list,   batch_first=True)
     predicted_data = pad_sequence(predicted_data_list, batch_first=True)
     predicted_mask = pad_sequence(predicted_mask_list, batch_first=True)
@@ -460,11 +461,43 @@ def patch_variable_time_collate_fn_ms(
         "mask_predicted_data": predicted_mask,
     }
 
+    # ---- Optional patch-boundary augmentation (off by default) ----
+    jitter = float(getattr(args, "ms_jitter", 0.0))
+    if jitter > 0.0 and bool(getattr(args, "is_train", True)):
+        import numpy as _np
+        strides_hours = [float(s * _np.random.uniform(1 - jitter, 1 + jitter)) for s in strides_hours]
+    # ----------------------------------------------------------------
+
     # Multi-scale split using union timeline (1-D)
     ms = utils.multiscale_split_and_patch_batch(
         data_dict=single, args=args, history_hours=float(history_hours),
         scales_hours=list(scales_hours), strides_hours=list(strides_hours)
     )
+
+    # ---- Per-scale value z-score (masked) & per-scale time normalization ----
+    def _masked_stats(x, m, eps=1e-5):
+        # x,m: (B, M_k, L, D)
+        denom = m.sum(dim=(0, 1, 2), keepdim=True).clamp_min(1.0)
+        mean  = (x * m).sum(dim=(0, 1, 2), keepdim=True) / denom
+        var   = ((x - mean) ** 2 * m).sum(dim=(0, 1, 2), keepdim=True) / denom
+        std   = (var + eps).sqrt()
+        return mean, std
+
+    # Value z-score per scale (computed over the current batch for stability)
+    for i in range(len(ms["X_list"])):
+        Xk, Mk = ms["X_list"][i], ms["mk_list"][i]   # (B, M_k, L, D)
+        mean, std = _masked_stats(Xk, Mk)
+        ms["X_list"][i] = (Xk - mean) / std
+
+    # Time: normalize each scale’s support to [0, 1] (relative timing)
+    norm_tt_list = []
+    for t in ms["tt_list"]:                           # t: (M_k, L)
+        t0 = float(t.min())
+        t1 = float(t.max())
+        denom = (t1 - t0) if (t1 > t0) else 1.0
+        norm_tt_list.append((t - t0) / denom)
+    ms["tt_list"] = norm_tt_list
+    # -------------------------------------------------------------------------
 
     return {
         "X_list": ms["X_list"], "tt_list": ms["tt_list"], "mk_list": ms["mk_list"],

@@ -1,6 +1,7 @@
 # model/multiscale_tpatchgnn.py
 import torch
 import torch.nn as nn
+from model.fusion_blocks import ScaleAttentionFusion
 
 
 class MultiScaleTPatchGNN(nn.Module):
@@ -26,6 +27,11 @@ class MultiScaleTPatchGNN(nn.Module):
         # Lazily built on first forward (so we know fused_dim)
         self.fuse_proj: nn.Linear | None = None
         self.decoder: nn.Sequential | None = None
+        if fusion == "scale_attn":
+            # Will be initialized lazily when first forward runs (after we know hidden dim)
+            self.scale_fuser: ScaleAttentionFusion | None = None
+        else:
+            self.scale_fuser = None
 
     @torch.no_grad()
     def _device(self):
@@ -69,10 +75,35 @@ class MultiScaleTPatchGNN(nn.Module):
         for mdl, X, tt, mk in zip(self.submodels, X_list, tt_list, mk_list):
             reps.append(mdl.encode_from_patched(X.to(device), tt.to(device), mk.to(device)))  # (B, N, D_k)
 
-        # Only concat fusion supported in this file
-        if self._fusion != "concat":
-            raise NotImplementedError("Only 'concat' fusion is implemented in this version.")
-        H = torch.cat(reps, dim=-1)  # (B, N, sum_k D_k)
+        # --- Fusion ---
+        if self._fusion == "concat":
+            H = torch.cat(reps, dim=-1)  # (B, N, sum_k D_k)
+
+        elif self._fusion == "scale_attn":
+            # Each rep is (B, N, D_k)
+            # Stack into (K, B, N, D)
+            H_stack = torch.stack(reps, dim=0)  # (K, B, N, D)
+            K, B, N, D = H_stack.shape
+            H_stack = H_stack.permute(1, 0, 2, 3)  # (B, K, N, D)
+
+            # Masks are (B, M_k, L, N) but we only need per-node masks
+            M_list = [mk for mk in mk_list]
+
+            # Lazy init fuser after we know D
+            if self.scale_fuser is None:
+                self.scale_fuser = ScaleAttentionFusion(d_in=D, d_hid=self._proj_dim or 128)
+
+            # For attention, reuse the same encoder features (here "reps")
+            H_list = [r.unsqueeze(1) for r in reps]  # make shape (B, 1, N, D)
+            fused, attw = self.scale_fuser(H_list, M_list)  # fused: (B, d_hid)
+
+            # Expand fused to per-node context (N nodes)
+            H = fused.unsqueeze(1).repeat(1, N, 1)  # (B, N, d_hid)
+
+        else:
+            raise ValueError(f"Unknown fusion mode: {self._fusion}")
+        # ----------------
+
 
         # Build heads lazily on first forward
         if self.decoder is None:
