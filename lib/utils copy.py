@@ -647,59 +647,20 @@ def build_patch_indices_time(observed_tp, patch_size_hours, stride_hours, histor
 
 def multiscale_split_and_patch_batch(data_dict, args, history_hours, scales_hours, strides_hours):
     assert len(scales_hours) == len(strides_hours)
-    # Pass n_months for USHCN; for other datasets it won't exist and stays None.
-    n_months = getattr(args, "n_months", None)
-    data_dict_norm = _normalize_timelines_for_history(
-        data_dict, history_hours, n_months=n_months
-    )
-
-    observed_tp_1d = data_dict_norm["time_steps"]
+    observed_tp_1d = data_dict["time_steps"]
     X_list, tt_list, mk_list, npatches = [], [], [], []
     for ps_h, st_h in zip(scales_hours, strides_hours):
         indices = build_patch_indices_time(observed_tp_1d, ps_h, st_h, history_hours)
         old_npatch = getattr(args, "npatch")
         setattr(args, "npatch", len(indices))
-        split_dict = split_and_patch_batch(
-            data_dict_norm, args, n_observed_tp=len(observed_tp_1d), patch_indices=indices
-        )
-        X_list.append(split_dict["observed_data"])
-        tt_list.append(split_dict["observed_tp"])   # now ~[0,1]
+        split_dict = split_and_patch_batch(data_dict, args, n_observed_tp=len(observed_tp_1d), patch_indices=indices)
+        X_list.append( split_dict["observed_data"] )
+        tt_list.append(split_dict["observed_tp"])
         mk_list.append(split_dict["observed_mask"])
         npatches.append(len(indices))
         setattr(args, "npatch", old_npatch)
     return {"X_list": X_list, "tt_list": tt_list, "mk_list": mk_list, "npatches": npatches}
 
-
-def _normalize_timelines_for_history(data_dict, history_hours: float, *, n_months: float | None = None):
-    """
-    Normalize time axes to [0,1] over the history window.
-    - If times already in [0,1] over a total window (e.g., USHCN over n_months=48),
-      rebase to local chunk by dividing by (history / n_months).
-    - Else, assume times are in the same unit as `history_hours` and divide by `history_hours`.
-    """
-    out = dict(data_dict)
-    tt = out["time_steps"]  # (L,)
-    t0 = tt[0]
-    tmax = float(tt.max())
-
-    if tmax <= 1.0001 and (n_months is not None and n_months > 0):
-        # Already global-normalized to [0,1] over n_months: compress to local history window
-        scale = float(history_hours) / float(n_months)  # e.g., 24/48 = 0.5
-        tt_norm = (tt - t0) / scale
-        if "tp_to_predict" in out and out["tp_to_predict"] is not None:
-            tp = out["tp_to_predict"]
-            tp_norm = (tp - t0) / scale
-            out["tp_to_predict"] = torch.clamp(tp_norm, min=0.0)
-    else:
-        # Raw units (months / hours / ms): divide by `history_hours` as before
-        tt_norm = (tt - t0) / float(history_hours)
-        if "tp_to_predict" in out and out["tp_to_predict"] is not None:
-            tp = out["tp_to_predict"]
-            tp_norm = (tp - t0) / float(history_hours)
-            out["tp_to_predict"] = torch.clamp(tp_norm, min=0.0)
-
-    out["time_steps"] = torch.clamp(tt_norm, min=0.0, max=1.0)
-    return out
 
 
 
