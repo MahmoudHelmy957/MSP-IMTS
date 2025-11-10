@@ -15,6 +15,21 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
+# Make CUDA/cuDNN deterministic (same math each run)
+torch.backends.cudnn.benchmark = False
+torch.backends.cudnn.deterministic = True
+torch.use_deterministic_algorithms(True)
+
+# Force all GPUs (including Turing/Ampere) to behave like older FP32-only GPUs
+torch.backends.cuda.matmul.allow_tf32 = False
+torch.backends.cudnn.allow_tf32 = False
+
+# Make sure seeds are consistent everywhere
+import random, numpy as np
+torch.manual_seed(1)
+np.random.seed(1)
+random.seed(1)
+
 import lib.utils as utils
 from lib.parse_datasets import parse_datasets
 from model.tPatchGNN import *

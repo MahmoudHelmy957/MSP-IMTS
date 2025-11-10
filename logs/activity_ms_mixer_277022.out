@@ -1,0 +1,53 @@
+============================================================
+ SYSTEM & SOFTWARE INFO
+Mon Nov 10 12:44:58 CET 2025
+test-000
+Mon Nov 10 12:44:58 2025       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 545.23.08              Driver Version: 545.23.08    CUDA Version: 12.3     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA GeForce GTX 1080 Ti     On  | 00000000:02:00.0 Off |                  N/A |
+| 23%   25C    P8               9W / 250W |      1MiB / 11264MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+Torch: 2.0.0+cu117 CUDA: 11.7 cuDNN: 8500
+Device: NVIDIA GeForce GTX 1080 Ti
+============================================================
+============================================================
+  Activity multi-scale + Mixer fusion experiment
+  SEED=5
+  GPU=0
+  HISTORY=3000
+  SCALES=200,1200
+  STRIDES=100,600
+============================================================
+PID, device: 1706569 cuda
+Total records: 25
+Dataset n_samples: 25 15 5 5
+Test record ids (first 20): ['B04', 'D02', 'A01', 'E04', 'C02']
+Test record ids (last 20): ['B04', 'D02', 'A01', 'E04', 'C02']
+data_max: tensor([5.6217, 3.9067, 2.4465, 5.3456, 3.9414, 2.2163, 5.7582, 3.9781, 2.6061,
+        5.3913, 3.9654, 2.6011], device='cuda:0')
+data_min: tensor([ 0.1852, -0.1228, -1.4615,  0.1606, -0.4760, -2.5436, -0.2787, -0.4944,
+        -2.0269,  0.0198, -0.4789, -1.9588], device='cuda:0')
+time_max: tensor(304861., device='cuda:0')
+manual set time_max: tensor(4000, device='cuda:0')
+[MS] batch keys: ['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+[MS] #scales: 2
+[MS] per-scale shapes: [(32, 30, 28, 12), (32, 5, 28, 12)]
+[MS] data_to_predict: (32, 33, 12)
+[MS] mask_predicted_data sum: 2838.0
+[MS] tt_list mins/maxes: [(0.0, 0.00024941665469668806), (0.0, 0.00024941665469668806)]
+[MS] tp_to_predict min/max: 0.0 0.9984999895095825

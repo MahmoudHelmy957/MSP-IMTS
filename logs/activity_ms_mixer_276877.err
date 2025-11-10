@@ -1,0 +1,20 @@
+/home/solgi/MSP-IMTS/tPatchGNN/run_models.py
+2025-11-09 13:48:39
+run_models.py --dataset activity --history 3000 --hid_dim 32 --te_dim 10 --node_dim 10 --nlayer 1 --tf_layer 1 --nhead 1 --batch_size 32 --lr 1e-3 --w_decay 1e-4 --patience 80 --epoch 600 --seed 1 --gpu 0 --multi_scales 200,1200 --multi_strides 100,600 --fusion concat --state activity_mixer
+Namespace(multi_scales='200,1200', multi_strides='100,600', fusion='concat', state='activity_mixer', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=600, patience=80, history=3000, patch_size=24, stride=24, logmode='a', lr=0.001, w_decay=0.0001, batch_size=32, save='experiments/', load=None, seed=1, dataset='activity', quantization=0.0, model='tPatchGNN', outlayer='Linear', hid_dim=32, te_dim=10, node_dim=10, gpu='0', npatch=125, device=device(type='cuda'), PID=1696224, pred_window=1000, ndim=12)
+Traceback (most recent call last):
+  File "/home/solgi/MSP-IMTS/tPatchGNN/run_models.py", line 240, in <module>
+    out = model(batch_dict["X_list"], batch_dict["tt_list"], batch_dict["mk_list"], batch_dict["tp_to_predict"])
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/solgi/MSP-IMTS/tPatchGNN/model/multiscale_tpatchgnn.py", line 72, in forward
+    reps.append(mdl.encode_from_patched(X.to(device), tt.to(device), mk.to(device)))  # (B, N, D_k)
+  File "/home/solgi/MSP-IMTS/tPatchGNN/model/tPatchGNN.py", line 304, in encode_from_patched
+    te_his = self.LearnableTE(tt_)
+  File "/home/solgi/MSP-IMTS/tPatchGNN/model/tPatchGNN.py", line 190, in LearnableTE
+    out1 = self.te_scale(tt)
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/solgi/miniconda3/envs/solgiland/lib/python3.9/site-packages/torch/nn/modules/linear.py", line 114, in forward
+    return F.linear(input, self.weight, self.bias)
+RuntimeError: Deterministic behavior was enabled with either `torch.use_deterministic_algorithms(True)` or `at::Context::setDeterministicAlgorithms(true)`, but this operation is not deterministic because it uses CuBLAS and you have CUDA >= 10.2. To enable deterministic behavior in this case, you must set an environment variable before running your PyTorch application: CUBLAS_WORKSPACE_CONFIG=:4096:8 or CUBLAS_WORKSPACE_CONFIG=:16:8. For more information, go to https://docs.nvidia.com/cuda/cublas/index.html#cublasApi_reproducibility

@@ -1,7 +1,7 @@
-# model/multiscale_tpatchgnn.py
 import torch
 import torch.nn as nn
 from model.fusion_blocks import NodeMixerBlock
+from typing import Optional
 
 
 class MultiScaleTPatchGNN(nn.Module):
@@ -16,40 +16,55 @@ class MultiScaleTPatchGNN(nn.Module):
     Returns:
       - out: (1, B, Lp, N)  # same shape convention as original tPatchGNN forward
     """
-    def __init__(self, submodels, te_dim: int = 10, proj_dim: int | None = None, fusion: str = "concat"):
+
+    def __init__(self, submodels, te_dim: int = 10, proj_dim: Optional[int] = None, fusion: str = "concat"):
         super().__init__()
         assert len(submodels) >= 2, "Use >= 2 scales."
         self.submodels = nn.ModuleList(submodels)
-        self._te_dim   = te_dim
-        self._proj_dim = proj_dim     # if not None, project fused features back to this dim (usually = hid_dim)
-        self._fusion   = fusion
+        self._te_dim = te_dim
+        self._proj_dim = proj_dim  # if not None, project fused features back to this dim (usually = hid_dim)
+        self._fusion = fusion
 
-        # Lazily built on first forward (so we know fused_dim)
-        self.fuse_proj: nn.Linear | None = None
-        self.decoder: nn.Sequential | None = None
+        # Infer shared structural information so fusion layers can be
+        # instantiated up front (and therefore registered with the optimizer).
+        with torch.no_grad():
+            n_tokens = getattr(self.submodels[0], "N", None)
+            assert n_tokens is not None, "Submodels must expose attribute 'N' for number of nodes."
+            self._n_tokens = n_tokens
+
+            fused_dim = 0
+            for mdl in self.submodels:
+                mdl_dim = getattr(mdl, "hid_dim", None)
+                assert mdl_dim is not None, "Submodels must expose attribute 'hid_dim'."
+                fused_dim += mdl_dim
+                assert getattr(mdl, "N", n_tokens) == n_tokens, "All submodels must share the same number of nodes."
+
+        self.node_mixer = NodeMixerBlock(
+            n_tokens=self._n_tokens,
+            d_model=fused_dim,
+            hidden_mult=2,
+            drop=0.1,
+        )
+
+        final_dim = fused_dim
+        self.fuse_proj: nn.Module
+        if self._proj_dim is not None and fused_dim != self._proj_dim:
+            self.fuse_proj = nn.Linear(fused_dim, self._proj_dim)
+            final_dim = self._proj_dim
+        else:
+            self.fuse_proj = nn.Identity()
+
+        self.decoder = nn.Sequential(
+            nn.Linear(final_dim + self._te_dim, final_dim),
+            nn.ReLU(inplace=True),
+            nn.Linear(final_dim, final_dim),
+            nn.ReLU(inplace=True),
+            nn.Linear(final_dim, 1),
+        )
 
     @torch.no_grad()
     def _device(self):
         return next(self.submodels[0].parameters()).device
-
-    def _build_heads_if_needed(self, fused_dim: int, device: torch.device):
-        """
-        Builds (optionally) a projection from fused_dim -> proj_dim
-        and a small MLP decoder that combines hidden state with TE and
-        predicts per-node values at future time steps.
-        """
-        final_dim = fused_dim
-        if self._proj_dim is not None and fused_dim != self._proj_dim:
-            self.fuse_proj = nn.Linear(fused_dim, self._proj_dim, device=device)
-            final_dim = self._proj_dim
-
-        self.decoder = nn.Sequential(
-            nn.Linear(final_dim + self._te_dim, final_dim, device=device),
-            nn.ReLU(inplace=True),
-            nn.Linear(final_dim, final_dim, device=device),
-            nn.ReLU(inplace=True),
-            nn.Linear(final_dim, 1, device=device),
-        )
 
     def extra_loss(self) -> torch.Tensor:
         """
@@ -73,27 +88,14 @@ class MultiScaleTPatchGNN(nn.Module):
         # Only concat fusion supported in this file
         if self._fusion != "concat":
             raise NotImplementedError("Only 'concat' fusion is implemented in this version.")
+
         H = torch.cat(reps, dim=-1)  # (B, N, sum_k D_k)
+
         # --- Node Mixer (cross-node interactions) ---
-        if getattr(self, "node_mixer", None) is None:
-            self.node_mixer = NodeMixerBlock(
-                n_tokens=H.shape[1],
-                d_model=H.shape[-1],
-                hidden_mult=2,
-                drop=0.1
-            ).to(device)
-        
         H = self.node_mixer(H)
-        # --- end Mixer block ---
-
-
-        # Build heads lazily on first forward
-        if self.decoder is None:
-            self._build_heads_if_needed(H.shape[-1], device)
 
         # Optional projection back to a common hidden size
-        if self.fuse_proj is not None:
-            H = self.fuse_proj(H)  # (B, N, hid_dim)
+        H = self.fuse_proj(H)  # (B, N, hid_dim)
 
         B, N, F = H.shape
         Lp = time_steps_to_predict.shape[-1]
