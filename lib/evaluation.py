@@ -305,32 +305,48 @@ def compute_error(truth, pred_y, mask, func, reduce, norm_dict=None):
 
 
 def compute_all_losses(model, batch_dict):
-	# Condition on subsampled points
-	# Make predictions for all the points
-	# shape of pred --- [n_traj_samples=1, n_batch, n_tp, n_dim]
+    """
+    Works for both single-scale tPatchGNN and MultiScaleTPatchGNN.
+    Returns dict with: loss, mse, rmse, mae
+    """
+    # ---- call the model with the right inputs ----
+    if "X_list" in batch_dict:
+        # Multi-scale batch
+        pred_y = model.forecasting(
+            batch_dict["tp_to_predict"],
+            batch_dict["X_list"],
+            batch_dict["tt_list"],
+            batch_dict["mk_list"],
+        )
+    else:
+        # Single-scale batch
+        pred_y = model.forecasting(
+            batch_dict["tp_to_predict"],
+            batch_dict["observed_data"],
+            batch_dict["observed_tp"],
+            batch_dict["observed_mask"],   # or 'mask_observed_data' if that's your key
+        )
 
-	pred_y = model.forecasting(batch_dict["tp_to_predict"], 
-		batch_dict["observed_data"], batch_dict["observed_tp"], 
-		batch_dict["observed_mask"]) 
-	# print("pred:", pred_y.shape, batch_dict["mask_predicted_data"].shape)
+    # ---- metrics ----
+    mse_val = compute_error(
+        batch_dict["data_to_predict"], pred_y,
+        mask=batch_dict["mask_predicted_data"],
+        func="MSE", reduce="mean"
+    )
+    rmse_val = torch.sqrt(mse_val)
+    mae_val = compute_error(
+        batch_dict["data_to_predict"], pred_y,
+        mask=batch_dict["mask_predicted_data"],
+        func="MAE", reduce="mean"
+    )
 
-	# Compute avg error of each variable first, then compute avg error of all variables
-	mse = compute_error(batch_dict["data_to_predict"], pred_y, mask = batch_dict["mask_predicted_data"], func="MSE", reduce="mean") # a scalar
-	rmse = torch.sqrt(mse)
-	# print(mse, rmse)
-	mae = compute_error(batch_dict["data_to_predict"], pred_y, mask = batch_dict["mask_predicted_data"], func="MAE", reduce="mean") # a scalar
-
-	################################
-	# mse loss
-	loss = mse
-
-	results = {}
-	results["loss"] = loss
-	results["mse"] = mse.item()
-	results["rmse"] = rmse.item()
-	results["mae"] = mae.item()
-
-	return results
+    out = {
+        "loss": mse_val,                  # training loss = MSE
+        "mse": mse_val.item(),
+        "rmse": rmse_val.item(),
+        "mae": mae_val.item(),
+    }
+    return out
 
 def evaluation(model, dataloader, n_batches):
 
@@ -346,10 +362,25 @@ def evaluation(model, dataloader, n_batches):
 	for _ in range(n_batches):
 		batch_dict = utils.get_next_batch(dataloader)
 
-		pred_y = model.forecasting(batch_dict["tp_to_predict"], 
-			batch_dict["observed_data"], batch_dict["observed_tp"], 
-			batch_dict["observed_mask"]) 
-		
+		# --- add this compatibility patch ---
+		if "X_list" in batch_dict:
+		    # Multi-scale batch (from MultiScaleTPatchGNN)
+		    pred_y = model.forecasting(
+		        batch_dict["tp_to_predict"],
+		        batch_dict["X_list"],
+		        batch_dict["tt_list"],
+		        batch_dict["mk_list"],
+		    )
+		else:
+		    # Single-scale batch (standard tPatchGNN)
+		    pred_y = model.forecasting(
+		        batch_dict["tp_to_predict"],
+		        batch_dict["observed_data"],
+		        batch_dict["observed_tp"],
+		        batch_dict["mask_observed_data"],
+		    )
+		# --- end patch ---
+
 		# print('consistency test:', batch_dict["data_to_predict"][batch_dict["mask_predicted_data"].bool()].sum(), batch_dict["mask_predicted_data"].sum()) # consistency test
 		
 		# (n_dim, ) , (n_dim, ) 

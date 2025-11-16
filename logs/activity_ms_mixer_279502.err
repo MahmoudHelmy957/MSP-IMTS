@@ -1,0 +1,596 @@
+/home/solgi/MSP-IMTS/tPatchGNN/run_models.py
+2025-11-16 13:51:15
+run_models.py --dataset activity --history 3000 --hid_dim 32 --te_dim 10 --node_dim 10 --nlayer 1 --tf_layer 1 --nhead 1 --batch_size 32 --lr 1e-3 --w_decay 1e-4 --patience 80 --epoch 600 --seed 5 --gpu 0 --multi_scales 200,1200 --multi_strides 100,600 --fusion concat --state activity_mixer
+Namespace(multi_scales='200,1200', multi_strides='100,600', fusion='concat', disable_fusion_mixer=False, fusion_mixer_hidden_mult=2.0, fusion_mixer_dropout=0.1, fusion_track_stats=False, state='activity_mixer', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=600, patience=80, history=3000, model='tPatchGNN', patch_size=24, stride=24, logmode='a', lr=0.001, w_decay=0.0001, batch_size=32, save='experiments/', load=None, seed=5, dataset='activity', hid_dim=32, te_dim=10, node_dim=10, gpu='0', cpu=False, outlayer='fc', device=device(type='cuda'), npatch=125, pred_window=1000, ndim=12)
+Fusion block: NodeMixerBlock (tokens=12.0, fused_dim=64.0)
+Could not save checkpoint to experiments/experiment_18795.ckpt: Parent directory experiments does not exist.
+- Epoch 000, ExpID 18795
+Train - Loss (one batch): 0.01428
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.01641, 0.01641, 0.12812, 0.09976, 25.64%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 0, 0.01602, 0.01602, 0.12655, 0.09918, 23.07%
+Time spent: 19.03s
+Could not save checkpoint to experiments/experiment_18795.ckpt: Parent directory experiments does not exist.
+- Epoch 001, ExpID 18795
+Train - Loss (one batch): 0.00637
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00988, 0.00988, 0.09941, 0.07546, 19.56%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 1, 0.00908, 0.00908, 0.09530, 0.07321, 17.06%
+Time spent: 13.95s
+Could not save checkpoint to experiments/experiment_18795.ckpt: Parent directory experiments does not exist.
+- Epoch 002, ExpID 18795
+Train - Loss (one batch): 0.00543
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00588, 0.00588, 0.07667, 0.05464, 14.16%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 2, 0.00542, 0.00542, 0.07360, 0.05289, 12.17%
+Time spent: 13.87s
+Could not save checkpoint to experiments/experiment_18795.ckpt: Parent directory experiments does not exist.
+- Epoch 003, ExpID 18795
+Train - Loss (one batch): 0.00457
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00533, 0.00533, 0.07302, 0.05071, 13.36%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 3, 0.00489, 0.00489, 0.06994, 0.04920, 11.51%
+Time spent: 13.92s
+- Epoch 004, ExpID 18795
+Train - Loss (one batch): 0.00521
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00558, 0.00558, 0.07473, 0.05387, 12.93%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 3, 0.00489, 0.00489, 0.06994, 0.04920, 11.51%
+Time spent: 12.64s
+- Epoch 005, ExpID 18795
+Train - Loss (one batch): 0.00709
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00555, 0.00555, 0.07449, 0.05372, 13.04%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 3, 0.00489, 0.00489, 0.06994, 0.04920, 11.51%
+Time spent: 12.65s
+- Epoch 006, ExpID 18795
+Train - Loss (one batch): 0.00454
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00535, 0.00535, 0.07315, 0.05178, 12.81%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 3, 0.00489, 0.00489, 0.06994, 0.04920, 11.51%
+Time spent: 12.62s
+- Epoch 007, ExpID 18795
+Train - Loss (one batch): 0.00434
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00535, 0.00535, 0.07315, 0.05236, 12.75%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 3, 0.00489, 0.00489, 0.06994, 0.04920, 11.51%
+Time spent: 12.63s
+Could not save checkpoint to experiments/experiment_18795.ckpt: Parent directory experiments does not exist.
+- Epoch 008, ExpID 18795
+Train - Loss (one batch): 0.00419
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00485, 0.00485, 0.06967, 0.04712, 12.50%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 8, 0.00445, 0.00445, 0.06670, 0.04562, 10.73%
+Time spent: 13.97s
+- Epoch 009, ExpID 18795
+Train - Loss (one batch): 0.00448
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00495, 0.00495, 0.07034, 0.04886, 12.14%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 8, 0.00445, 0.00445, 0.06670, 0.04562, 10.73%
+Time spent: 12.64s
+Could not save checkpoint to experiments/experiment_18795.ckpt: Parent directory experiments does not exist.
+- Epoch 010, ExpID 18795
+Train - Loss (one batch): 0.00415
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00465, 0.00465, 0.06819, 0.04478, 11.76%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 10, 0.00431, 0.00431, 0.06568, 0.04332, 10.10%
+Time spent: 13.99s
+- Epoch 011, ExpID 18795
+Train - Loss (one batch): 0.00465
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00509, 0.00509, 0.07136, 0.04997, 12.18%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 10, 0.00431, 0.00431, 0.06568, 0.04332, 10.10%
+Time spent: 12.65s
+- Epoch 012, ExpID 18795
+Train - Loss (one batch): 0.00326
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00482, 0.00482, 0.06945, 0.04720, 11.70%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 10, 0.00431, 0.00431, 0.06568, 0.04332, 10.10%
+Time spent: 12.63s
+- Epoch 013, ExpID 18795
+Train - Loss (one batch): 0.00404
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00510, 0.00510, 0.07142, 0.05048, 12.30%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 10, 0.00431, 0.00431, 0.06568, 0.04332, 10.10%
+Time spent: 12.68s
+- Epoch 014, ExpID 18795
+Train - Loss (one batch): 0.00405
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00538, 0.00538, 0.07333, 0.05146, 13.73%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 10, 0.00431, 0.00431, 0.06568, 0.04332, 10.10%
+Time spent: 12.66s
+- Epoch 015, ExpID 18795
+Train - Loss (one batch): 0.00561
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00518, 0.00518, 0.07200, 0.05091, 12.10%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 10, 0.00431, 0.00431, 0.06568, 0.04332, 10.10%
+Time spent: 12.70s
+Could not save checkpoint to experiments/experiment_18795.ckpt: Parent directory experiments does not exist.
+- Epoch 016, ExpID 18795
+Train - Loss (one batch): 0.00391
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00461, 0.00461, 0.06791, 0.04457, 11.23%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 16, 0.00430, 0.00430, 0.06560, 0.04325, 9.76%
+Time spent: 13.99s
+- Epoch 017, ExpID 18795
+Train - Loss (one batch): 0.00413
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00475, 0.00475, 0.06889, 0.04626, 11.50%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 16, 0.00430, 0.00430, 0.06560, 0.04325, 9.76%
+Time spent: 12.64s
+Could not save checkpoint to experiments/experiment_18795.ckpt: Parent directory experiments does not exist.
+- Epoch 018, ExpID 18795
+Train - Loss (one batch): 0.00454
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00457, 0.00457, 0.06758, 0.04411, 11.56%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 18, 0.00425, 0.00425, 0.06518, 0.04276, 9.99%
+Time spent: 13.99s
+- Epoch 019, ExpID 18795
+Train - Loss (one batch): 0.00393
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00495, 0.00495, 0.07034, 0.04755, 12.53%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 18, 0.00425, 0.00425, 0.06518, 0.04276, 9.99%
+Time spent: 12.65s
+- Epoch 020, ExpID 18795
+Train - Loss (one batch): 0.00353
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00491, 0.00491, 0.07006, 0.04765, 11.61%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 18, 0.00425, 0.00425, 0.06518, 0.04276, 9.99%
+Time spent: 12.69s
+Could not save checkpoint to experiments/experiment_18795.ckpt: Parent directory experiments does not exist.
+- Epoch 021, ExpID 18795
+Train - Loss (one batch): 0.00701
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00455, 0.00455, 0.06749, 0.04378, 11.46%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 21, 0.00427, 0.00427, 0.06531, 0.04265, 9.96%
+Time spent: 14.00s
+- Epoch 022, ExpID 18795
+Train - Loss (one batch): 0.00538
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00460, 0.00460, 0.06781, 0.04502, 12.04%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 21, 0.00427, 0.00427, 0.06531, 0.04265, 9.96%
+Time spent: 12.69s
+- Epoch 023, ExpID 18795
+Train - Loss (one batch): 0.00506
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00509, 0.00509, 0.07135, 0.04951, 13.28%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 21, 0.00427, 0.00427, 0.06531, 0.04265, 9.96%
+Time spent: 12.70s
+Could not save checkpoint to experiments/experiment_18795.ckpt: Parent directory experiments does not exist.
+- Epoch 024, ExpID 18795
+Train - Loss (one batch): 0.00393
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00450, 0.00450, 0.06710, 0.04343, 11.26%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 24, 0.00421, 0.00421, 0.06489, 0.04217, 9.78%
+Time spent: 14.02s
+- Epoch 025, ExpID 18795
+Train - Loss (one batch): 0.00501
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00484, 0.00484, 0.06956, 0.04832, 11.81%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 24, 0.00421, 0.00421, 0.06489, 0.04217, 9.78%
+Time spent: 12.73s
+- Epoch 026, ExpID 18795
+Train - Loss (one batch): 0.00440
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00456, 0.00456, 0.06749, 0.04466, 11.20%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 24, 0.00421, 0.00421, 0.06489, 0.04217, 9.78%
+Time spent: 12.69s
+- Epoch 027, ExpID 18795
+Train - Loss (one batch): 0.00463
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00453, 0.00453, 0.06733, 0.04416, 11.40%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 24, 0.00421, 0.00421, 0.06489, 0.04217, 9.78%
+Time spent: 12.65s
+- Epoch 028, ExpID 18795
+Train - Loss (one batch): 0.00423
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00454, 0.00454, 0.06736, 0.04405, 11.20%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 24, 0.00421, 0.00421, 0.06489, 0.04217, 9.78%
+Time spent: 12.71s
+- Epoch 029, ExpID 18795
+Train - Loss (one batch): 0.00288
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00459, 0.00459, 0.06778, 0.04414, 11.47%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 24, 0.00421, 0.00421, 0.06489, 0.04217, 9.78%
+Time spent: 12.70s
+- Epoch 030, ExpID 18795
+Train - Loss (one batch): 0.00522
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00453, 0.00453, 0.06729, 0.04403, 11.59%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 24, 0.00421, 0.00421, 0.06489, 0.04217, 9.78%
+Time spent: 12.66s
+- Epoch 031, ExpID 18795
+Train - Loss (one batch): 0.00410
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00453, 0.00453, 0.06733, 0.04349, 11.22%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 24, 0.00421, 0.00421, 0.06489, 0.04217, 9.78%
+Time spent: 12.68s
+Could not save checkpoint to experiments/experiment_18795.ckpt: Parent directory experiments does not exist.
+- Epoch 032, ExpID 18795
+Train - Loss (one batch): 0.00317
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00449, 0.00449, 0.06698, 0.04358, 11.32%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 14.04s
+- Epoch 033, ExpID 18795
+Train - Loss (one batch): 0.00379
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00458, 0.00458, 0.06764, 0.04446, 11.08%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.69s
+- Epoch 034, ExpID 18795
+Train - Loss (one batch): 0.00297
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00469, 0.00469, 0.06851, 0.04473, 11.17%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.72s
+- Epoch 035, ExpID 18795
+Train - Loss (one batch): 0.00358
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00459, 0.00459, 0.06771, 0.04414, 11.36%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.71s
+- Epoch 036, ExpID 18795
+Train - Loss (one batch): 0.00370
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00482, 0.00482, 0.06942, 0.04713, 12.64%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.67s
+- Epoch 037, ExpID 18795
+Train - Loss (one batch): 0.00391
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00477, 0.00477, 0.06910, 0.04704, 11.45%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.70s
+- Epoch 038, ExpID 18795
+Train - Loss (one batch): 0.00416
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.70s
+- Epoch 039, ExpID 18795
+Train - Loss (one batch): 0.00357
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00455, 0.00455, 0.06749, 0.04428, 11.71%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.66s
+- Epoch 040, ExpID 18795
+Train - Loss (one batch): 0.00502
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00455, 0.00455, 0.06748, 0.04437, 11.14%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.65s
+- Epoch 041, ExpID 18795
+Train - Loss (one batch): 0.00386
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.71s
+- Epoch 042, ExpID 18795
+Train - Loss (one batch): 0.00466
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.69s
+- Epoch 043, ExpID 18795
+Train - Loss (one batch): 0.00431
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.67s
+- Epoch 044, ExpID 18795
+Train - Loss (one batch): 0.00455
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00451, 0.00451, 0.06714, 0.04400, 11.44%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.70s
+- Epoch 045, ExpID 18795
+Train - Loss (one batch): 0.00366
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.68s
+- Epoch 046, ExpID 18795
+Train - Loss (one batch): 0.00466
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.73s
+- Epoch 047, ExpID 18795
+Train - Loss (one batch): 0.00427
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00456, 0.00456, 0.06753, 0.04491, 11.77%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.66s
+- Epoch 048, ExpID 18795
+Train - Loss (one batch): 0.00487
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.65s
+- Epoch 049, ExpID 18795
+Train - Loss (one batch): 0.00317
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00468, 0.00468, 0.06843, 0.04613, 11.31%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.70s
+- Epoch 050, ExpID 18795
+Train - Loss (one batch): 0.00516
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00484, 0.00484, 0.06958, 0.04822, 11.75%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.68s
+- Epoch 051, ExpID 18795
+Train - Loss (one batch): 0.00425
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.71s
+- Epoch 052, ExpID 18795
+Train - Loss (one batch): 0.00415
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00456, 0.00456, 0.06753, 0.04454, 11.67%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.69s
+- Epoch 053, ExpID 18795
+Train - Loss (one batch): 0.00493
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.69s
+- Epoch 054, ExpID 18795
+Train - Loss (one batch): 0.00387
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.70s
+- Epoch 055, ExpID 18795
+Train - Loss (one batch): 0.00521
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.70s
+- Epoch 056, ExpID 18795
+Train - Loss (one batch): 0.00360
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.64s
+- Epoch 057, ExpID 18795
+Train - Loss (one batch): 0.00360
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.72s
+- Epoch 058, ExpID 18795
+Train - Loss (one batch): 0.00459
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.77s
+- Epoch 059, ExpID 18795
+Train - Loss (one batch): 0.00527
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.66s
+- Epoch 060, ExpID 18795
+Train - Loss (one batch): 0.00488
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.64s
+- Epoch 061, ExpID 18795
+Train - Loss (one batch): 0.00490
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.32s
+- Epoch 062, ExpID 18795
+Train - Loss (one batch): 0.00310
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.05s
+- Epoch 063, ExpID 18795
+Train - Loss (one batch): 0.00414
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.05s
+- Epoch 064, ExpID 18795
+Train - Loss (one batch): 0.00438
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.05s
+- Epoch 065, ExpID 18795
+Train - Loss (one batch): 0.00455
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.59s
+- Epoch 066, ExpID 18795
+Train - Loss (one batch): 0.00350
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.68s
+- Epoch 067, ExpID 18795
+Train - Loss (one batch): 0.00401
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.70s
+- Epoch 068, ExpID 18795
+Train - Loss (one batch): 0.00355
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.72s
+- Epoch 069, ExpID 18795
+Train - Loss (one batch): 0.00465
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.73s
+- Epoch 070, ExpID 18795
+Train - Loss (one batch): 0.00407
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.70s
+- Epoch 071, ExpID 18795
+Train - Loss (one batch): 0.00419
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.71s
+- Epoch 072, ExpID 18795
+Train - Loss (one batch): 0.00285
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00449, 0.00449, 0.06704, 0.04418, 11.63%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 32, 0.00419, 0.00419, 0.06476, 0.04229, 9.85%
+Time spent: 12.67s
+Could not save checkpoint to experiments/experiment_18795.ckpt: Parent directory experiments does not exist.
+- Epoch 073, ExpID 18795
+Train - Loss (one batch): 0.00310
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00443, 0.00443, 0.06659, 0.04352, 11.18%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 73, 0.00415, 0.00415, 0.06439, 0.04227, 9.78%
+Time spent: 14.08s
+- Epoch 074, ExpID 18795
+Train - Loss (one batch): 0.00487
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00448, 0.00448, 0.06694, 0.04427, 11.16%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 73, 0.00415, 0.00415, 0.06439, 0.04227, 9.78%
+Time spent: 12.68s
+- Epoch 075, ExpID 18795
+Train - Loss (one batch): 0.00436
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 73, 0.00415, 0.00415, 0.06439, 0.04227, 9.78%
+Time spent: 12.69s
+- Epoch 076, ExpID 18795
+Train - Loss (one batch): 0.00272
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00454, 0.00454, 0.06738, 0.04452, 11.78%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 73, 0.00415, 0.00415, 0.06439, 0.04227, 9.78%
+Time spent: 12.67s
+- Epoch 077, ExpID 18795
+Train - Loss (one batch): 0.00431
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00450, 0.00450, 0.06707, 0.04431, 11.09%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 73, 0.00415, 0.00415, 0.06439, 0.04227, 9.78%
+Time spent: 12.75s
+- Epoch 078, ExpID 18795
+Train - Loss (one batch): 0.00421
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 73, 0.00415, 0.00415, 0.06439, 0.04227, 9.78%
+Time spent: 12.73s
+- Epoch 079, ExpID 18795
+Train - Loss (one batch): 0.00474
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00481, 0.00481, 0.06935, 0.04716, 12.58%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 73, 0.00415, 0.00415, 0.06439, 0.04227, 9.78%
+Time spent: 12.68s
+- Epoch 080, ExpID 18795
+Train - Loss (one batch): 0.00617
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00504, 0.00504, 0.07099, 0.04955, 13.18%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 73, 0.00415, 0.00415, 0.06439, 0.04227, 9.78%
+Time spent: 12.72s
+- Epoch 081, ExpID 18795
+Train - Loss (one batch): 0.00527
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 73, 0.00415, 0.00415, 0.06439, 0.04227, 9.78%
+Time spent: 12.71s
+- Epoch 082, ExpID 18795
+Train - Loss (one batch): 0.00345
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00448, 0.00448, 0.06692, 0.04395, 11.46%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 73, 0.00415, 0.00415, 0.06439, 0.04227, 9.78%
+Time spent: 12.72s
+- Epoch 083, ExpID 18795
+Train - Loss (one batch): 0.00331
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 73, 0.00415, 0.00415, 0.06439, 0.04227, 9.78%
+Time spent: 12.65s
+- Epoch 084, ExpID 18795
+Train - Loss (one batch): 0.00427
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 73, 0.00415, 0.00415, 0.06439, 0.04227, 9.78%
+Time spent: 12.70s
+Could not save checkpoint to experiments/experiment_18795.ckpt: Parent directory experiments does not exist.
+- Epoch 085, ExpID 18795
+Train - Loss (one batch): 0.00350
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00443, 0.00443, 0.06655, 0.04348, 11.22%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 85, 0.00414, 0.00414, 0.06435, 0.04225, 9.79%
+Time spent: 14.05s
+- Epoch 086, ExpID 18795
+Train - Loss (one batch): 0.00353
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00467, 0.00467, 0.06833, 0.04598, 12.17%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 85, 0.00414, 0.00414, 0.06435, 0.04225, 9.79%
+Time spent: 12.73s
+- Epoch 087, ExpID 18795
+Train - Loss (one batch): 0.00422
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 85, 0.00414, 0.00414, 0.06435, 0.04225, 9.79%
+Time spent: 12.65s
+- Epoch 088, ExpID 18795
+Train - Loss (one batch): 0.00386
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 85, 0.00414, 0.00414, 0.06435, 0.04225, 9.79%
+Time spent: 12.66s
+- Epoch 089, ExpID 18795
+Train - Loss (one batch): 0.00452
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 85, 0.00414, 0.00414, 0.06435, 0.04225, 9.79%
+Time spent: 12.69s
+- Epoch 090, ExpID 18795
+Train - Loss (one batch): 0.00255
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00481, 0.00481, 0.06933, 0.04732, 12.26%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 85, 0.00414, 0.00414, 0.06435, 0.04225, 9.79%
+Time spent: 12.72s
+- Epoch 091, ExpID 18795
+Train - Loss (one batch): 0.00547
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00451, 0.00451, 0.06718, 0.04423, 10.99%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 85, 0.00414, 0.00414, 0.06435, 0.04225, 9.79%
+Time spent: 12.70s
+- Epoch 092, ExpID 18795
+Train - Loss (one batch): 0.00406
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00445, 0.00445, 0.06672, 0.04425, 11.56%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 85, 0.00414, 0.00414, 0.06435, 0.04225, 9.79%
+Time spent: 12.70s
+- Epoch 093, ExpID 18795
+Train - Loss (one batch): 0.00390
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 85, 0.00414, 0.00414, 0.06435, 0.04225, 9.79%
+Time spent: 12.66s
+- Epoch 094, ExpID 18795
+Train - Loss (one batch): 0.00514
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 85, 0.00414, 0.00414, 0.06435, 0.04225, 9.79%
+Time spent: 12.73s
+- Epoch 095, ExpID 18795
+Train - Loss (one batch): 0.00332
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 85, 0.00414, 0.00414, 0.06435, 0.04225, 9.79%
+Time spent: 12.71s
+- Epoch 096, ExpID 18795
+Train - Loss (one batch): 0.00539
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 85, 0.00414, 0.00414, 0.06435, 0.04225, 9.79%
+Time spent: 12.72s
+- Epoch 097, ExpID 18795
+Train - Loss (one batch): 0.00344
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00454, 0.00454, 0.06738, 0.04469, 11.62%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 85, 0.00414, 0.00414, 0.06435, 0.04225, 9.79%
+Time spent: 12.68s
+- Epoch 098, ExpID 18795
+Train - Loss (one batch): 0.00431
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00470, 0.00470, 0.06853, 0.04643, 12.21%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 85, 0.00414, 0.00414, 0.06435, 0.04225, 9.79%
+Time spent: 12.71s
+- Epoch 099, ExpID 18795
+Train - Loss (one batch): 0.00389
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 85, 0.00414, 0.00414, 0.06435, 0.04225, 9.79%
+Time spent: 12.63s
+- Epoch 100, ExpID 18795
+Train - Loss (one batch): 0.00358
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00448, 0.00448, 0.06690, 0.04436, 11.06%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 85, 0.00414, 0.00414, 0.06435, 0.04225, 9.79%
+Time spent: 12.63s
+Could not save checkpoint to experiments/experiment_18795.ckpt: Parent directory experiments does not exist.
+- Epoch 101, ExpID 18795
+Train - Loss (one batch): 0.00434
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00442, 0.00442, 0.06646, 0.04391, 11.18%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 101, 0.00414, 0.00414, 0.06433, 0.04283, 9.83%
+Time spent: 14.00s
+- Epoch 102, ExpID 18795
+Train - Loss (one batch): 0.00458
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00468, 0.00468, 0.06844, 0.04652, 11.26%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 101, 0.00414, 0.00414, 0.06433, 0.04283, 9.83%
+Time spent: 12.67s
+- Epoch 103, ExpID 18795
+Train - Loss (one batch): 0.00292
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00442, 0.00442, 0.06650, 0.04337, 11.14%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 101, 0.00414, 0.00414, 0.06433, 0.04283, 9.83%
+Time spent: 12.68s
+Could not save checkpoint to experiments/experiment_18795.ckpt: Parent directory experiments does not exist.
+- Epoch 104, ExpID 18795
+Train - Loss (one batch): 0.00412
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00441, 0.00441, 0.06643, 0.04344, 11.19%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 104, 0.00413, 0.00413, 0.06429, 0.04234, 9.83%
+Time spent: 14.04s
+- Epoch 105, ExpID 18795
+Train - Loss (one batch): 0.00533
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 104, 0.00413, 0.00413, 0.06429, 0.04234, 9.83%
+Time spent: 12.70s
+- Epoch 106, ExpID 18795
+Train - Loss (one batch): 0.00413
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 104, 0.00413, 0.00413, 0.06429, 0.04234, 9.83%
+Time spent: 12.72s
+- Epoch 107, ExpID 18795
+Train - Loss (one batch): 0.00394
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00451, 0.00451, 0.06719, 0.04439, 10.96%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 104, 0.00413, 0.00413, 0.06429, 0.04234, 9.83%
+Time spent: 12.65s
+- Epoch 108, ExpID 18795
+Train - Loss (one batch): 0.00484
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 104, 0.00413, 0.00413, 0.06429, 0.04234, 9.83%
+Time spent: 12.68s
+- Epoch 109, ExpID 18795
+Train - Loss (one batch): 0.00432
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00442, 0.00442, 0.06650, 0.04385, 11.09%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 104, 0.00413, 0.00413, 0.06429, 0.04234, 9.83%
+Time spent: 12.72s
+- Epoch 110, ExpID 18795
+Train - Loss (one batch): 0.00412
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00442, 0.00442, 0.06646, 0.04355, 11.32%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 104, 0.00413, 0.00413, 0.06429, 0.04234, 9.83%
+Time spent: 12.68s
+- Epoch 111, ExpID 18795
+Train - Loss (one batch): 0.00232
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00445, 0.00445, 0.06674, 0.04421, 11.14%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 104, 0.00413, 0.00413, 0.06429, 0.04234, 9.83%
+Time spent: 12.70s
+- Epoch 112, ExpID 18795
+Train - Loss (one batch): 0.00511
+Val   - Loss, MSE, RMSE, MAE, MAPE: 0.00447, 0.00447, 0.06687, 0.04460, 11.18%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 104, 0.00413, 0.00413, 0.06429, 0.04234, 9.83%
+Time spent: 12.71s
+- Epoch 113, ExpID 18795
+Train - Loss (one batch): 0.00435
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 104, 0.00413, 0.00413, 0.06429, 0.04234, 9.83%
+Time spent: 12.65s
+- Epoch 114, ExpID 18795
+Train - Loss (one batch): 0.00267
+Val   - Loss, MSE, RMSE, MAE, MAPE: nan, nan, nan, nan, nan%
+Test  - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 104, 0.00413, 0.00413, 0.06429, 0.04234, 9.83%
+Time spent: 12.74s
+slurmstepd: error: *** JOB 279502 ON test-000 CANCELLED AT 2025-11-16T14:16:06 ***

@@ -303,7 +303,10 @@ class tPatchGNN(nn.Module):
 		mk_ = mask.permute(0, 3, 1, 2).reshape(-1, L_in, 1)
 		te_his = self.LearnableTE(tt_)
 		X_ = torch.cat([X_, te_his], dim=-1)
-		h = self.IMTS_Model(X_, mk_)  # (B, N, hid_dim)
+		h = self.IMTS_Model(X_, mk_)  # (B, N, M_k, D)
+		# Collapse patch dimension (mean or last patch)
+		h = h.mean(dim=2)              # → (B, N, D)
+		print(f"[DEBUG] encode_from_patched -> h shape {h.shape} for N={self.N}")
 		return h
 	#########################################################
 	
