@@ -1,0 +1,10 @@
+/home/solgi/MSP-IMTS/tPatchGNN/run_models.py
+2025-11-16 18:23:46
+run_models.py --dataset activity --history 4000 --hid_dim 32 --te_dim 10 --node_dim 10 --nlayer 1 --tf_layer 1 --nhead 1 --batch_size 32 --lr 1e-3 --w_decay 1e-4 --patience 80 --epoch 600 --seed 5 --gpu 0 --multi_scales  --fusion concat --state activity_single_scale_mixer
+Namespace(multi_scales='', multi_strides='', fusion='concat', disable_fusion_mixer=False, fusion_mixer_hidden_mult=2.0, fusion_mixer_dropout=0.1, fusion_track_stats=False, state='activity_single_scale_mixer', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=600, patience=80, history=4000, model='tPatchGNN', patch_size=24, stride=24, logmode='a', lr=0.001, w_decay=0.0001, batch_size=32, save='experiments/', load=None, seed=5, dataset='activity', hid_dim=32, te_dim=10, node_dim=10, gpu='0', cpu=False, outlayer='fc', device=device(type='cuda'), npatch=167, pred_window=1000, ndim=12)
+Traceback (most recent call last):
+  File "/home/solgi/MSP-IMTS/tPatchGNN/run_models.py", line 262, in <module>
+    train_res = compute_all_losses(model, batch)  # provided by model.tPatchGNN import *
+  File "/home/solgi/MSP-IMTS/lib/evaluation.py", line 108, in compute_all_losses
+    batch_dict["mask_observed_data"],
+KeyError: 'mask_observed_data'

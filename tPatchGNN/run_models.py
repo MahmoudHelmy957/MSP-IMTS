@@ -18,6 +18,7 @@ import torch.optim as optim
 import lib.utils as utils
 from lib.parse_datasets import parse_datasets
 from model.tPatchGNN import *
+from lib.evaluation import compute_all_losses
 
 parser = argparse.ArgumentParser("IMTS Forecasting")
 
@@ -201,7 +202,15 @@ if __name__ == "__main__":
         fusion_init_stats = model.fusion_parameter_stats()
         fusion_identity = isinstance(model.fusion_block, nn.Identity)
     else:
-        model = tPatchGNN(args).to(args.device)
+        from model.tpatchgnn_with_mixer import tPatchGNN_WithMixer
+
+        base = tPatchGNN(args).to(args.device)
+        
+        model = tPatchGNN_WithMixer(
+            base_model=base,
+            hidden_mult=args.fusion_mixer_hidden_mult,
+            drop=args.fusion_mixer_dropout,
+        ).to(args.device)
 
     ##################################################################
 
