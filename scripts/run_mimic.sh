@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 #SBATCH --job-name=mimic_SS_ps8_s8
-#SBATCH --partition=TEST
+#SBATCH --partition=STUD
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=8
-#SBATCH --mem=30000
 #SBATCH --output=%x_%j.out
 #SBATCH --error=%x_%j.err
 #SBATCH --chdir=/home/ouass/Test/MSP-IMTS/logs

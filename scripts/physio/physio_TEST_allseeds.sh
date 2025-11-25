@@ -6,7 +6,7 @@
 #SBATCH --mem=30000
 #SBATCH --output=%x_%j.out
 #SBATCH --error=%x_%j.err
-#SBATCH --chdir=/home/ouass/Test/MSP-IMTS/logs
+#SBATCH --chdir=/home/ouass/Test/MSP-IMTS/logs/physio
 
 set -euo pipefail
 source /home/ouass/venv310/bin/activate

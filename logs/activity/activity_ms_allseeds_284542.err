@@ -1,0 +1,10 @@
+/home/ouass/Test/MSP-IMTS/tPatchGNN/run_models.py
+2025-11-22 17:08:03
+run_models.py --dataset activity --state def --history 3000 --batch_size 32 --lr 1e-3 --nhead 1 --tf_layer 1 --nlayer 1 --te_dim 10 --node_dim 10 --hid_dim 32 --outlayer Linear --seed 1 --gpu 0 --multi_scales 300,900,3000 --multi_strides 300,900,3000 --fusion concat
+Namespace(multi_scales='300,900,3000', multi_strides='300,900,3000', fusion='concat', state='def', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=1000, patience=10, history=3000, patch_size=24, stride=24, logmode='a', lr=0.001, w_decay=0.0, batch_size=32, save='experiments/', load=None, seed=1, dataset='activity', quantization=0.0, model='tPatchGNN', outlayer='Linear', hid_dim=32, te_dim=10, node_dim=10, gpu='0', npatch=125, device=device(type='cuda'), PID=1904341, pred_window=1000, ndim=12)
+- Epoch 000, ExpID 90589
+Train - Loss (one batch): 0.01602
+Val - Loss, MSE, RMSE, MAE, MAPE: 0.01565, 0.01565, 0.12262, 0.09574, 354130.12%
+Test - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 0, 0.01467, 0.01467, 0.11885, 0.09346, 23.11%
+Time spent: 7.28s
+slurmstepd: error: *** JOB 284542 ON stud-000 CANCELLED AT 2025-11-22T17:08:11 ***

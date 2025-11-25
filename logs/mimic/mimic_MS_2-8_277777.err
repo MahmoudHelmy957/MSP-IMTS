@@ -1,0 +1,20 @@
+/home/ouass/Test/MSP-IMTS/tPatchGNN/run_models.py
+2025-11-14 16:05:56
+run_models.py --dataset mimic --state def --history 24 --patience 20 --epoch 1000 --batch_size 8 --lr 1e-3 --nhead 1 --tf_layer 1 --nlayer 1 --te_dim 10 --node_dim 10 --hid_dim 64 --outlayer Linear --seed 1 --gpu 0 --multi_scales 2,8 --multi_strides 2,8 --fusion concat --save experiments/mimic_MS_2-8_seed1
+Namespace(multi_scales='2,8', multi_strides='2,8', fusion='concat', state='def', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=1000, patience=20, history=24, patch_size=24, stride=24, logmode='a', lr=0.001, w_decay=0.0, batch_size=8, save='experiments/mimic_MS_2-8_seed1', load=None, seed=1, dataset='mimic', quantization=0.0, model='tPatchGNN', outlayer='Linear', hid_dim=64, te_dim=10, node_dim=10, gpu='0', npatch=1, device=device(type='cuda'), PID=2992122, ndim=96)
+Traceback (most recent call last):
+  File "/home/ouass/Test/MSP-IMTS/tPatchGNN/run_models.py", line 225, in <module>
+    out = model(batch_dict["X_list"], batch_dict["tt_list"], batch_dict["mk_list"], batch_dict["tp_to_predict"])
+  File "/home/ouass/venv310/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/ouass/Test/MSP-IMTS/tPatchGNN/model/multiscale_tpatchgnn.py", line 70, in forward
+    reps.append(mdl.encode_from_patched(X.to(device), tt.to(device), mk.to(device)))  # (B, N, D_k)
+  File "/home/ouass/Test/MSP-IMTS/tPatchGNN/model/tPatchGNN.py", line 306, in encode_from_patched
+    h = self.IMTS_Model(X_, mk_)  # (B, N, hid_dim)
+  File "/home/ouass/Test/MSP-IMTS/tPatchGNN/model/tPatchGNN.py", line 245, in IMTS_Model
+    x_patch = self.TTCN(x, mask_X) # (B*N*M, hid_dim-1)
+  File "/home/ouass/Test/MSP-IMTS/tPatchGNN/model/tPatchGNN.py", line 229, in TTCN
+    ttcn_out = torch.einsum('nlf,nlqf->nq', X_int, Filter_seqnorm)
+  File "/home/ouass/venv310/lib/python3.10/site-packages/torch/functional.py", line 378, in einsum
+    return _VF.einsum(equation, operands)  # type: ignore[attr-defined]
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.71 GiB (GPU 0; 7.79 GiB total capacity; 6.39 GiB already allocated; 252.44 MiB free; 7.38 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF

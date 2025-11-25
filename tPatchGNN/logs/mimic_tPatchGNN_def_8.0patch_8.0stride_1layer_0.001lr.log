@@ -185,3 +185,27 @@ Time spent: 70.95s
 2025-11-05 04:22:28
 run_models.py --dataset mimic --state def --history 24 --patience 10 --epoch 1000 --batch_size 32 --lr 1e-3 --patch_size 8 --stride 8 --nhead 1 --tf_layer 1 --nlayer 1 --te_dim 10 --node_dim 10 --hid_dim 64 --outlayer Linear --seed 1 --gpu 0 --save experiments/mimic_SS_ps8_s8_seed1
 Namespace(multi_scales='', multi_strides='', fusion='concat', state='def', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=1000, patience=10, history=24, patch_size=8.0, stride=8.0, logmode='a', lr=0.001, w_decay=0.0, batch_size=32, save='experiments/mimic_SS_ps8_s8_seed1', load=None, seed=1, dataset='mimic', quantization=0.0, model='tPatchGNN', outlayer='Linear', hid_dim=64, te_dim=10, node_dim=10, gpu='0', npatch=3, device=device(type='cuda'), PID=3141418, ndim=96)
+/home/ouass/Test/MSP-IMTS/tPatchGNN/run_models.py
+2025-11-14 15:10:26
+run_models.py --dataset mimic --state def --history 24 --patience 10 --epoch 1000 --batch_size 16 --lr 1e-3 --patch_size 8 --stride 8 --nhead 1 --tf_layer 1 --nlayer 1 --te_dim 10 --node_dim 10 --hid_dim 64 --outlayer Linear --seed 1 --gpu 0 --save experiments/mimic_SS_ps8_s8_seed1
+Namespace(multi_scales='', multi_strides='', fusion='concat', state='def', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=1000, patience=10, history=24, patch_size=8.0, stride=8.0, logmode='a', lr=0.001, w_decay=0.0, batch_size=16, save='experiments/mimic_SS_ps8_s8_seed1', load=None, seed=1, dataset='mimic', quantization=0.0, model='tPatchGNN', outlayer='Linear', hid_dim=64, te_dim=10, node_dim=10, gpu='0', npatch=3, device=device(type='cuda'), PID=2989366, ndim=96)
+- Epoch 000, ExpID 26828
+Train - Loss (one batch): 0.01776
+Val - Loss, MSE, RMSE, MAE, MAPE: 0.01751, 0.01751, 0.13233, 0.08234, 128.18%
+Test - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 0, 0.01961, 0.01961, 0.14005, 0.08612, 151.82%
+Time spent: 73.92s
+- Epoch 001, ExpID 26828
+Train - Loss (one batch): 0.01093
+Val - Loss, MSE, RMSE, MAE, MAPE: 0.01547, 0.01547, 0.12439, 0.07455, 127.20%
+Test - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 1, 0.01785, 0.01785, 0.13362, 0.07855, 146.59%
+Time spent: 63.33s
+- Epoch 002, ExpID 26828
+Train - Loss (one batch): 0.01069
+Val - Loss, MSE, RMSE, MAE, MAPE: 0.01542, 0.01542, 0.12419, 0.07401, 116.71%
+Test - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 2, 0.01784, 0.01784, 0.13355, 0.07846, 135.20%
+Time spent: 63.33s
+- Epoch 003, ExpID 26828
+Train - Loss (one batch): 0.02388
+Val - Loss, MSE, RMSE, MAE, MAPE: 0.01578, 0.01578, 0.12560, 0.07438, 107.60%
+Test - Best epoch, Loss, MSE, RMSE, MAE, MAPE: 2, 0.01784, 0.01784, 0.13355, 0.07846, 135.20%
+Time spent: 55.85s
