@@ -1,0 +1,68 @@
+INFO | 2025-12-23 09:24:52
+INFO | command: RunModelsLogsUSHCN.py --dataset ushcn --state def --history 24 --batch_size 256 --lr 1e-3 --patience 50 --epoch 300 --nhead 4 --tf_layer 1 --nlayer 1 --te_dim 10 --node_dim 10 --hid_dim 96 --seed 1 --gpu 0 --multi_scales 4,12 --multi_strides 4,12 --fusion concat
+INFO | ExpID=59122 PID=538186 host=stud-000 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MH_USHCN_MS SLURM_JOB_ID=304938
+INFO | ckpt_path=experiments/experiment_59122.ckpt
+INFO | args=Namespace(multi_scales='4,12', multi_strides='4,12', fusion='concat', state='def', n=100000000, hop=1, nhead=4, tf_layer=1, nlayer=1, epoch=300, patience=50, history=24, patch_size=24, stride=24, logmode='a', lr=0.001, w_decay=0.0, batch_size=256, save='experiments/', load=None, seed=1, dataset='ushcn', quantization=0.0, model='tPatchGNN', outlayer='Linear', hid_dim=96, te_dim=10, node_dim=10, gpu='0', debug_internal=1, topk_err=10, data_sanity_batches=3, npatch=1, device=device(type='cuda'), PID=538186, n_months=48, pred_window=1, ndim=5)
+INFO | data: input_dim=5 n_train_batches=63 n_val_batches=21 n_test_batches=21 quantization=0.0 history=24 patch_size=24 stride=24 npatch=1
+INFO | SYSTEM | epoch=0 time=14.23s lr=0.001 grad_norm=0.082925 mask_ratio_lastbatch=0.097515 cuda_mem_alloc_mb=283.80 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3021.79
+INFO | SYSTEM | epoch=1 time=14.11s lr=0.001 grad_norm=0.113665 mask_ratio_lastbatch=0.107686 cuda_mem_alloc_mb=283.81 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.42
+INFO | SYSTEM | epoch=2 time=14.12s lr=0.001 grad_norm=0.136146 mask_ratio_lastbatch=0.103081 cuda_mem_alloc_mb=283.74 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.53
+INFO | SYSTEM | epoch=3 time=12.34s lr=0.001 grad_norm=0.252664 mask_ratio_lastbatch=0.098729 cuda_mem_alloc_mb=284.08 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.53
+INFO | SYSTEM | epoch=4 time=14.16s lr=0.001 grad_norm=0.565153 mask_ratio_lastbatch=0.098359 cuda_mem_alloc_mb=283.85 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.71
+INFO | SYSTEM | epoch=5 time=14.14s lr=0.001 grad_norm=0.530062 mask_ratio_lastbatch=0.102055 cuda_mem_alloc_mb=283.84 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.71
+INFO | SYSTEM | epoch=6 time=14.16s lr=0.001 grad_norm=0.280966 mask_ratio_lastbatch=0.104967 cuda_mem_alloc_mb=283.75 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.71
+INFO | SYSTEM | epoch=7 time=14.15s lr=0.001 grad_norm=0.586264 mask_ratio_lastbatch=0.098752 cuda_mem_alloc_mb=283.78 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.71
+INFO | SYSTEM | epoch=8 time=14.16s lr=0.001 grad_norm=0.468086 mask_ratio_lastbatch=0.101351 cuda_mem_alloc_mb=283.67 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.71
+INFO | SYSTEM | epoch=9 time=14.27s lr=0.001 grad_norm=1.584786 mask_ratio_lastbatch=0.096979 cuda_mem_alloc_mb=283.77 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.71
+INFO | SYSTEM | epoch=10 time=14.16s lr=0.001 grad_norm=0.621722 mask_ratio_lastbatch=0.104652 cuda_mem_alloc_mb=283.77 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.71
+INFO | SYSTEM | epoch=11 time=12.32s lr=0.001 grad_norm=0.962830 mask_ratio_lastbatch=0.101443 cuda_mem_alloc_mb=284.02 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.71
+INFO | SYSTEM | epoch=12 time=12.33s lr=0.001 grad_norm=0.897868 mask_ratio_lastbatch=0.099852 cuda_mem_alloc_mb=283.88 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.71
+INFO | SYSTEM | epoch=13 time=12.37s lr=0.001 grad_norm=0.463867 mask_ratio_lastbatch=0.097619 cuda_mem_alloc_mb=284.16 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.75
+INFO | SYSTEM | epoch=14 time=12.34s lr=0.001 grad_norm=0.941452 mask_ratio_lastbatch=0.094163 cuda_mem_alloc_mb=283.94 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.75
+INFO | SYSTEM | epoch=15 time=12.32s lr=0.001 grad_norm=0.594934 mask_ratio_lastbatch=0.098671 cuda_mem_alloc_mb=284.01 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.75
+INFO | SYSTEM | epoch=16 time=12.37s lr=0.001 grad_norm=1.371489 mask_ratio_lastbatch=0.098573 cuda_mem_alloc_mb=284.04 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.75
+INFO | SYSTEM | epoch=17 time=12.38s lr=0.001 grad_norm=0.582757 mask_ratio_lastbatch=0.096491 cuda_mem_alloc_mb=283.90 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.75
+INFO | SYSTEM | epoch=18 time=12.38s lr=0.001 grad_norm=1.537218 mask_ratio_lastbatch=0.099202 cuda_mem_alloc_mb=284.18 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.75
+INFO | SYSTEM | epoch=19 time=12.35s lr=0.0005 grad_norm=0.818532 mask_ratio_lastbatch=0.105232 cuda_mem_alloc_mb=283.94 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.75
+INFO | SYSTEM | epoch=20 time=12.36s lr=0.0005 grad_norm=0.365012 mask_ratio_lastbatch=0.100057 cuda_mem_alloc_mb=284.03 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.75
+INFO | SYSTEM | epoch=21 time=12.38s lr=0.0005 grad_norm=0.375745 mask_ratio_lastbatch=0.098024 cuda_mem_alloc_mb=284.11 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.75
+INFO | SYSTEM | epoch=22 time=12.49s lr=0.0005 grad_norm=1.103616 mask_ratio_lastbatch=0.097193 cuda_mem_alloc_mb=284.04 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.75
+INFO | SYSTEM | epoch=23 time=12.36s lr=0.0005 grad_norm=0.568361 mask_ratio_lastbatch=0.097255 cuda_mem_alloc_mb=284.04 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.76
+INFO | SYSTEM | epoch=24 time=12.34s lr=0.0005 grad_norm=0.501263 mask_ratio_lastbatch=0.097669 cuda_mem_alloc_mb=284.06 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.76
+INFO | SYSTEM | epoch=25 time=12.35s lr=0.0005 grad_norm=0.510268 mask_ratio_lastbatch=0.109296 cuda_mem_alloc_mb=283.97 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.83
+INFO | SYSTEM | epoch=26 time=12.35s lr=0.0005 grad_norm=1.180389 mask_ratio_lastbatch=0.097622 cuda_mem_alloc_mb=284.07 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.83
+INFO | SYSTEM | epoch=27 time=12.35s lr=0.0005 grad_norm=0.504498 mask_ratio_lastbatch=0.097454 cuda_mem_alloc_mb=283.97 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.83
+INFO | SYSTEM | epoch=28 time=12.33s lr=0.0005 grad_norm=0.512274 mask_ratio_lastbatch=0.106329 cuda_mem_alloc_mb=283.91 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.83
+INFO | SYSTEM | epoch=29 time=12.35s lr=0.00025 grad_norm=0.431498 mask_ratio_lastbatch=0.097697 cuda_mem_alloc_mb=284.03 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.83
+INFO | SYSTEM | epoch=30 time=12.37s lr=0.00025 grad_norm=0.244335 mask_ratio_lastbatch=0.111095 cuda_mem_alloc_mb=283.92 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.83
+INFO | SYSTEM | epoch=31 time=12.37s lr=0.00025 grad_norm=0.866840 mask_ratio_lastbatch=0.101766 cuda_mem_alloc_mb=283.93 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.83
+INFO | SYSTEM | epoch=32 time=12.42s lr=0.00025 grad_norm=0.350919 mask_ratio_lastbatch=0.102223 cuda_mem_alloc_mb=284.06 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.83
+INFO | SYSTEM | epoch=33 time=12.36s lr=0.00025 grad_norm=0.532010 mask_ratio_lastbatch=0.107362 cuda_mem_alloc_mb=283.84 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.85
+INFO | SYSTEM | epoch=34 time=12.35s lr=0.00025 grad_norm=0.316510 mask_ratio_lastbatch=0.099678 cuda_mem_alloc_mb=283.73 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87
+INFO | SYSTEM | epoch=35 time=12.52s lr=0.00025 grad_norm=0.823953 mask_ratio_lastbatch=0.094881 cuda_mem_alloc_mb=284.20 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87
+INFO | SYSTEM | epoch=36 time=12.35s lr=0.00025 grad_norm=0.671485 mask_ratio_lastbatch=0.098012 cuda_mem_alloc_mb=283.94 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87
+INFO | SYSTEM | epoch=37 time=12.39s lr=0.00025 grad_norm=0.604862 mask_ratio_lastbatch=0.100233 cuda_mem_alloc_mb=283.88 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87
+INFO | SYSTEM | epoch=38 time=12.36s lr=0.00025 grad_norm=0.404249 mask_ratio_lastbatch=0.096743 cuda_mem_alloc_mb=284.10 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87
+INFO | SYSTEM | epoch=39 time=12.38s lr=0.000125 grad_norm=1.212986 mask_ratio_lastbatch=0.093880 cuda_mem_alloc_mb=284.02 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87
+INFO | SYSTEM | epoch=40 time=12.34s lr=0.000125 grad_norm=0.836461 mask_ratio_lastbatch=0.104786 cuda_mem_alloc_mb=283.99 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87
+INFO | SYSTEM | epoch=41 time=12.34s lr=0.000125 grad_norm=0.439336 mask_ratio_lastbatch=0.097270 cuda_mem_alloc_mb=284.04 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87
+INFO | SYSTEM | epoch=42 time=12.36s lr=0.000125 grad_norm=0.268890 mask_ratio_lastbatch=0.094139 cuda_mem_alloc_mb=284.16 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87
+INFO | SYSTEM | epoch=43 time=12.37s lr=0.000125 grad_norm=0.670375 mask_ratio_lastbatch=0.096601 cuda_mem_alloc_mb=283.98 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87
+INFO | SYSTEM | epoch=44 time=12.38s lr=0.000125 grad_norm=0.343475 mask_ratio_lastbatch=0.101635 cuda_mem_alloc_mb=284.06 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87
+INFO | SYSTEM | epoch=45 time=12.36s lr=0.000125 grad_norm=0.288822 mask_ratio_lastbatch=0.099570 cuda_mem_alloc_mb=283.88 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87
+INFO | SYSTEM | epoch=46 time=12.38s lr=0.000125 grad_norm=0.564742 mask_ratio_lastbatch=0.106878 cuda_mem_alloc_mb=283.94 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87
+INFO | SYSTEM | epoch=47 time=12.37s lr=0.000125 grad_norm=0.380125 mask_ratio_lastbatch=0.099272 cuda_mem_alloc_mb=284.10 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87
+INFO | SYSTEM | epoch=48 time=12.48s lr=0.000125 grad_norm=0.285349 mask_ratio_lastbatch=0.098958 cuda_mem_alloc_mb=284.03 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87
+INFO | SYSTEM | epoch=49 time=12.38s lr=6.25e-05 grad_norm=0.582513 mask_ratio_lastbatch=0.103428 cuda_mem_alloc_mb=283.88 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87
+INFO | SYSTEM | epoch=50 time=12.38s lr=6.25e-05 grad_norm=0.350983 mask_ratio_lastbatch=0.099215 cuda_mem_alloc_mb=284.13 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87
+INFO | SYSTEM | epoch=51 time=12.39s lr=6.25e-05 grad_norm=0.581985 mask_ratio_lastbatch=0.108456 cuda_mem_alloc_mb=284.00 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87
+INFO | SYSTEM | epoch=52 time=12.38s lr=6.25e-05 grad_norm=1.138650 mask_ratio_lastbatch=0.099949 cuda_mem_alloc_mb=284.03 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87
+INFO | SYSTEM | epoch=53 time=12.37s lr=6.25e-05 grad_norm=0.790488 mask_ratio_lastbatch=0.102225 cuda_mem_alloc_mb=283.91 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87
+INFO | SYSTEM | epoch=54 time=12.35s lr=6.25e-05 grad_norm=0.423334 mask_ratio_lastbatch=0.100319 cuda_mem_alloc_mb=284.04 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87
+INFO | SYSTEM | epoch=55 time=12.34s lr=6.25e-05 grad_norm=0.244313 mask_ratio_lastbatch=0.094458 cuda_mem_alloc_mb=284.18 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87
+INFO | SYSTEM | epoch=56 time=12.36s lr=6.25e-05 grad_norm=0.375095 mask_ratio_lastbatch=0.095312 cuda_mem_alloc_mb=284.10 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87
+INFO | SYSTEM | epoch=57 time=12.39s lr=6.25e-05 grad_norm=0.325383 mask_ratio_lastbatch=0.098755 cuda_mem_alloc_mb=283.96 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87
+INFO | SYSTEM | epoch=58 time=12.38s lr=6.25e-05 grad_norm=0.751652 mask_ratio_lastbatch=0.105091 cuda_mem_alloc_mb=283.98 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87
+INFO | SYSTEM | epoch=59 time=12.33s lr=3.125e-05 grad_norm=0.420177 mask_ratio_lastbatch=0.091092 cuda_mem_alloc_mb=283.96 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87
+INFO | SYSTEM | epoch=60 time=12.37s lr=3.125e-05 grad_norm=0.407091 mask_ratio_lastbatch=0.100895 cuda_mem_alloc_mb=284.00 cuda_mem_reserved_mb=5878.00 cuda_mem_max_alloc_mb=3028.87

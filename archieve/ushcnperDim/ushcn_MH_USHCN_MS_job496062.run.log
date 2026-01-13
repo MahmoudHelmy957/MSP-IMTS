@@ -1,0 +1,69 @@
+INFO | TARGET_CHANNEL | target_channel=-1 (-1 means all channels)
+INFO | LOSS_MODE | MS path uses PER-DIMENSION (channel-balanced) masked MSE
+INFO | DATA_STATS | dataset=ushcn
+INFO | DATA_STATS | data_min: {'shape': (5,), 'min': -4.185389518737793, 'max': -0.1279701292514801, 'mean': -1.7349885702133179}
+INFO | DATA_STATS | data_max: {'shape': (5,), 'min': 2.910393714904785, 'max': 38.25200271606445, 'mean': 23.62533950805664}
+INFO | DATA_STATS | time_max: {'shape': (), 'min': 48.0, 'max': 48.0, 'mean': 48.0}
+INFO | DATA_STATS | first_5_dims data_min=[-0.3057002127170563, -0.1279701292514801, -0.17376209795475006, -3.8821206092834473, -4.185389518737793] data_max=[37.255062103271484, 36.669124603271484, 38.25200271606445, 3.0401246547698975, 2.910393714904785]
+INFO | [MS] use_ms=True fusion=concat scales=4,12 strides=4,12 npatches_per_scale=[6, 2]
+INFO | [MS_INIT] forced forward done. decoder_is_none=False
+INFO | [TS_DEBUG] split=train use_ms=True history=24.0 scales=[4.0, 12.0] strides=[4.0, 12.0] time_max=48.0
+INFO | [TS_DEBUG] split=train batch=0 MS keys=['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+INFO | [TS_DEBUG] split=train batch=0 #scales=2 X_shapes=[(192, 6, 17, 5), (192, 2, 32, 5)]
+INFO | [TS_DEBUG] split=train batch=0 tt_list_minmax=[(0.0, 0.999666690826416), (0.0, 0.999666690826416)]
+INFO | [TS_DEBUG] split=train batch=0 tp_to_predict_minmax=(0.000000,1.041667) tp_shape=(192, 12)
+WARNING | [TS_DEBUG][NOTE] tp_to_predict_max≈1.0417 is not > 1. If you intended history-normalized tp_to_predict, this is suspicious. If you intentionally keep tp normalized by time_max, ignore this.
+INFO | [TS_DEBUG] split=train batch=0 mask_sum=1351.0 mask_ratio=0.117274 mask_dtype=torch.float32 mask_shape=(192, 12, 5)
+INFO | [TS_DEBUG] split=train batch=1 MS keys=['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+INFO | [TS_DEBUG] split=train batch=1 #scales=2 X_shapes=[(192, 6, 16, 5), (192, 2, 31, 5)]
+INFO | [TS_DEBUG] split=train batch=1 tt_list_minmax=[(0.0, 0.999666690826416), (0.0, 0.999666690826416)]
+INFO | [TS_DEBUG] split=train batch=1 tp_to_predict_minmax=(0.000000,1.041333) tp_shape=(192, 12)
+WARNING | [TS_DEBUG][NOTE] tp_to_predict_max≈1.0413 is not > 1. If you intended history-normalized tp_to_predict, this is suspicious. If you intentionally keep tp normalized by time_max, ignore this.
+INFO | [TS_DEBUG] split=train batch=1 mask_sum=1307.0 mask_ratio=0.113455 mask_dtype=torch.float32 mask_shape=(192, 12, 5)
+INFO | [TS_DEBUG] split=val use_ms=True history=24.0 scales=[4.0, 12.0] strides=[4.0, 12.0] time_max=48.0
+INFO | [TS_DEBUG] split=val batch=0 MS keys=['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+INFO | [TS_DEBUG] split=val batch=0 #scales=2 X_shapes=[(192, 6, 15, 5), (192, 2, 32, 5)]
+INFO | [TS_DEBUG] split=val batch=0 tt_list_minmax=[(0.0, 0.999666690826416), (0.0, 0.999666690826416)]
+INFO | [TS_DEBUG] split=val batch=0 tp_to_predict_minmax=(0.000000,1.041667) tp_shape=(192, 13)
+WARNING | [TS_DEBUG][NOTE] tp_to_predict_max≈1.0417 is not > 1. If you intended history-normalized tp_to_predict, this is suspicious. If you intentionally keep tp normalized by time_max, ignore this.
+INFO | [TS_DEBUG] split=val batch=0 mask_sum=1292.0 mask_ratio=0.103526 mask_dtype=torch.float32 mask_shape=(192, 13, 5)
+INFO | [TS_DEBUG] split=val batch=1 MS keys=['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+INFO | [TS_DEBUG] split=val batch=1 #scales=2 X_shapes=[(192, 6, 16, 5), (192, 2, 30, 5)]
+INFO | [TS_DEBUG] split=val batch=1 tt_list_minmax=[(0.0, 0.999666690826416), (0.0, 0.999666690826416)]
+INFO | [TS_DEBUG] split=val batch=1 tp_to_predict_minmax=(0.000000,1.041667) tp_shape=(192, 13)
+WARNING | [TS_DEBUG][NOTE] tp_to_predict_max≈1.0417 is not > 1. If you intended history-normalized tp_to_predict, this is suspicious. If you intentionally keep tp normalized by time_max, ignore this.
+INFO | [TS_DEBUG] split=val batch=1 mask_sum=1291.0 mask_ratio=0.103446 mask_dtype=torch.float32 mask_shape=(192, 13, 5)
+INFO | [TS_DEBUG] split=test use_ms=True history=24.0 scales=[4.0, 12.0] strides=[4.0, 12.0] time_max=48.0
+INFO | [TS_DEBUG] split=test batch=0 MS keys=['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+INFO | [TS_DEBUG] split=test batch=0 #scales=2 X_shapes=[(192, 6, 13, 5), (192, 2, 31, 5)]
+INFO | [TS_DEBUG] split=test batch=0 tt_list_minmax=[(0.0, 0.999666690826416), (0.0, 0.999666690826416)]
+INFO | [TS_DEBUG] split=test batch=0 tp_to_predict_minmax=(0.000000,1.041667) tp_shape=(192, 13)
+WARNING | [TS_DEBUG][NOTE] tp_to_predict_max≈1.0417 is not > 1. If you intended history-normalized tp_to_predict, this is suspicious. If you intentionally keep tp normalized by time_max, ignore this.
+INFO | [TS_DEBUG] split=test batch=0 mask_sum=1432.0 mask_ratio=0.114744 mask_dtype=torch.float32 mask_shape=(192, 13, 5)
+INFO | [TS_DEBUG] split=test batch=1 MS keys=['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+INFO | [TS_DEBUG] split=test batch=1 #scales=2 X_shapes=[(192, 6, 15, 5), (192, 2, 32, 5)]
+INFO | [TS_DEBUG] split=test batch=1 tt_list_minmax=[(0.0, 0.999666690826416), (0.0, 0.999666690826416)]
+INFO | [TS_DEBUG] split=test batch=1 tp_to_predict_minmax=(0.000000,1.041667) tp_shape=(192, 14)
+WARNING | [TS_DEBUG][NOTE] tp_to_predict_max≈1.0417 is not > 1. If you intended history-normalized tp_to_predict, this is suspicious. If you intentionally keep tp normalized by time_max, ignore this.
+INFO | [TS_DEBUG] split=test batch=1 mask_sum=1453.0 mask_ratio=0.108110 mask_dtype=torch.float32 mask_shape=(192, 14, 5)
+INFO | [VAL_DEBUG] split=train batch=0 X_list[0] min=-3.454941 max=36.669125 mean=0.008875
+INFO | [VAL_DEBUG] split=train batch=0 X_list[1] min=-3.454941 max=36.669125 mean=0.012530
+INFO | [VAL_DEBUG] split=train batch=0 data_to_predict min=-3.194067 max=6.612499 mean=0.001816
+INFO | [VAL_DEBUG] split=val batch=0 X_list[0] min=-3.194067 max=26.155668 mean=0.034767
+INFO | [VAL_DEBUG] split=val batch=0 X_list[1] min=-3.194067 max=26.155668 mean=0.052151
+INFO | [VAL_DEBUG] split=val batch=0 data_to_predict min=-2.828843 max=26.155668 mean=0.010349
+INFO | [VAL_DEBUG] split=test batch=0 X_list[0] min=-3.976690 max=13.699435 mean=-0.028949
+INFO | [VAL_DEBUG] split=test batch=0 X_list[1] min=-3.976690 max=13.699435 mean=-0.049214
+INFO | [VAL_DEBUG] split=test batch=0 data_to_predict min=-3.298417 max=13.699435 mean=-0.012449
+INFO | 2025-12-25 18:19:53
+INFO | command: RunModelsLogsperDim.py --dataset ushcn --state def --history 24 --batch_size 192 --lr 1e-3 --patience 50 --epoch 300 --nhead 4 --tf_layer 2 --nlayer 2 --te_dim 32 --node_dim 10 --hid_dim 64 --seed 1 --gpu 0 --multi_scales 4,12 --multi_strides 4,12 --fusion concat
+INFO | ExpID=1485 PID=1589424 host=stud-000 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MH_USHCN_MS SLURM_JOB_ID=496062
+INFO | ckpt_path=experiments/experiment_1485.ckpt
+INFO | args=Namespace(multi_scales='4,12', multi_strides='4,12', fusion='concat', state='def', n=100000000, hop=1, nhead=4, tf_layer=2, nlayer=2, epoch=300, patience=50, history=24, patch_size=24, stride=24, logmode='a', lr=0.001, w_decay=0.0, batch_size=192, save='experiments/', load=None, seed=1, dataset='ushcn', quantization=0.0, model='tPatchGNN', outlayer='Linear', hid_dim=64, te_dim=32, node_dim=10, gpu='0', topk_err=10, data_sanity_batches=3, target_channel=-1, npatch=1, device=device(type='cuda'), PID=1589424, n_months=48, pred_window=1, ndim=5)
+INFO | data: input_dim=5 n_train_batches=84 n_val_batches=28 n_test_batches=28 quantization=0.0 history=24 patch_size=24 stride=24 npatch=1
+INFO | DATA_SANITY | split=train sampled_batches=3 mask_ratio_mean=0.109402 mask_ratio_min=0.105208 mask_ratio_max=0.112260
+INFO | DATA_SANITY | split=val sampled_batches=3 mask_ratio_mean=0.104451 mask_ratio_min=0.098472 mask_ratio_max=0.109598
+INFO | DATA_SANITY | split=test sampled_batches=3 mask_ratio_mean=0.108009 mask_ratio_min=0.093819 mask_ratio_max=0.116506
+INFO | [OPT_CHECK] decoder_params=6 in_optimizer=6 missing=0
+INFO | EARLY_STOP | epoch=63 best_epoch=13 patience=50

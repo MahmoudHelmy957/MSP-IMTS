@@ -1,0 +1,1112 @@
+2025-12-23 06:29:00,866 | INFO | DATA_STATS | dataset=ushcn
+2025-12-23 06:29:00,875 | INFO | DATA_STATS | data_min: {'shape': (5,), 'min': -4.185389518737793, 'max': -0.1279701292514801, 'mean': -1.7349885702133179}
+2025-12-23 06:29:00,875 | INFO | DATA_STATS | data_max: {'shape': (5,), 'min': 2.910393714904785, 'max': 38.25200271606445, 'mean': 23.62533950805664}
+2025-12-23 06:29:00,875 | INFO | DATA_STATS | time_max: {'shape': (), 'min': 48.0, 'max': 48.0, 'mean': 48.0}
+2025-12-23 06:29:00,875 | INFO | DATA_STATS | first_5_dims data_min=[-0.3057002127170563, -0.1279701292514801, -0.17376209795475006, -3.8821206092834473, -4.185389518737793] data_max=[37.255062103271484, 36.669124603271484, 38.25200271606445, 3.0401246547698975, 2.910393714904785]
+2025-12-23 06:29:00,905 | INFO | [MS] use_ms=True fusion=concat scales=2,3 strides=2,3 npatches_per_scale=[6, 4]
+2025-12-23 06:29:00,951 | INFO | [TS_DEBUG] split=train use_ms=True history=12.0 scales=[2.0, 3.0] strides=[2.0, 3.0] time_max=48.0
+2025-12-23 06:29:00,979 | INFO | [TS_DEBUG] split=train batch=0 MS keys=['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+2025-12-23 06:29:00,979 | INFO | [TS_DEBUG] split=train batch=0 #scales=2 X_shapes=[(192, 6, 10, 5), (192, 4, 12, 5)]
+2025-12-23 06:29:00,979 | INFO | [TS_DEBUG] split=train batch=0 tt_list_minmax=[(0.0, 0.9959999918937683), (0.0, 0.9959999918937683)]
+2025-12-23 06:29:00,979 | INFO | [TS_DEBUG] split=train batch=0 tp_to_predict_minmax=(0.000000,4.000000) tp_shape=(192, 110)
+2025-12-23 06:29:00,980 | INFO | [TS_DEBUG] split=train batch=0 mask_sum=14712.0 mask_ratio=0.139318 mask_dtype=torch.float32 mask_shape=(192, 110, 5)
+2025-12-23 06:29:01,005 | INFO | [TS_DEBUG] split=train batch=1 MS keys=['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+2025-12-23 06:29:01,005 | INFO | [TS_DEBUG] split=train batch=1 #scales=2 X_shapes=[(192, 6, 8, 5), (192, 4, 12, 5)]
+2025-12-23 06:29:01,005 | INFO | [TS_DEBUG] split=train batch=1 tt_list_minmax=[(0.0, 0.9919999837875366), (0.0, 0.9919999837875366)]
+2025-12-23 06:29:01,006 | INFO | [TS_DEBUG] split=train batch=1 tp_to_predict_minmax=(0.000000,3.986000) tp_shape=(192, 113)
+2025-12-23 06:29:01,006 | INFO | [TS_DEBUG] split=train batch=1 mask_sum=15263.0 mask_ratio=0.140699 mask_dtype=torch.float32 mask_shape=(192, 113, 5)
+2025-12-23 06:29:01,006 | INFO | [TS_DEBUG] split=val use_ms=True history=12.0 scales=[2.0, 3.0] strides=[2.0, 3.0] time_max=48.0
+2025-12-23 06:29:01,031 | INFO | [TS_DEBUG] split=val batch=0 MS keys=['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+2025-12-23 06:29:01,031 | INFO | [TS_DEBUG] split=val batch=0 #scales=2 X_shapes=[(192, 6, 7, 5), (192, 4, 9, 5)]
+2025-12-23 06:29:01,031 | INFO | [TS_DEBUG] split=val batch=0 tt_list_minmax=[(0.0, 0.9919999837875366), (0.0, 0.9919999837875366)]
+2025-12-23 06:29:01,031 | INFO | [TS_DEBUG] split=val batch=0 tp_to_predict_minmax=(0.000000,3.996000) tp_shape=(192, 103)
+2025-12-23 06:29:01,031 | INFO | [TS_DEBUG] split=val batch=0 mask_sum=14633.0 mask_ratio=0.147987 mask_dtype=torch.float32 mask_shape=(192, 103, 5)
+2025-12-23 06:29:01,056 | INFO | [TS_DEBUG] split=val batch=1 MS keys=['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+2025-12-23 06:29:01,056 | INFO | [TS_DEBUG] split=val batch=1 #scales=2 X_shapes=[(192, 6, 8, 5), (192, 4, 11, 5)]
+2025-12-23 06:29:01,057 | INFO | [TS_DEBUG] split=val batch=1 tt_list_minmax=[(0.0, 0.9899999499320984), (0.0, 0.9899999499320984)]
+2025-12-23 06:29:01,057 | INFO | [TS_DEBUG] split=val batch=1 tp_to_predict_minmax=(0.000000,3.996000) tp_shape=(192, 102)
+2025-12-23 06:29:01,057 | INFO | [TS_DEBUG] split=val batch=1 mask_sum=12856.0 mask_ratio=0.131291 mask_dtype=torch.float32 mask_shape=(192, 102, 5)
+2025-12-23 06:29:01,057 | INFO | [TS_DEBUG] split=test use_ms=True history=12.0 scales=[2.0, 3.0] strides=[2.0, 3.0] time_max=48.0
+2025-12-23 06:29:01,083 | INFO | [TS_DEBUG] split=test batch=0 MS keys=['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+2025-12-23 06:29:01,083 | INFO | [TS_DEBUG] split=test batch=0 #scales=2 X_shapes=[(192, 6, 7, 5), (192, 4, 10, 5)]
+2025-12-23 06:29:01,083 | INFO | [TS_DEBUG] split=test batch=0 tt_list_minmax=[(0.0, 0.9939999580383301), (0.0, 0.9939999580383301)]
+2025-12-23 06:29:01,083 | INFO | [TS_DEBUG] split=test batch=0 tp_to_predict_minmax=(0.000000,4.000000) tp_shape=(192, 102)
+2025-12-23 06:29:01,083 | INFO | [TS_DEBUG] split=test batch=0 mask_sum=15046.0 mask_ratio=0.153656 mask_dtype=torch.float32 mask_shape=(192, 102, 5)
+2025-12-23 06:29:01,108 | INFO | [TS_DEBUG] split=test batch=1 MS keys=['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+2025-12-23 06:29:01,108 | INFO | [TS_DEBUG] split=test batch=1 #scales=2 X_shapes=[(192, 6, 9, 5), (192, 4, 10, 5)]
+2025-12-23 06:29:01,108 | INFO | [TS_DEBUG] split=test batch=1 tt_list_minmax=[(0.0, 0.9919999837875366), (0.0, 0.9919999837875366)]
+2025-12-23 06:29:01,108 | INFO | [TS_DEBUG] split=test batch=1 tp_to_predict_minmax=(0.000000,4.000000) tp_shape=(192, 112)
+2025-12-23 06:29:01,109 | INFO | [TS_DEBUG] split=test batch=1 mask_sum=16547.0 mask_ratio=0.153897 mask_dtype=torch.float32 mask_shape=(192, 112, 5)
+2025-12-23 06:29:01,135 | INFO | [VAL_DEBUG] split=train batch=0 TARGET(masked) min=-3.559291 max=16.804188 mean=0.037174 count=15015
+2025-12-23 06:29:01,136 | INFO | [VAL_DEBUG] split=train batch=0 X_list[0](masked) min=-2.828843 max=13.530699 mean=0.079875 count=2795
+2025-12-23 06:29:01,136 | INFO | [VAL_DEBUG] split=train batch=0 X_list[1](masked) min=-2.828843 max=13.530699 mean=0.079875 count=2795
+2025-12-23 06:29:01,161 | INFO | [VAL_DEBUG] split=val batch=0 TARGET(masked) min=-3.298417 max=19.638962 mean=0.050542 count=14171
+2025-12-23 06:29:01,162 | INFO | [VAL_DEBUG] split=val batch=0 X_list[0](masked) min=-2.831849 max=5.836311 mean=0.086797 count=2972
+2025-12-23 06:29:01,162 | INFO | [VAL_DEBUG] split=val batch=0 X_list[1](masked) min=-2.831849 max=5.836311 mean=0.086797 count=2972
+2025-12-23 06:29:01,187 | INFO | [VAL_DEBUG] split=test batch=0 TARGET(masked) min=-2.985367 max=8.063634 mean=0.008852 count=15110
+2025-12-23 06:29:01,187 | INFO | [VAL_DEBUG] split=test batch=0 X_list[0](masked) min=-2.724493 max=3.069031 mean=0.003924 count=2722
+2025-12-23 06:29:01,188 | INFO | [VAL_DEBUG] split=test batch=0 X_list[1](masked) min=-2.724493 max=3.069031 mean=0.003924 count=2722
+2025-12-23 06:29:01,214 | INFO | [PER_DIM_TGT] split=train epoch=init (dim,min,max,mean,count)=[(0, -0.3057002127170563, 19.200246810913086, 0.006223930511623621, 3219), (1, -0.1279701292514801, 13.889969825744629, -0.03567047417163849, 3140), (2, -0.17376209795475006, 7.562969207763672, -0.09310445934534073, 2900), (3, -3.4524641036987305, 2.228551149368286, 0.04246986284852028, 3227), (4, -3.3505914211273193, 2.2321205139160156, 0.11397740989923477, 3124)]
+2025-12-23 06:29:01,240 | INFO | [PER_DIM_TGT] split=val epoch=init (dim,min,max,mean,count)=[(0, -0.3057002127170563, 4.081450462341309, -0.16194581985473633, 3392), (1, -0.1279701292514801, 5.654430389404297, -0.06629746407270432, 3131), (2, -0.17376209795475006, 2.9209303855895996, -0.12908244132995605, 2886), (3, -2.449932098388672, 2.037592649459839, 0.2630718946456909, 3214), (4, -1.6809953451156616, 1.9712460041046143, 0.16325917840003967, 3093)]
+2025-12-23 06:29:01,266 | INFO | [PER_DIM_TGT] split=test epoch=init (dim,min,max,mean,count)=[(0, -0.3057002127170563, 13.699435234069824, 0.04873282089829445, 2935), (1, -0.1279701292514801, 8.6332426071167, -0.045640990138053894, 2869), (2, -0.17376209795475006, 3.694603681564331, -0.052996616810560226, 2932), (3, -3.261505603790283, 1.846634030342102, -0.01776808686554432, 2894), (4, -2.9853672981262207, 1.8147213459014893, -0.17525316774845123, 2698)]
+2025-12-23 06:29:01,266 | INFO | 2025-12-23 06:29:01
+2025-12-23 06:29:01,266 | INFO | command: RunModelsLogsUSHCN.py --dataset ushcn --state def --history 12 --batch_size 192 --lr 1e-3 --patience 30 --epoch 300 --nhead 1 --tf_layer 1 --nlayer 1 --te_dim 10 --node_dim 10 --hid_dim 64 --seed 1 --gpu 0 --multi_scales 2,3 --multi_strides 2,3 --fusion concat
+2025-12-23 06:29:01,266 | INFO | ExpID=90024 PID=535562 host=stud-000 device=cuda CUDA_VISIBLE_DEVICES=0
+2025-12-23 06:29:01,266 | INFO | SLURM_JOB_NAME=MH_USHCN_MS SLURM_JOB_ID=304912
+2025-12-23 06:29:01,266 | INFO | ckpt_path=experiments/experiment_90024.ckpt
+2025-12-23 06:29:01,266 | INFO | args=Namespace(multi_scales='2,3', multi_strides='2,3', fusion='concat', state='def', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=300, patience=30, history=12, patch_size=24, stride=24, logmode='a', lr=0.001, w_decay=0.0, batch_size=192, save='experiments/', load=None, seed=1, dataset='ushcn', quantization=0.0, model='tPatchGNN', outlayer='Linear', hid_dim=64, te_dim=10, node_dim=10, gpu='0', debug_internal=0, topk_err=10, data_sanity_batches=3, npatch=1, device=device(type='cuda'), PID=535562, n_months=48, pred_window=1, ndim=5)
+2025-12-23 06:29:01,267 | INFO | data: input_dim=5 n_train_batches=126 n_val_batches=42 n_test_batches=42 quantization=0.0 history=12 patch_size=24 stride=24 npatch=1
+2025-12-23 06:29:01,343 | INFO | DATA_SANITY | split=train sampled_batches=3 mask_ratio_mean=0.148080 mask_ratio_min=0.141049 mask_ratio_max=0.153626
+2025-12-23 06:29:01,418 | INFO | DATA_SANITY | split=val sampled_batches=3 mask_ratio_mean=0.150534 mask_ratio_min=0.144003 mask_ratio_max=0.161912
+2025-12-23 06:29:01,493 | INFO | DATA_SANITY | split=test sampled_batches=3 mask_ratio_mean=0.139056 mask_ratio_min=0.127427 mask_ratio_max=0.146977
+2025-12-23 06:29:16,642 | INFO | SANITY10 | val | ep=0 | #01 b=114 t=67 v=1 tp=2.338000 y_true=-0.127970 y_pred=-0.004105 abs_err=0.123865
+2025-12-23 06:29:16,642 | INFO | SANITY10 | val | ep=0 | #02 b=2 t=7 v=4 tp=1.294000 y_true=0.301650 y_pred=0.121530 abs_err=0.180120
+2025-12-23 06:29:16,642 | INFO | SANITY10 | val | ep=0 | #03 b=41 t=40 v=1 tp=1.882000 y_true=-0.127970 y_pred=-0.004248 abs_err=0.123722
+2025-12-23 06:29:16,642 | INFO | SANITY10 | val | ep=0 | #04 b=156 t=36 v=2 tp=2.484000 y_true=-0.173762 y_pred=-0.043123 abs_err=0.130639
+2025-12-23 06:29:16,642 | INFO | SANITY10 | val | ep=0 | #05 b=6 t=34 v=0 tp=1.942000 y_true=-0.305700 y_pred=0.024301 abs_err=0.330001
+2025-12-23 06:29:16,643 | INFO | SANITY10 | val | ep=0 | #06 b=48 t=8 v=3 tp=2.112000 y_true=-1.447400 y_pred=0.100232 abs_err=1.547631
+2025-12-23 06:29:16,643 | INFO | SANITY10 | val | ep=0 | #07 b=90 t=27 v=2 tp=2.790000 y_true=-0.173762 y_pred=-0.042978 abs_err=0.130784
+2025-12-23 06:29:16,643 | INFO | SANITY10 | val | ep=0 | #08 b=113 t=20 v=1 tp=1.590000 y_true=-0.127970 y_pred=-0.004379 abs_err=0.123591
+2025-12-23 06:29:16,643 | INFO | SANITY10 | val | ep=0 | #09 b=70 t=50 v=3 tp=1.670000 y_true=0.844102 y_pred=0.067968 abs_err=0.776134
+2025-12-23 06:29:16,643 | INFO | SANITY10 | val | ep=0 | #10 b=23 t=61 v=0 tp=3.610000 y_true=-0.238206 y_pred=0.022675 abs_err=0.260881
+2025-12-23 06:29:16,644 | INFO | [SCALE_CHECK] split=val epoch=0 pred(min,max,mean)=(-1.567421,0.380738,0.036689) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:29:16,649 | INFO | [SCALE_CHECK] split=val epoch=0 |pred|/|tgt| (q50,q90,q99)=(0.134072,0.590223,4.239580)
+2025-12-23 06:29:16,650 | INFO | [PAIR] split=val epoch=0 b=0 t=0 d=4 tgt=-0.480973 pred=0.119990
+2025-12-23 06:29:16,650 | INFO | [PAIR] split=val epoch=0 b=0 t=1 d=0 tgt=-0.305700 pred=0.024173
+2025-12-23 06:29:16,650 | INFO | [PAIR] split=val epoch=0 b=0 t=2 d=2 tgt=-0.173762 pred=-0.044095
+2025-12-23 06:29:18,222 | INFO | SANITY10 | test | ep=0 | #01 b=191 t=96 v=1 tp=2.964000 y_true=-0.127970 y_pred=-0.004006 abs_err=0.123964
+2025-12-23 06:29:18,222 | INFO | SANITY10 | test | ep=0 | #02 b=90 t=14 v=4 tp=2.616000 y_true=0.562524 y_pred=0.128317 abs_err=0.434207
+2025-12-23 06:29:18,222 | INFO | SANITY10 | test | ep=0 | #03 b=12 t=54 v=3 tp=2.918000 y_true=-0.015211 y_pred=0.103110 abs_err=0.118321
+2025-12-23 06:29:18,222 | INFO | SANITY10 | test | ep=0 | #04 b=36 t=4 v=3 tp=1.050000 y_true=-1.447400 y_pred=0.095174 abs_err=1.542574
+2025-12-23 06:29:18,222 | INFO | SANITY10 | test | ep=0 | #05 b=3 t=3 v=4 tp=1.284000 y_true=-0.794022 y_pred=0.121473 abs_err=0.915495
+2025-12-23 06:29:18,223 | INFO | SANITY10 | test | ep=0 | #06 b=130 t=49 v=2 tp=3.396000 y_true=-0.173762 y_pred=-0.043004 abs_err=0.130758
+2025-12-23 06:29:18,223 | INFO | SANITY10 | test | ep=0 | #07 b=37 t=54 v=4 tp=1.790000 y_true=0.719049 y_pred=0.124117 abs_err=0.594932
+2025-12-23 06:29:18,223 | INFO | SANITY10 | test | ep=0 | #08 b=181 t=28 v=2 tp=1.400000 y_true=-0.173762 y_pred=-0.043661 abs_err=0.130101
+2025-12-23 06:29:18,223 | INFO | SANITY10 | test | ep=0 | #09 b=165 t=79 v=2 tp=3.810000 y_true=-0.173762 y_pred=-0.043257 abs_err=0.130505
+2025-12-23 06:29:18,223 | INFO | SANITY10 | test | ep=0 | #10 b=106 t=17 v=2 tp=1.184000 y_true=-0.173762 y_pred=-0.013134 abs_err=0.160629
+2025-12-23 06:29:18,223 | INFO | [SCALE_CHECK] split=test epoch=0 pred(min,max,mean)=(-1.570123,0.716778,0.041956) tgt(min,max,mean)=(-3.738902,32.288517,-0.033093) count=14982
+2025-12-23 06:29:18,224 | INFO | [SCALE_CHECK] split=test epoch=0 |pred|/|tgt| (q50,q90,q99)=(0.119585,0.660169,4.248746)
+2025-12-23 06:29:18,224 | INFO | [PAIR] split=test epoch=0 b=0 t=0 d=3 tgt=-1.208702 pred=0.094967
+2025-12-23 06:29:18,224 | INFO | [PAIR] split=test epoch=0 b=0 t=1 d=3 tgt=-1.017743 pred=0.095060
+2025-12-23 06:29:18,225 | INFO | [PAIR] split=test epoch=0 b=0 t=2 d=3 tgt=-1.495139 pred=0.095081
+2025-12-23 06:29:28,882 | INFO | SANITY10 | val | ep=1 | #01 b=53 t=33 v=2 tp=2.782000 y_true=-0.173762 y_pred=-0.056483 abs_err=0.117279
+2025-12-23 06:29:28,882 | INFO | SANITY10 | val | ep=1 | #02 b=71 t=57 v=4 tp=1.756000 y_true=0.197300 y_pred=0.101881 abs_err=0.095420
+2025-12-23 06:29:28,883 | INFO | SANITY10 | val | ep=1 | #03 b=159 t=54 v=4 tp=2.884000 y_true=0.145125 y_pred=0.145184 abs_err=0.000059
+2025-12-23 06:29:28,883 | INFO | SANITY10 | val | ep=1 | #04 b=38 t=9 v=0 tp=1.284000 y_true=-0.305700 y_pred=0.018006 abs_err=0.323706
+2025-12-23 06:29:28,883 | INFO | SANITY10 | val | ep=1 | #05 b=130 t=75 v=3 tp=3.654000 y_true=0.891842 y_pred=0.106326 abs_err=0.785515
+2025-12-23 06:29:28,883 | INFO | SANITY10 | val | ep=1 | #06 b=85 t=34 v=2 tp=2.512000 y_true=-0.173762 y_pred=-0.056648 abs_err=0.117114
+2025-12-23 06:29:28,883 | INFO | SANITY10 | val | ep=1 | #07 b=143 t=4 v=0 tp=1.048000 y_true=-0.305700 y_pred=0.000775 abs_err=0.306475
+2025-12-23 06:29:28,883 | INFO | SANITY10 | val | ep=1 | #08 b=2 t=43 v=3 tp=1.730000 y_true=0.987321 y_pred=0.094015 abs_err=0.893306
+2025-12-23 06:29:28,883 | INFO | SANITY10 | val | ep=1 | #09 b=167 t=68 v=4 tp=3.864000 y_true=-0.480973 y_pred=0.149662 abs_err=0.630635
+2025-12-23 06:29:28,883 | INFO | SANITY10 | val | ep=1 | #10 b=145 t=30 v=0 tp=1.524000 y_true=-0.305700 y_pred=0.018320 abs_err=0.324020
+2025-12-23 06:29:28,884 | INFO | [SCALE_CHECK] split=val epoch=1 pred(min,max,mean)=(-1.746933,0.439414,0.022325) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:29:28,885 | INFO | [SCALE_CHECK] split=val epoch=1 |pred|/|tgt| (q50,q90,q99)=(0.131391,0.563955,4.645929)
+2025-12-23 06:29:28,885 | INFO | [PAIR] split=val epoch=1 b=0 t=0 d=4 tgt=-0.480973 pred=0.131083
+2025-12-23 06:29:28,885 | INFO | [PAIR] split=val epoch=1 b=0 t=1 d=0 tgt=-0.305700 pred=0.016671
+2025-12-23 06:29:28,885 | INFO | [PAIR] split=val epoch=1 b=0 t=2 d=2 tgt=-0.173762 pred=-0.061305
+2025-12-23 06:29:30,452 | INFO | SANITY10 | test | ep=1 | #01 b=149 t=54 v=1 tp=2.096000 y_true=-0.127970 y_pred=-0.013111 abs_err=0.114859
+2025-12-23 06:29:30,452 | INFO | SANITY10 | test | ep=1 | #02 b=4 t=4 v=4 tp=1.382000 y_true=0.614699 y_pred=0.133500 abs_err=0.481199
+2025-12-23 06:29:30,452 | INFO | SANITY10 | test | ep=1 | #03 b=56 t=83 v=4 tp=3.678000 y_true=1.292973 y_pred=0.149136 abs_err=1.143837
+2025-12-23 06:29:30,452 | INFO | SANITY10 | test | ep=1 | #04 b=97 t=0 v=4 tp=1.010000 y_true=-1.159247 y_pred=-0.650249 abs_err=0.508997
+2025-12-23 06:29:30,453 | INFO | SANITY10 | test | ep=1 | #05 b=160 t=65 v=2 tp=3.132000 y_true=-0.173762 y_pred=-0.056702 abs_err=0.117060
+2025-12-23 06:29:30,453 | INFO | SANITY10 | test | ep=1 | #06 b=127 t=49 v=0 tp=3.074000 y_true=-0.305700 y_pred=0.019026 abs_err=0.324726
+2025-12-23 06:29:30,453 | INFO | SANITY10 | test | ep=1 | #07 b=150 t=69 v=2 tp=2.306000 y_true=-0.173762 y_pred=-0.056846 abs_err=0.116916
+2025-12-23 06:29:30,453 | INFO | SANITY10 | test | ep=1 | #08 b=11 t=4 v=3 tp=1.994000 y_true=-0.635826 y_pred=0.096150 abs_err=0.731976
+2025-12-23 06:29:30,453 | INFO | SANITY10 | test | ep=1 | #09 b=187 t=12 v=3 tp=1.680000 y_true=0.844102 y_pred=0.093724 abs_err=0.750378
+2025-12-23 06:29:30,453 | INFO | SANITY10 | test | ep=1 | #10 b=107 t=40 v=4 tp=1.440000 y_true=1.449497 y_pred=0.276324 abs_err=1.173173
+2025-12-23 06:29:30,454 | INFO | [SCALE_CHECK] split=test epoch=1 pred(min,max,mean)=(-1.707301,1.304027,0.028531) tgt(min,max,mean)=(-3.738902,32.288517,-0.033093) count=14982
+2025-12-23 06:29:30,454 | INFO | [SCALE_CHECK] split=test epoch=1 |pred|/|tgt| (q50,q90,q99)=(0.125340,0.713774,5.741961)
+2025-12-23 06:29:30,454 | INFO | [PAIR] split=test epoch=1 b=0 t=0 d=3 tgt=-1.208702 pred=0.089619
+2025-12-23 06:29:30,455 | INFO | [PAIR] split=test epoch=1 b=0 t=1 d=3 tgt=-1.017743 pred=0.089733
+2025-12-23 06:29:30,455 | INFO | [PAIR] split=test epoch=1 b=0 t=2 d=3 tgt=-1.495139 pred=0.089758
+2025-12-23 06:29:41,087 | INFO | SANITY10 | val | ep=2 | #01 b=94 t=78 v=4 tp=3.790000 y_true=0.562524 y_pred=0.133325 abs_err=0.429200
+2025-12-23 06:29:41,087 | INFO | SANITY10 | val | ep=2 | #02 b=71 t=69 v=3 tp=1.882000 y_true=-1.065483 y_pred=-0.403691 abs_err=0.661792
+2025-12-23 06:29:41,087 | INFO | SANITY10 | val | ep=2 | #03 b=15 t=44 v=4 tp=2.928000 y_true=-0.167924 y_pred=0.128042 abs_err=0.295966
+2025-12-23 06:29:41,087 | INFO | SANITY10 | val | ep=2 | #04 b=191 t=1 v=3 tp=1.922000 y_true=-1.065483 y_pred=0.072274 abs_err=1.137757
+2025-12-23 06:29:41,087 | INFO | SANITY10 | val | ep=2 | #05 b=108 t=88 v=0 tp=1.962000 y_true=-0.136964 y_pred=-0.037869 abs_err=0.099095
+2025-12-23 06:29:41,088 | INFO | SANITY10 | val | ep=2 | #06 b=15 t=19 v=0 tp=2.524000 y_true=-0.238206 y_pred=-0.037480 abs_err=0.200726
+2025-12-23 06:29:41,088 | INFO | SANITY10 | val | ep=2 | #07 b=161 t=48 v=1 tp=2.978000 y_true=-0.127970 y_pred=-0.055381 abs_err=0.072589
+2025-12-23 06:29:41,088 | INFO | SANITY10 | val | ep=2 | #08 b=108 t=53 v=4 tp=1.504000 y_true=0.614699 y_pred=0.111319 abs_err=0.503380
+2025-12-23 06:29:41,088 | INFO | SANITY10 | val | ep=2 | #09 b=191 t=81 v=1 tp=2.954000 y_true=-0.127970 y_pred=-0.055371 abs_err=0.072600
+2025-12-23 06:29:41,088 | INFO | SANITY10 | val | ep=2 | #10 b=142 t=41 v=0 tp=1.530000 y_true=-0.305700 y_pred=-0.036670 abs_err=0.269030
+2025-12-23 06:29:41,088 | INFO | [SCALE_CHECK] split=val epoch=2 pred(min,max,mean)=(-1.753678,0.313338,-0.014310) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:29:41,089 | INFO | [SCALE_CHECK] split=val epoch=2 |pred|/|tgt| (q50,q90,q99)=(0.322571,0.517761,4.239160)
+2025-12-23 06:29:41,089 | INFO | [PAIR] split=val epoch=2 b=0 t=0 d=4 tgt=-0.480973 pred=0.104190
+2025-12-23 06:29:41,089 | INFO | [PAIR] split=val epoch=2 b=0 t=1 d=0 tgt=-0.305700 pred=-0.039158
+2025-12-23 06:29:41,089 | INFO | [PAIR] split=val epoch=2 b=0 t=2 d=2 tgt=-0.173762 pred=-0.084664
+2025-12-23 06:29:42,663 | INFO | SANITY10 | test | ep=2 | #01 b=125 t=32 v=0 tp=2.738000 y_true=-0.305700 y_pred=-0.037507 abs_err=0.268193
+2025-12-23 06:29:42,664 | INFO | SANITY10 | test | ep=2 | #02 b=15 t=16 v=4 tp=2.468000 y_true=0.771224 y_pred=0.123669 abs_err=0.647555
+2025-12-23 06:29:42,664 | INFO | SANITY10 | test | ep=2 | #03 b=153 t=70 v=3 tp=2.550000 y_true=1.082800 y_pred=0.077226 abs_err=1.005574
+2025-12-23 06:29:42,664 | INFO | SANITY10 | test | ep=2 | #04 b=181 t=0 v=1 tp=1.088000 y_true=-0.127970 y_pred=-0.056888 abs_err=0.071082
+2025-12-23 06:29:42,664 | INFO | SANITY10 | test | ep=2 | #05 b=6 t=47 v=3 tp=2.414000 y_true=0.271227 y_pred=0.076026 abs_err=0.195200
+2025-12-23 06:29:42,664 | INFO | SANITY10 | test | ep=2 | #06 b=170 t=12 v=4 tp=1.130000 y_true=-1.367946 y_pred=-1.443371 abs_err=0.075425
+2025-12-23 06:29:42,664 | INFO | SANITY10 | test | ep=2 | #07 b=176 t=58 v=0 tp=1.648000 y_true=-0.271953 y_pred=-0.034847 abs_err=0.237106
+2025-12-23 06:29:42,664 | INFO | SANITY10 | test | ep=2 | #08 b=16 t=18 v=0 tp=2.664000 y_true=0.099268 y_pred=-0.037492 abs_err=0.136760
+2025-12-23 06:29:42,665 | INFO | SANITY10 | test | ep=2 | #09 b=183 t=78 v=2 tp=2.194000 y_true=-0.173762 y_pred=-0.082040 abs_err=0.091722
+2025-12-23 06:29:42,665 | INFO | SANITY10 | test | ep=2 | #10 b=160 t=16 v=1 tp=2.542000 y_true=-0.127970 y_pred=-0.055287 abs_err=0.072684
+2025-12-23 06:29:42,665 | INFO | [SCALE_CHECK] split=test epoch=2 pred(min,max,mean)=(-1.823972,1.905056,-0.009026) tgt(min,max,mean)=(-3.738902,32.288517,-0.033093) count=14982
+2025-12-23 06:29:42,666 | INFO | [SCALE_CHECK] split=test epoch=2 |pred|/|tgt| (q50,q90,q99)=(0.289636,0.572850,4.712555)
+2025-12-23 06:29:42,666 | INFO | [PAIR] split=test epoch=2 b=0 t=0 d=3 tgt=-1.208702 pred=0.060153
+2025-12-23 06:29:42,666 | INFO | [PAIR] split=test epoch=2 b=0 t=1 d=3 tgt=-1.017743 pred=0.060445
+2025-12-23 06:29:42,666 | INFO | [PAIR] split=test epoch=2 b=0 t=2 d=3 tgt=-1.495139 pred=0.060509
+2025-12-23 06:29:53,745 | INFO | SANITY10 | val | ep=3 | #01 b=150 t=74 v=3 tp=2.488000 y_true=0.366706 y_pred=0.079112 abs_err=0.287594
+2025-12-23 06:29:53,745 | INFO | SANITY10 | val | ep=3 | #02 b=89 t=23 v=0 tp=2.666000 y_true=-0.305700 y_pred=-0.009759 abs_err=0.295941
+2025-12-23 06:29:53,745 | INFO | SANITY10 | val | ep=3 | #03 b=87 t=65 v=3 tp=3.036000 y_true=-1.304181 y_pred=0.084246 abs_err=1.388427
+2025-12-23 06:29:53,745 | INFO | SANITY10 | val | ep=3 | #04 b=19 t=31 v=3 tp=3.080000 y_true=-2.211234 y_pred=0.084619 abs_err=2.295852
+2025-12-23 06:29:53,745 | INFO | SANITY10 | val | ep=3 | #05 b=16 t=55 v=3 tp=3.120000 y_true=-1.017743 y_pred=0.084952 abs_err=1.102695
+2025-12-23 06:29:53,746 | INFO | SANITY10 | val | ep=3 | #06 b=47 t=44 v=1 tp=2.492000 y_true=-0.127970 y_pred=-0.032378 abs_err=0.095592
+2025-12-23 06:29:53,746 | INFO | SANITY10 | val | ep=3 | #07 b=88 t=56 v=4 tp=2.950000 y_true=0.562524 y_pred=0.124216 abs_err=0.438308
+2025-12-23 06:29:53,746 | INFO | SANITY10 | val | ep=3 | #08 b=147 t=16 v=4 tp=1.480000 y_true=0.197300 y_pred=0.106221 abs_err=0.091080
+2025-12-23 06:29:53,746 | INFO | SANITY10 | val | ep=3 | #09 b=75 t=65 v=1 tp=2.030000 y_true=-0.127970 y_pred=-0.032568 abs_err=0.095403
+2025-12-23 06:29:53,746 | INFO | SANITY10 | val | ep=3 | #10 b=0 t=21 v=1 tp=1.318000 y_true=-0.127970 y_pred=-0.033216 abs_err=0.094754
+2025-12-23 06:29:53,747 | INFO | [SCALE_CHECK] split=val epoch=3 pred(min,max,mean)=(-1.410847,0.438028,0.008513) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:29:53,747 | INFO | [SCALE_CHECK] split=val epoch=3 |pred|/|tgt| (q50,q90,q99)=(0.252864,0.496814,4.319811)
+2025-12-23 06:29:53,747 | INFO | [PAIR] split=val epoch=3 b=0 t=0 d=4 tgt=-0.480973 pred=0.099920
+2025-12-23 06:29:53,748 | INFO | [PAIR] split=val epoch=3 b=0 t=1 d=0 tgt=-0.305700 pred=-0.010904
+2025-12-23 06:29:53,748 | INFO | [PAIR] split=val epoch=3 b=0 t=2 d=2 tgt=-0.173762 pred=-0.076035
+2025-12-23 06:29:55,318 | INFO | SANITY10 | test | ep=3 | #01 b=10 t=13 v=3 tp=2.036000 y_true=-1.208702 y_pred=0.074286 abs_err=1.282988
+2025-12-23 06:29:55,318 | INFO | SANITY10 | test | ep=3 | #02 b=139 t=29 v=2 tp=1.402000 y_true=-0.173762 y_pred=-0.094085 abs_err=0.079677
+2025-12-23 06:29:55,318 | INFO | SANITY10 | test | ep=3 | #03 b=185 t=81 v=2 tp=2.414000 y_true=-0.173762 y_pred=-0.070365 abs_err=0.103397
+2025-12-23 06:29:55,318 | INFO | SANITY10 | test | ep=3 | #04 b=108 t=15 v=3 tp=1.178000 y_true=-0.158430 y_pred=0.063818 abs_err=0.222248
+2025-12-23 06:29:55,318 | INFO | SANITY10 | test | ep=3 | #05 b=123 t=55 v=3 tp=2.884000 y_true=0.605404 y_pred=0.082912 abs_err=0.522492
+2025-12-23 06:29:55,318 | INFO | SANITY10 | test | ep=3 | #06 b=148 t=89 v=0 tp=2.384000 y_true=-0.305700 y_pred=-0.009846 abs_err=0.295854
+2025-12-23 06:29:55,319 | INFO | SANITY10 | test | ep=3 | #07 b=51 t=62 v=3 tp=2.964000 y_true=-0.922264 y_pred=0.083623 abs_err=1.005887
+2025-12-23 06:29:55,319 | INFO | SANITY10 | test | ep=3 | #08 b=142 t=57 v=4 tp=1.712000 y_true=1.188623 y_pred=0.608752 abs_err=0.579870
+2025-12-23 06:29:55,319 | INFO | SANITY10 | test | ep=3 | #09 b=85 t=41 v=2 tp=2.524000 y_true=-0.173762 y_pred=-0.070352 abs_err=0.103410
+2025-12-23 06:29:55,319 | INFO | SANITY10 | test | ep=3 | #10 b=57 t=21 v=4 tp=3.024000 y_true=-0.585323 y_pred=0.125141 abs_err=0.710464
+2025-12-23 06:29:55,319 | INFO | [SCALE_CHECK] split=test epoch=3 pred(min,max,mean)=(-1.472618,2.312276,0.014026) tgt(min,max,mean)=(-3.738902,32.288517,-0.033093) count=14982
+2025-12-23 06:29:55,320 | INFO | [SCALE_CHECK] split=test epoch=3 |pred|/|tgt| (q50,q90,q99)=(0.252855,0.578856,4.989899)
+2025-12-23 06:29:55,320 | INFO | [PAIR] split=test epoch=3 b=0 t=0 d=3 tgt=-1.208702 pred=0.061446
+2025-12-23 06:29:55,320 | INFO | [PAIR] split=test epoch=3 b=0 t=1 d=3 tgt=-1.017743 pred=0.061698
+2025-12-23 06:29:55,320 | INFO | [PAIR] split=test epoch=3 b=0 t=2 d=3 tgt=-1.495139 pred=0.061754
+2025-12-23 06:30:06,699 | INFO | SANITY10 | val | ep=4 | #01 b=191 t=66 v=0 tp=2.782000 y_true=-0.305700 y_pred=0.000998 abs_err=0.306699
+2025-12-23 06:30:06,699 | INFO | SANITY10 | val | ep=4 | #02 b=189 t=73 v=1 tp=2.684000 y_true=-0.127970 y_pred=-0.023480 abs_err=0.104490
+2025-12-23 06:30:06,699 | INFO | SANITY10 | val | ep=4 | #03 b=167 t=72 v=3 tp=3.906000 y_true=-0.779045 y_pred=0.046678 abs_err=0.825723
+2025-12-23 06:30:06,699 | INFO | SANITY10 | val | ep=4 | #04 b=19 t=18 v=2 tp=2.894000 y_true=-0.173762 y_pred=-0.059172 abs_err=0.114590
+2025-12-23 06:30:06,700 | INFO | SANITY10 | val | ep=4 | #05 b=136 t=15 v=4 tp=1.162000 y_true=-1.054897 y_pred=-0.496757 abs_err=0.558139
+2025-12-23 06:30:06,700 | INFO | SANITY10 | val | ep=4 | #06 b=184 t=31 v=0 tp=2.150000 y_true=-0.305700 y_pred=0.002032 abs_err=0.307732
+2025-12-23 06:30:06,700 | INFO | SANITY10 | val | ep=4 | #07 b=106 t=77 v=3 tp=1.794000 y_true=0.366706 y_pred=0.075310 abs_err=0.291396
+2025-12-23 06:30:06,700 | INFO | SANITY10 | val | ep=4 | #08 b=132 t=8 v=0 tp=1.080000 y_true=3.406504 y_pred=0.146082 abs_err=3.260422
+2025-12-23 06:30:06,700 | INFO | SANITY10 | val | ep=4 | #09 b=65 t=25 v=0 tp=1.382000 y_true=-0.305700 y_pred=0.185343 abs_err=0.491043
+2025-12-23 06:30:06,700 | INFO | SANITY10 | val | ep=4 | #10 b=84 t=75 v=1 tp=2.892000 y_true=-0.127970 y_pred=-0.023786 abs_err=0.104184
+2025-12-23 06:30:06,701 | INFO | [SCALE_CHECK] split=val epoch=4 pred(min,max,mean)=(-1.543673,0.434028,-0.012821) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:30:06,701 | INFO | [SCALE_CHECK] split=val epoch=4 |pred|/|tgt| (q50,q90,q99)=(0.144873,0.363289,2.793365)
+2025-12-23 06:30:06,701 | INFO | [PAIR] split=val epoch=4 b=0 t=0 d=4 tgt=-0.480973 pred=0.032774
+2025-12-23 06:30:06,702 | INFO | [PAIR] split=val epoch=4 b=0 t=1 d=0 tgt=-0.305700 pred=0.003724
+2025-12-23 06:30:06,702 | INFO | [PAIR] split=val epoch=4 b=0 t=2 d=2 tgt=-0.173762 pred=-0.065215
+2025-12-23 06:30:08,271 | INFO | SANITY10 | test | ep=4 | #01 b=162 t=10 v=0 tp=2.606000 y_true=-0.305700 y_pred=0.001294 abs_err=0.306994
+2025-12-23 06:30:08,271 | INFO | SANITY10 | test | ep=4 | #02 b=153 t=71 v=3 tp=2.554000 y_true=0.700883 y_pred=0.037963 abs_err=0.662920
+2025-12-23 06:30:08,271 | INFO | SANITY10 | test | ep=4 | #03 b=115 t=53 v=3 tp=2.228000 y_true=-0.826785 y_pred=0.035869 abs_err=0.862654
+2025-12-23 06:30:08,271 | INFO | SANITY10 | test | ep=4 | #04 b=43 t=31 v=2 tp=1.984000 y_true=-0.173762 y_pred=-0.059731 abs_err=0.114031
+2025-12-23 06:30:08,271 | INFO | SANITY10 | test | ep=4 | #05 b=125 t=62 v=3 tp=3.028000 y_true=-1.017743 y_pred=0.041722 abs_err=1.059466
+2025-12-23 06:30:08,271 | INFO | SANITY10 | test | ep=4 | #06 b=15 t=54 v=2 tp=3.090000 y_true=0.342020 y_pred=-0.059335 abs_err=0.401355
+2025-12-23 06:30:08,272 | INFO | SANITY10 | test | ep=4 | #07 b=94 t=69 v=0 tp=3.544000 y_true=-0.305700 y_pred=-0.000436 abs_err=0.305264
+2025-12-23 06:30:08,272 | INFO | SANITY10 | test | ep=4 | #08 b=78 t=68 v=4 tp=2.550000 y_true=0.301650 y_pred=0.048273 abs_err=0.253377
+2025-12-23 06:30:08,272 | INFO | SANITY10 | test | ep=4 | #09 b=32 t=6 v=0 tp=1.092000 y_true=0.268004 y_pred=0.096823 abs_err=0.171181
+2025-12-23 06:30:08,272 | INFO | SANITY10 | test | ep=4 | #10 b=50 t=39 v=3 tp=2.570000 y_true=1.130540 y_pred=0.038101 abs_err=1.092439
+2025-12-23 06:30:08,272 | INFO | [SCALE_CHECK] split=test epoch=4 pred(min,max,mean)=(-1.535492,2.564770,-0.005706) tgt(min,max,mean)=(-3.738902,32.288517,-0.033093) count=14982
+2025-12-23 06:30:08,273 | INFO | [SCALE_CHECK] split=test epoch=4 |pred|/|tgt| (q50,q90,q99)=(0.154396,0.504279,3.187424)
+2025-12-23 06:30:08,273 | INFO | [PAIR] split=test epoch=4 b=0 t=0 d=3 tgt=-1.208702 pred=0.027031
+2025-12-23 06:30:08,273 | INFO | [PAIR] split=test epoch=4 b=0 t=1 d=3 tgt=-1.017743 pred=0.027170
+2025-12-23 06:30:08,273 | INFO | [PAIR] split=test epoch=4 b=0 t=2 d=3 tgt=-1.495139 pred=0.027201
+2025-12-23 06:30:18,886 | INFO | SANITY10 | val | ep=5 | #01 b=112 t=30 v=3 tp=1.566000 y_true=0.462185 y_pred=0.057428 abs_err=0.404757
+2025-12-23 06:30:18,887 | INFO | SANITY10 | val | ep=5 | #02 b=67 t=3 v=3 tp=1.020000 y_true=-0.874524 y_pred=-0.503754 abs_err=0.370770
+2025-12-23 06:30:18,887 | INFO | SANITY10 | val | ep=5 | #03 b=161 t=42 v=4 tp=2.900000 y_true=-0.637498 y_pred=0.095217 abs_err=0.732715
+2025-12-23 06:30:18,887 | INFO | SANITY10 | val | ep=5 | #04 b=191 t=36 v=2 tp=2.398000 y_true=-0.173762 y_pred=-0.056442 abs_err=0.117320
+2025-12-23 06:30:18,887 | INFO | SANITY10 | val | ep=5 | #05 b=51 t=7 v=0 tp=2.378000 y_true=-0.238206 y_pred=-0.004639 abs_err=0.233567
+2025-12-23 06:30:18,887 | INFO | SANITY10 | val | ep=5 | #06 b=86 t=60 v=4 tp=2.876000 y_true=-0.898372 y_pred=0.095019 abs_err=0.993391
+2025-12-23 06:30:18,887 | INFO | SANITY10 | val | ep=5 | #07 b=116 t=10 v=3 tp=1.794000 y_true=0.366706 y_pred=0.059788 abs_err=0.306918
+2025-12-23 06:30:18,888 | INFO | SANITY10 | val | ep=5 | #08 b=81 t=25 v=1 tp=2.030000 y_true=-0.127970 y_pred=-0.028163 abs_err=0.099807
+2025-12-23 06:30:18,888 | INFO | SANITY10 | val | ep=5 | #09 b=19 t=19 v=1 tp=2.910000 y_true=-0.127970 y_pred=-0.029119 abs_err=0.098851
+2025-12-23 06:30:18,888 | INFO | SANITY10 | val | ep=5 | #10 b=19 t=29 v=2 tp=3.040000 y_true=-0.173762 y_pred=-0.056970 abs_err=0.116792
+2025-12-23 06:30:18,888 | INFO | [SCALE_CHECK] split=val epoch=5 pred(min,max,mean)=(-1.609921,0.392714,-0.000457) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:30:18,889 | INFO | [SCALE_CHECK] split=val epoch=5 |pred|/|tgt| (q50,q90,q99)=(0.214094,0.497700,3.694753)
+2025-12-23 06:30:18,889 | INFO | [PAIR] split=val epoch=5 b=0 t=0 d=4 tgt=-0.480973 pred=0.077599
+2025-12-23 06:30:18,889 | INFO | [PAIR] split=val epoch=5 b=0 t=1 d=0 tgt=-0.305700 pred=-0.002867
+2025-12-23 06:30:18,889 | INFO | [PAIR] split=val epoch=5 b=0 t=2 d=2 tgt=-0.173762 pred=-0.058284
+2025-12-23 06:30:29,468 | INFO | SANITY10 | val | ep=6 | #01 b=31 t=25 v=0 tp=1.436000 y_true=0.099268 y_pred=0.025378 abs_err=0.073890
+2025-12-23 06:30:29,468 | INFO | SANITY10 | val | ep=6 | #02 b=148 t=35 v=3 tp=1.820000 y_true=0.271227 y_pred=0.041265 abs_err=0.229962
+2025-12-23 06:30:29,469 | INFO | SANITY10 | val | ep=6 | #03 b=7 t=57 v=0 tp=2.260000 y_true=1.550402 y_pred=0.010708 abs_err=1.539694
+2025-12-23 06:30:29,469 | INFO | SANITY10 | val | ep=6 | #04 b=89 t=30 v=2 tp=2.736000 y_true=-0.173762 y_pred=-0.069979 abs_err=0.103783
+2025-12-23 06:30:29,469 | INFO | SANITY10 | val | ep=6 | #05 b=148 t=6 v=0 tp=1.460000 y_true=-0.305700 y_pred=0.012478 abs_err=0.318179
+2025-12-23 06:30:29,469 | INFO | SANITY10 | val | ep=6 | #06 b=67 t=17 v=1 tp=1.280000 y_true=-0.127970 y_pred=-0.007685 abs_err=0.120285
+2025-12-23 06:30:29,469 | INFO | SANITY10 | val | ep=6 | #07 b=159 t=7 v=4 tp=2.370000 y_true=0.875574 y_pred=0.064558 abs_err=0.811015
+2025-12-23 06:30:29,469 | INFO | SANITY10 | val | ep=6 | #08 b=48 t=64 v=2 tp=2.786000 y_true=-0.173762 y_pred=-0.070015 abs_err=0.103747
+2025-12-23 06:30:29,469 | INFO | SANITY10 | val | ep=6 | #09 b=22 t=8 v=2 tp=3.014000 y_true=-0.173762 y_pred=-0.070219 abs_err=0.103543
+2025-12-23 06:30:29,470 | INFO | SANITY10 | val | ep=6 | #10 b=113 t=52 v=0 tp=2.002000 y_true=-0.305700 y_pred=0.011294 abs_err=0.316994
+2025-12-23 06:30:29,470 | INFO | [SCALE_CHECK] split=val epoch=6 pred(min,max,mean)=(-1.706723,0.483284,-0.009001) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:30:29,471 | INFO | [SCALE_CHECK] split=val epoch=6 |pred|/|tgt| (q50,q90,q99)=(0.107792,0.471530,3.483089)
+2025-12-23 06:30:29,471 | INFO | [PAIR] split=val epoch=6 b=0 t=0 d=4 tgt=-0.480973 pred=0.053179
+2025-12-23 06:30:29,471 | INFO | [PAIR] split=val epoch=6 b=0 t=1 d=0 tgt=-0.305700 pred=0.013373
+2025-12-23 06:30:29,471 | INFO | [PAIR] split=val epoch=6 b=0 t=2 d=2 tgt=-0.173762 pred=-0.072808
+2025-12-23 06:30:31,036 | INFO | SANITY10 | test | ep=6 | #01 b=184 t=32 v=2 tp=1.678000 y_true=-0.173762 y_pred=-0.070559 abs_err=0.103203
+2025-12-23 06:30:31,036 | INFO | SANITY10 | test | ep=6 | #02 b=52 t=61 v=2 tp=3.032000 y_true=0.084129 y_pred=-0.070238 abs_err=0.154367
+2025-12-23 06:30:31,037 | INFO | SANITY10 | test | ep=6 | #03 b=159 t=61 v=3 tp=2.912000 y_true=0.318966 y_pred=0.050349 abs_err=0.268617
+2025-12-23 06:30:31,037 | INFO | SANITY10 | test | ep=6 | #04 b=29 t=24 v=0 tp=1.372000 y_true=2.326590 y_pred=0.237428 abs_err=2.089162
+2025-12-23 06:30:31,037 | INFO | SANITY10 | test | ep=6 | #05 b=154 t=31 v=0 tp=2.218000 y_true=-0.305700 y_pred=0.010804 abs_err=0.316504
+2025-12-23 06:30:31,037 | INFO | SANITY10 | test | ep=6 | #06 b=48 t=83 v=2 tp=3.004000 y_true=0.084129 y_pred=-0.070209 abs_err=0.154338
+2025-12-23 06:30:31,037 | INFO | SANITY10 | test | ep=6 | #07 b=27 t=1 v=2 tp=1.026000 y_true=-0.173762 y_pred=0.781185 abs_err=0.954947
+2025-12-23 06:30:31,037 | INFO | SANITY10 | test | ep=6 | #08 b=3 t=1 v=2 tp=1.254000 y_true=-0.173762 y_pred=-0.071192 abs_err=0.102570
+2025-12-23 06:30:31,037 | INFO | SANITY10 | test | ep=6 | #09 b=47 t=76 v=2 tp=2.794000 y_true=-0.173762 y_pred=-0.070022 abs_err=0.103740
+2025-12-23 06:30:31,037 | INFO | SANITY10 | test | ep=6 | #10 b=184 t=39 v=4 tp=1.790000 y_true=0.406000 y_pred=0.059772 abs_err=0.346228
+2025-12-23 06:30:31,038 | INFO | [SCALE_CHECK] split=test epoch=6 pred(min,max,mean)=(-1.754469,2.725248,-0.000722) tgt(min,max,mean)=(-3.738902,32.288517,-0.033093) count=14982
+2025-12-23 06:30:31,038 | INFO | [SCALE_CHECK] split=test epoch=6 |pred|/|tgt| (q50,q90,q99)=(0.107277,0.618158,4.527700)
+2025-12-23 06:30:31,039 | INFO | [PAIR] split=test epoch=6 b=0 t=0 d=3 tgt=-1.208702 pred=0.033721
+2025-12-23 06:30:31,039 | INFO | [PAIR] split=test epoch=6 b=0 t=1 d=3 tgt=-1.017743 pred=0.033891
+2025-12-23 06:30:31,039 | INFO | [PAIR] split=test epoch=6 b=0 t=2 d=3 tgt=-1.495139 pred=0.033928
+2025-12-23 06:30:42,141 | INFO | SANITY10 | val | ep=7 | #01 b=141 t=23 v=1 tp=1.318000 y_true=-0.127970 y_pred=-0.062500 abs_err=0.065470
+2025-12-23 06:30:42,141 | INFO | SANITY10 | val | ep=7 | #02 b=126 t=63 v=2 tp=3.166000 y_true=-0.173762 y_pred=-0.081030 abs_err=0.092732
+2025-12-23 06:30:42,141 | INFO | SANITY10 | val | ep=7 | #03 b=48 t=74 v=3 tp=2.920000 y_true=-0.158430 y_pred=0.068849 abs_err=0.227279
+2025-12-23 06:30:42,141 | INFO | SANITY10 | val | ep=7 | #04 b=34 t=5 v=1 tp=1.072000 y_true=-0.127970 y_pred=0.278304 abs_err=0.406274
+2025-12-23 06:30:42,141 | INFO | SANITY10 | val | ep=7 | #05 b=90 t=53 v=1 tp=3.218000 y_true=-0.127970 y_pred=-0.048199 abs_err=0.079771
+2025-12-23 06:30:42,142 | INFO | SANITY10 | val | ep=7 | #06 b=63 t=19 v=4 tp=1.294000 y_true=0.666874 y_pred=-0.924749 abs_err=1.591623
+2025-12-23 06:30:42,142 | INFO | SANITY10 | val | ep=7 | #07 b=117 t=19 v=1 tp=1.978000 y_true=-0.127970 y_pred=-0.044481 abs_err=0.083489
+2025-12-23 06:30:42,142 | INFO | SANITY10 | val | ep=7 | #08 b=4 t=5 v=4 tp=1.396000 y_true=0.719049 y_pred=0.087110 abs_err=0.631939
+2025-12-23 06:30:42,142 | INFO | SANITY10 | val | ep=7 | #09 b=70 t=25 v=0 tp=1.382000 y_true=-0.305700 y_pred=0.226746 abs_err=0.532446
+2025-12-23 06:30:42,142 | INFO | SANITY10 | val | ep=7 | #10 b=142 t=12 v=3 tp=1.146000 y_true=-0.301649 y_pred=0.229900 abs_err=0.531549
+2025-12-23 06:30:42,142 | INFO | [SCALE_CHECK] split=val epoch=7 pred(min,max,mean)=(-1.623179,0.659124,-0.006728) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:30:42,143 | INFO | [SCALE_CHECK] split=val epoch=7 |pred|/|tgt| (q50,q90,q99)=(0.290953,0.618377,4.462279)
+2025-12-23 06:30:42,143 | INFO | [PAIR] split=val epoch=7 b=0 t=0 d=4 tgt=-0.480973 pred=0.082520
+2025-12-23 06:30:42,143 | INFO | [PAIR] split=val epoch=7 b=0 t=1 d=0 tgt=-0.305700 pred=-0.023300
+2025-12-23 06:30:42,144 | INFO | [PAIR] split=val epoch=7 b=0 t=2 d=2 tgt=-0.173762 pred=-0.079728
+2025-12-23 06:30:43,712 | INFO | SANITY10 | test | ep=7 | #01 b=148 t=60 v=1 tp=2.096000 y_true=-0.127970 y_pred=-0.044846 abs_err=0.083124
+2025-12-23 06:30:43,712 | INFO | SANITY10 | test | ep=7 | #02 b=112 t=29 v=2 tp=1.590000 y_true=-0.173762 y_pred=-0.079791 abs_err=0.093971
+2025-12-23 06:30:43,712 | INFO | SANITY10 | test | ep=7 | #03 b=57 t=68 v=0 tp=3.618000 y_true=-0.305700 y_pred=-0.029977 abs_err=0.275724
+2025-12-23 06:30:43,712 | INFO | SANITY10 | test | ep=7 | #04 b=143 t=52 v=1 tp=1.646000 y_true=-0.127970 y_pred=-0.053071 abs_err=0.074899
+2025-12-23 06:30:43,713 | INFO | SANITY10 | test | ep=7 | #05 b=112 t=3 v=4 tp=1.388000 y_true=0.249475 y_pred=0.087035 abs_err=0.162440
+2025-12-23 06:30:43,713 | INFO | SANITY10 | test | ep=7 | #06 b=39 t=11 v=2 tp=1.444000 y_true=-0.173762 y_pred=-0.079888 abs_err=0.093874
+2025-12-23 06:30:43,713 | INFO | SANITY10 | test | ep=7 | #07 b=8 t=5 v=4 tp=1.804000 y_true=-0.063574 y_pred=0.090915 abs_err=0.154489
+2025-12-23 06:30:43,713 | INFO | SANITY10 | test | ep=7 | #08 b=118 t=16 v=0 tp=2.044000 y_true=0.268004 y_pred=-0.025965 abs_err=0.293969
+2025-12-23 06:30:43,713 | INFO | SANITY10 | test | ep=7 | #09 b=72 t=16 v=0 tp=1.238000 y_true=-0.305700 y_pred=-0.023780 abs_err=0.281920
+2025-12-23 06:30:43,713 | INFO | SANITY10 | test | ep=7 | #10 b=182 t=31 v=0 tp=1.528000 y_true=-0.305700 y_pred=-0.024508 abs_err=0.281192
+2025-12-23 06:30:43,714 | INFO | [SCALE_CHECK] split=test epoch=7 pred(min,max,mean)=(-1.746945,2.978669,0.002117) tgt(min,max,mean)=(-3.738902,32.288517,-0.033093) count=14982
+2025-12-23 06:30:43,714 | INFO | [SCALE_CHECK] split=test epoch=7 |pred|/|tgt| (q50,q90,q99)=(0.254694,0.695489,5.242138)
+2025-12-23 06:30:43,714 | INFO | [PAIR] split=test epoch=7 b=0 t=0 d=3 tgt=-1.208702 pred=0.047448
+2025-12-23 06:30:43,715 | INFO | [PAIR] split=test epoch=7 b=0 t=1 d=3 tgt=-1.017743 pred=0.047606
+2025-12-23 06:30:43,715 | INFO | [PAIR] split=test epoch=7 b=0 t=2 d=3 tgt=-1.495139 pred=0.047641
+2025-12-23 06:30:54,348 | INFO | SANITY10 | val | ep=8 | #01 b=17 t=12 v=0 tp=2.616000 y_true=-0.305700 y_pred=0.012231 abs_err=0.317931
+2025-12-23 06:30:54,348 | INFO | SANITY10 | val | ep=8 | #02 b=73 t=34 v=2 tp=1.584000 y_true=-0.173762 y_pred=-0.055060 abs_err=0.118702
+2025-12-23 06:30:54,348 | INFO | SANITY10 | val | ep=8 | #03 b=99 t=1 v=0 tp=1.010000 y_true=-0.305700 y_pred=-0.125983 abs_err=0.179718
+2025-12-23 06:30:54,348 | INFO | SANITY10 | val | ep=8 | #04 b=131 t=49 v=4 tp=3.444000 y_true=0.562524 y_pred=0.106659 abs_err=0.455865
+2025-12-23 06:30:54,348 | INFO | SANITY10 | val | ep=8 | #05 b=44 t=92 v=0 tp=2.728000 y_true=-0.305700 y_pred=0.011724 abs_err=0.317424
+2025-12-23 06:30:54,348 | INFO | SANITY10 | val | ep=8 | #06 b=145 t=3 v=4 tp=1.146000 y_true=-0.428798 y_pred=0.087881 abs_err=0.516680
+2025-12-23 06:30:54,349 | INFO | SANITY10 | val | ep=8 | #07 b=60 t=0 v=1 tp=1.004000 y_true=-0.127970 y_pred=0.369849 abs_err=0.497819
+2025-12-23 06:30:54,349 | INFO | SANITY10 | val | ep=8 | #08 b=164 t=16 v=1 tp=2.814000 y_true=-0.127970 y_pred=-0.014924 abs_err=0.113046
+2025-12-23 06:30:54,349 | INFO | SANITY10 | val | ep=8 | #09 b=39 t=72 v=3 tp=2.172000 y_true=-1.542879 y_pred=0.055214 abs_err=1.598093
+2025-12-23 06:30:54,349 | INFO | SANITY10 | val | ep=8 | #10 b=95 t=57 v=3 tp=3.602000 y_true=0.366706 y_pred=0.069885 abs_err=0.296821
+2025-12-23 06:30:54,349 | INFO | [SCALE_CHECK] split=val epoch=8 pred(min,max,mean)=(-1.598477,0.615245,0.014897) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:30:54,350 | INFO | [SCALE_CHECK] split=val epoch=8 |pred|/|tgt| (q50,q90,q99)=(0.121358,0.565271,4.346278)
+2025-12-23 06:30:54,350 | INFO | [PAIR] split=val epoch=8 b=0 t=0 d=4 tgt=-0.480973 pred=0.086807
+2025-12-23 06:30:54,350 | INFO | [PAIR] split=val epoch=8 b=0 t=1 d=0 tgt=-0.305700 pred=0.018935
+2025-12-23 06:30:54,350 | INFO | [PAIR] split=val epoch=8 b=0 t=2 d=2 tgt=-0.173762 pred=-0.055430
+2025-12-23 06:30:55,915 | INFO | SANITY10 | test | ep=8 | #01 b=172 t=15 v=0 tp=1.166000 y_true=-0.204458 y_pred=0.019521 abs_err=0.223979
+2025-12-23 06:30:55,915 | INFO | SANITY10 | test | ep=8 | #02 b=40 t=70 v=2 tp=2.266000 y_true=-0.173762 y_pred=-0.054058 abs_err=0.119704
+2025-12-23 06:30:55,915 | INFO | SANITY10 | test | ep=8 | #03 b=55 t=3 v=3 tp=2.640000 y_true=0.557664 y_pred=0.060630 abs_err=0.497034
+2025-12-23 06:30:55,915 | INFO | SANITY10 | test | ep=8 | #04 b=126 t=94 v=4 tp=3.582000 y_true=1.345147 y_pred=0.107641 abs_err=1.237507
+2025-12-23 06:30:55,915 | INFO | SANITY10 | test | ep=8 | #05 b=88 t=6 v=0 tp=2.398000 y_true=-0.305700 y_pred=0.013237 abs_err=0.318937
+2025-12-23 06:30:55,916 | INFO | SANITY10 | test | ep=8 | #06 b=3 t=7 v=2 tp=1.342000 y_true=-0.173762 y_pred=-0.055475 abs_err=0.118287
+2025-12-23 06:30:55,916 | INFO | SANITY10 | test | ep=8 | #07 b=41 t=50 v=3 tp=2.072000 y_true=-1.447400 y_pred=0.053991 abs_err=1.501391
+2025-12-23 06:30:55,916 | INFO | SANITY10 | test | ep=8 | #08 b=153 t=68 v=4 tp=2.540000 y_true=1.449497 y_pred=0.099767 abs_err=1.349730
+2025-12-23 06:30:55,916 | INFO | SANITY10 | test | ep=8 | #09 b=118 t=34 v=1 tp=2.296000 y_true=-0.127970 y_pred=-0.012716 abs_err=0.115254
+2025-12-23 06:30:55,916 | INFO | SANITY10 | test | ep=8 | #10 b=45 t=78 v=3 tp=2.696000 y_true=0.748623 y_pred=0.061240 abs_err=0.687383
+2025-12-23 06:30:55,916 | INFO | [SCALE_CHECK] split=test epoch=8 pred(min,max,mean)=(-1.760980,2.086150,0.015420) tgt(min,max,mean)=(-3.738902,32.288517,-0.033093) count=14982
+2025-12-23 06:30:55,917 | INFO | [SCALE_CHECK] split=test epoch=8 |pred|/|tgt| (q50,q90,q99)=(0.117578,0.627095,4.185226)
+2025-12-23 06:30:55,917 | INFO | [PAIR] split=test epoch=8 b=0 t=0 d=3 tgt=-1.208702 pred=0.041100
+2025-12-23 06:30:55,917 | INFO | [PAIR] split=test epoch=8 b=0 t=1 d=3 tgt=-1.017743 pred=0.041274
+2025-12-23 06:30:55,917 | INFO | [PAIR] split=test epoch=8 b=0 t=2 d=3 tgt=-1.495139 pred=0.041313
+2025-12-23 06:31:06,555 | INFO | SANITY10 | val | ep=9 | #01 b=133 t=14 v=0 tp=1.158000 y_true=-0.136964 y_pred=0.231262 abs_err=0.368226
+2025-12-23 06:31:06,555 | INFO | SANITY10 | val | ep=9 | #02 b=81 t=81 v=0 tp=2.666000 y_true=-0.305700 y_pred=-0.004763 abs_err=0.300937
+2025-12-23 06:31:06,556 | INFO | SANITY10 | val | ep=9 | #03 b=46 t=3 v=1 tp=1.872000 y_true=-0.127970 y_pred=-0.020300 abs_err=0.107670
+2025-12-23 06:31:06,556 | INFO | SANITY10 | val | ep=9 | #04 b=47 t=78 v=0 tp=2.864000 y_true=-0.305700 y_pred=-0.005512 abs_err=0.300189
+2025-12-23 06:31:06,556 | INFO | SANITY10 | val | ep=9 | #05 b=0 t=86 v=3 tp=2.080000 y_true=-1.113223 y_pred=0.086305 abs_err=1.199528
+2025-12-23 06:31:06,556 | INFO | SANITY10 | val | ep=9 | #06 b=23 t=82 v=4 tp=3.834000 y_true=-0.533148 y_pred=0.133602 abs_err=0.666750
+2025-12-23 06:31:06,556 | INFO | SANITY10 | val | ep=9 | #07 b=91 t=76 v=2 tp=3.490000 y_true=-0.173762 y_pred=-0.051329 abs_err=0.122433
+2025-12-23 06:31:06,556 | INFO | SANITY10 | val | ep=9 | #08 b=82 t=50 v=1 tp=2.406000 y_true=-0.127970 y_pred=-0.022139 abs_err=0.105831
+2025-12-23 06:31:06,556 | INFO | SANITY10 | val | ep=9 | #09 b=11 t=74 v=4 tp=2.918000 y_true=0.562524 y_pred=0.126562 abs_err=0.435962
+2025-12-23 06:31:06,557 | INFO | SANITY10 | val | ep=9 | #10 b=19 t=66 v=0 tp=3.452000 y_true=-0.305700 y_pred=-0.007705 abs_err=0.297995
+2025-12-23 06:31:06,557 | INFO | [SCALE_CHECK] split=val epoch=9 pred(min,max,mean)=(-1.793544,0.737073,0.018899) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:31:06,558 | INFO | [SCALE_CHECK] split=val epoch=9 |pred|/|tgt| (q50,q90,q99)=(0.177221,0.623723,4.471581)
+2025-12-23 06:31:06,558 | INFO | [PAIR] split=val epoch=9 b=0 t=0 d=4 tgt=-0.480973 pred=0.114604
+2025-12-23 06:31:06,558 | INFO | [PAIR] split=val epoch=9 b=0 t=1 d=0 tgt=-0.305700 pred=0.001968
+2025-12-23 06:31:06,558 | INFO | [PAIR] split=val epoch=9 b=0 t=2 d=2 tgt=-0.173762 pred=-0.048890
+2025-12-23 06:31:08,123 | INFO | SANITY10 | test | ep=9 | #01 b=191 t=63 v=3 tp=2.650000 y_true=0.796362 y_pred=0.091788 abs_err=0.704575
+2025-12-23 06:31:08,123 | INFO | SANITY10 | test | ep=9 | #02 b=85 t=33 v=1 tp=2.454000 y_true=-0.127970 y_pred=-0.022303 abs_err=0.105667
+2025-12-23 06:31:08,123 | INFO | SANITY10 | test | ep=9 | #03 b=13 t=42 v=0 tp=2.838000 y_true=-0.305700 y_pred=-0.005414 abs_err=0.300287
+2025-12-23 06:31:08,123 | INFO | SANITY10 | test | ep=9 | #04 b=188 t=5 v=2 tp=1.762000 y_true=-0.173762 y_pred=-0.049442 abs_err=0.124320
+2025-12-23 06:31:08,123 | INFO | SANITY10 | test | ep=9 | #05 b=41 t=55 v=3 tp=2.124000 y_true=-1.208702 y_pred=0.086725 abs_err=1.295427
+2025-12-23 06:31:08,123 | INFO | SANITY10 | test | ep=9 | #06 b=53 t=22 v=0 tp=2.668000 y_true=-0.305700 y_pred=-0.004770 abs_err=0.300930
+2025-12-23 06:31:08,124 | INFO | SANITY10 | test | ep=9 | #07 b=118 t=28 v=0 tp=2.212000 y_true=-0.305700 y_pred=-0.003030 abs_err=0.302671
+2025-12-23 06:31:08,124 | INFO | SANITY10 | test | ep=9 | #08 b=164 t=76 v=0 tp=3.598000 y_true=-0.305700 y_pred=-0.008242 abs_err=0.297458
+2025-12-23 06:31:08,124 | INFO | SANITY10 | test | ep=9 | #09 b=155 t=33 v=2 tp=2.280000 y_true=-0.173762 y_pred=-0.049502 abs_err=0.124260
+2025-12-23 06:31:08,124 | INFO | SANITY10 | test | ep=9 | #10 b=22 t=17 v=4 tp=3.066000 y_true=-1.994045 y_pred=0.127714 abs_err=2.121759
+2025-12-23 06:31:08,124 | INFO | [SCALE_CHECK] split=test epoch=9 pred(min,max,mean)=(-1.861248,2.691303,0.024110) tgt(min,max,mean)=(-3.738902,32.288517,-0.033093) count=14982
+2025-12-23 06:31:08,125 | INFO | [SCALE_CHECK] split=test epoch=9 |pred|/|tgt| (q50,q90,q99)=(0.170596,0.682930,6.221369)
+2025-12-23 06:31:08,125 | INFO | [PAIR] split=test epoch=9 b=0 t=0 d=3 tgt=-1.208702 pred=0.077608
+2025-12-23 06:31:08,125 | INFO | [PAIR] split=test epoch=9 b=0 t=1 d=3 tgt=-1.017743 pred=0.077726
+2025-12-23 06:31:08,125 | INFO | [PAIR] split=test epoch=9 b=0 t=2 d=3 tgt=-1.495139 pred=0.077753
+2025-12-23 06:31:18,779 | INFO | SANITY10 | val | ep=10 | #01 b=117 t=78 v=0 tp=2.706000 y_true=-0.305700 y_pred=0.018153 abs_err=0.323854
+2025-12-23 06:31:18,779 | INFO | SANITY10 | val | ep=10 | #02 b=72 t=11 v=4 tp=1.186000 y_true=-0.846197 y_pred=0.099990 abs_err=0.946187
+2025-12-23 06:31:18,779 | INFO | SANITY10 | val | ep=10 | #03 b=111 t=53 v=3 tp=1.794000 y_true=0.366706 y_pred=0.066933 abs_err=0.299773
+2025-12-23 06:31:18,780 | INFO | SANITY10 | val | ep=10 | #04 b=45 t=48 v=0 tp=2.378000 y_true=-0.238206 y_pred=0.020167 abs_err=0.258372
+2025-12-23 06:31:18,780 | INFO | SANITY10 | val | ep=10 | #05 b=21 t=20 v=4 tp=3.104000 y_true=-0.794022 y_pred=0.121114 abs_err=0.915136
+2025-12-23 06:31:18,780 | INFO | SANITY10 | val | ep=10 | #06 b=111 t=89 v=4 tp=2.274000 y_true=-0.115749 y_pred=0.113970 abs_err=0.229719
+2025-12-23 06:31:18,780 | INFO | SANITY10 | val | ep=10 | #07 b=130 t=16 v=1 tp=3.040000 y_true=-0.127970 y_pred=-0.014078 abs_err=0.113892
+2025-12-23 06:31:18,780 | INFO | SANITY10 | val | ep=10 | #08 b=154 t=0 v=1 tp=1.844000 y_true=-0.127970 y_pred=-0.007810 abs_err=0.120160
+2025-12-23 06:31:18,780 | INFO | SANITY10 | val | ep=10 | #09 b=0 t=78 v=1 tp=2.002000 y_true=-0.127970 y_pred=-0.008868 abs_err=0.119102
+2025-12-23 06:31:18,780 | INFO | SANITY10 | val | ep=10 | #10 b=130 t=97 v=0 tp=3.912000 y_true=-0.305700 y_pred=0.011669 abs_err=0.317370
+2025-12-23 06:31:18,781 | INFO | [SCALE_CHECK] split=val epoch=10 pred(min,max,mean)=(-1.608810,0.431539,0.015957) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:31:18,781 | INFO | [SCALE_CHECK] split=val epoch=10 |pred|/|tgt| (q50,q90,q99)=(0.125895,0.608200,4.397107)
+2025-12-23 06:31:18,782 | INFO | [PAIR] split=val epoch=10 b=0 t=0 d=4 tgt=-0.480973 pred=0.097742
+2025-12-23 06:31:18,782 | INFO | [PAIR] split=val epoch=10 b=0 t=1 d=0 tgt=-0.305700 pred=0.029299
+2025-12-23 06:31:18,782 | INFO | [PAIR] split=val epoch=10 b=0 t=2 d=2 tgt=-0.173762 pred=-0.058696
+2025-12-23 06:31:20,353 | INFO | SANITY10 | test | ep=10 | #01 b=165 t=15 v=1 tp=2.964000 y_true=-0.127970 y_pred=-0.013755 abs_err=0.114216
+2025-12-23 06:31:20,353 | INFO | SANITY10 | test | ep=10 | #02 b=20 t=66 v=3 tp=3.744000 y_true=0.128008 y_pred=0.085253 abs_err=0.042755
+2025-12-23 06:31:20,353 | INFO | SANITY10 | test | ep=10 | #03 b=56 t=38 v=1 tp=3.090000 y_true=3.376515 y_pred=-0.014290 abs_err=3.390804
+2025-12-23 06:31:20,353 | INFO | SANITY10 | test | ep=10 | #04 b=79 t=22 v=3 tp=2.076000 y_true=-2.831849 y_pred=0.070241 abs_err=2.902090
+2025-12-23 06:31:20,353 | INFO | SANITY10 | test | ep=10 | #05 b=184 t=40 v=1 tp=1.794000 y_true=-0.127970 y_pred=-0.007472 abs_err=0.120498
+2025-12-23 06:31:20,353 | INFO | SANITY10 | test | ep=10 | #06 b=21 t=27 v=4 tp=3.132000 y_true=-1.054897 y_pred=0.121246 abs_err=1.176143
+2025-12-23 06:31:20,354 | INFO | SANITY10 | test | ep=10 | #07 b=120 t=42 v=3 tp=2.558000 y_true=0.700883 y_pred=0.075481 abs_err=0.625403
+2025-12-23 06:31:20,354 | INFO | SANITY10 | test | ep=10 | #08 b=51 t=87 v=0 tp=3.208000 y_true=-0.305700 y_pred=0.015261 abs_err=0.320961
+2025-12-23 06:31:20,354 | INFO | SANITY10 | test | ep=10 | #09 b=53 t=56 v=0 tp=3.044000 y_true=-0.305700 y_pred=0.016196 abs_err=0.321897
+2025-12-23 06:31:20,354 | INFO | SANITY10 | test | ep=10 | #10 b=141 t=35 v=1 tp=1.452000 y_true=-0.127970 y_pred=0.001739 abs_err=0.129709
+2025-12-23 06:31:20,354 | INFO | [SCALE_CHECK] split=test epoch=10 pred(min,max,mean)=(-1.921577,2.822813,0.019311) tgt(min,max,mean)=(-3.738902,32.288517,-0.033093) count=14982
+2025-12-23 06:31:20,355 | INFO | [SCALE_CHECK] split=test epoch=10 |pred|/|tgt| (q50,q90,q99)=(0.116311,0.679936,5.053287)
+2025-12-23 06:31:20,355 | INFO | [PAIR] split=test epoch=10 b=0 t=0 d=3 tgt=-1.208702 pred=0.059228
+2025-12-23 06:31:20,355 | INFO | [PAIR] split=test epoch=10 b=0 t=1 d=3 tgt=-1.017743 pred=0.059374
+2025-12-23 06:31:20,355 | INFO | [PAIR] split=test epoch=10 b=0 t=2 d=3 tgt=-1.495139 pred=0.059406
+2025-12-23 06:31:31,135 | INFO | SANITY10 | val | ep=11 | #01 b=0 t=43 v=4 tp=1.576000 y_true=1.032098 y_pred=0.123495 abs_err=0.908603
+2025-12-23 06:31:31,136 | INFO | SANITY10 | val | ep=11 | #02 b=38 t=49 v=4 tp=1.812000 y_true=0.301650 y_pred=0.126618 abs_err=0.175032
+2025-12-23 06:31:31,136 | INFO | SANITY10 | val | ep=11 | #03 b=119 t=94 v=1 tp=2.936000 y_true=-0.127970 y_pred=-0.007018 abs_err=0.120952
+2025-12-23 06:31:31,136 | INFO | SANITY10 | val | ep=11 | #04 b=82 t=65 v=2 tp=2.604000 y_true=-0.173762 y_pred=-0.041186 abs_err=0.132576
+2025-12-23 06:31:31,136 | INFO | SANITY10 | val | ep=11 | #05 b=16 t=28 v=0 tp=2.722000 y_true=-0.305700 y_pred=0.016032 abs_err=0.321732
+2025-12-23 06:31:31,136 | INFO | SANITY10 | val | ep=11 | #06 b=92 t=9 v=3 tp=2.762000 y_true=0.414445 y_pred=0.106000 abs_err=0.308445
+2025-12-23 06:31:31,136 | INFO | SANITY10 | val | ep=11 | #07 b=115 t=10 v=4 tp=1.746000 y_true=0.301650 y_pred=0.125722 abs_err=0.175928
+2025-12-23 06:31:31,137 | INFO | SANITY10 | val | ep=11 | #08 b=78 t=40 v=0 tp=1.914000 y_true=0.537983 y_pred=0.021267 abs_err=0.516715
+2025-12-23 06:31:31,137 | INFO | SANITY10 | val | ep=11 | #09 b=162 t=80 v=4 tp=3.488000 y_true=1.084273 y_pred=0.149502 abs_err=0.934771
+2025-12-23 06:31:31,137 | INFO | SANITY10 | val | ep=11 | #10 b=107 t=25 v=4 tp=1.270000 y_true=-0.063574 y_pred=0.360827 abs_err=0.424402
+2025-12-23 06:31:31,137 | INFO | [SCALE_CHECK] split=val epoch=11 pred(min,max,mean)=(-1.606451,0.505456,0.028654) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:31:31,138 | INFO | [SCALE_CHECK] split=val epoch=11 |pred|/|tgt| (q50,q90,q99)=(0.142333,0.602724,5.652445)
+2025-12-23 06:31:31,138 | INFO | [PAIR] split=val epoch=11 b=0 t=0 d=4 tgt=-0.480973 pred=0.118872
+2025-12-23 06:31:31,138 | INFO | [PAIR] split=val epoch=11 b=0 t=1 d=0 tgt=-0.305700 pred=0.027310
+2025-12-23 06:31:31,138 | INFO | [PAIR] split=val epoch=11 b=0 t=2 d=2 tgt=-0.173762 pred=-0.041142
+2025-12-23 06:31:41,987 | INFO | SANITY10 | val | ep=12 | #01 b=160 t=18 v=4 tp=2.536000 y_true=1.710372 y_pred=0.101625 abs_err=1.608746
+2025-12-23 06:31:41,987 | INFO | SANITY10 | val | ep=12 | #02 b=17 t=27 v=3 tp=2.816000 y_true=0.509925 y_pred=0.074170 abs_err=0.435755
+2025-12-23 06:31:41,987 | INFO | SANITY10 | val | ep=12 | #03 b=40 t=24 v=1 tp=1.688000 y_true=-0.127970 y_pred=-0.023403 abs_err=0.104568
+2025-12-23 06:31:41,987 | INFO | SANITY10 | val | ep=12 | #04 b=87 t=69 v=0 tp=3.096000 y_true=-0.305700 y_pred=-0.005889 abs_err=0.299811
+2025-12-23 06:31:41,987 | INFO | SANITY10 | val | ep=12 | #05 b=95 t=45 v=3 tp=3.452000 y_true=0.080268 y_pred=0.079798 abs_err=0.000470
+2025-12-23 06:31:41,987 | INFO | SANITY10 | val | ep=12 | #06 b=5 t=19 v=1 tp=1.676000 y_true=-0.127970 y_pred=-0.023318 abs_err=0.104652
+2025-12-23 06:31:41,987 | INFO | SANITY10 | val | ep=12 | #07 b=79 t=31 v=0 tp=1.914000 y_true=0.537983 y_pred=0.002624 abs_err=0.535359
+2025-12-23 06:31:41,988 | INFO | SANITY10 | val | ep=12 | #08 b=10 t=41 v=3 tp=2.336000 y_true=-0.158430 y_pred=0.069022 abs_err=0.227452
+2025-12-23 06:31:41,988 | INFO | SANITY10 | val | ep=12 | #09 b=75 t=12 v=2 tp=1.412000 y_true=-0.173762 y_pred=-0.073322 abs_err=0.100440
+2025-12-23 06:31:41,988 | INFO | SANITY10 | val | ep=12 | #10 b=151 t=61 v=3 tp=2.420000 y_true=0.700883 y_pred=0.069970 abs_err=0.630913
+2025-12-23 06:31:41,988 | INFO | [SCALE_CHECK] split=val epoch=12 pred(min,max,mean)=(-1.809371,0.572016,0.002970) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:31:41,989 | INFO | [SCALE_CHECK] split=val epoch=12 |pred|/|tgt| (q50,q90,q99)=(0.199131,0.613747,4.106794)
+2025-12-23 06:31:41,989 | INFO | [PAIR] split=val epoch=12 b=0 t=0 d=4 tgt=-0.480973 pred=0.089669
+2025-12-23 06:31:41,989 | INFO | [PAIR] split=val epoch=12 b=0 t=1 d=0 tgt=-0.305700 pred=0.009629
+2025-12-23 06:31:41,989 | INFO | [PAIR] split=val epoch=12 b=0 t=2 d=2 tgt=-0.173762 pred=-0.072417
+2025-12-23 06:31:52,766 | INFO | SANITY10 | val | ep=13 | #01 b=59 t=65 v=4 tp=3.778000 y_true=-0.794022 y_pred=0.119406 abs_err=0.913428
+2025-12-23 06:31:52,766 | INFO | SANITY10 | val | ep=13 | #02 b=109 t=35 v=1 tp=1.416000 y_true=-0.127970 y_pred=-0.018840 abs_err=0.109130
+2025-12-23 06:31:52,766 | INFO | SANITY10 | val | ep=13 | #03 b=68 t=52 v=3 tp=1.720000 y_true=0.223487 y_pred=-0.312358 abs_err=0.535845
+2025-12-23 06:31:52,767 | INFO | SANITY10 | val | ep=13 | #04 b=5 t=31 v=4 tp=1.796000 y_true=0.197300 y_pred=0.102843 abs_err=0.094457
+2025-12-23 06:31:52,767 | INFO | SANITY10 | val | ep=13 | #05 b=69 t=60 v=3 tp=1.780000 y_true=0.414445 y_pred=-0.309844 abs_err=0.724290
+2025-12-23 06:31:52,767 | INFO | SANITY10 | val | ep=13 | #06 b=67 t=26 v=0 tp=1.388000 y_true=0.335499 y_pred=0.171445 abs_err=0.164054
+2025-12-23 06:31:52,767 | INFO | SANITY10 | val | ep=13 | #07 b=7 t=19 v=3 tp=1.818000 y_true=0.032528 y_pred=0.070577 abs_err=0.038049
+2025-12-23 06:31:52,767 | INFO | SANITY10 | val | ep=13 | #08 b=119 t=72 v=4 tp=2.728000 y_true=0.145125 y_pred=0.110649 abs_err=0.034476
+2025-12-23 06:31:52,767 | INFO | SANITY10 | val | ep=13 | #09 b=22 t=36 v=4 tp=3.286000 y_true=-0.272274 y_pred=0.115781 abs_err=0.388055
+2025-12-23 06:31:52,767 | INFO | SANITY10 | val | ep=13 | #10 b=80 t=66 v=4 tp=2.432000 y_true=0.249475 y_pred=0.108350 abs_err=0.141125
+2025-12-23 06:31:52,768 | INFO | [SCALE_CHECK] split=val epoch=13 pred(min,max,mean)=(-1.507546,0.526550,0.011791) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:31:52,768 | INFO | [SCALE_CHECK] split=val epoch=13 |pred|/|tgt| (q50,q90,q99)=(0.192789,0.551854,4.326339)
+2025-12-23 06:31:52,769 | INFO | [PAIR] split=val epoch=13 b=0 t=0 d=4 tgt=-0.480973 pred=0.095579
+2025-12-23 06:31:52,769 | INFO | [PAIR] split=val epoch=13 b=0 t=1 d=0 tgt=-0.305700 pred=0.020034
+2025-12-23 06:31:52,769 | INFO | [PAIR] split=val epoch=13 b=0 t=2 d=2 tgt=-0.173762 pred=-0.068640
+2025-12-23 06:32:03,364 | INFO | SANITY10 | val | ep=14 | #01 b=82 t=0 v=1 tp=1.840000 y_true=-0.127970 y_pred=-0.023954 abs_err=0.104016
+2025-12-23 06:32:03,364 | INFO | SANITY10 | val | ep=14 | #02 b=17 t=58 v=0 tp=3.210000 y_true=3.946461 y_pred=-0.019931 abs_err=3.966392
+2025-12-23 06:32:03,365 | INFO | SANITY10 | val | ep=14 | #03 b=77 t=83 v=4 tp=2.402000 y_true=0.353825 y_pred=0.108289 abs_err=0.245536
+2025-12-23 06:32:03,365 | INFO | SANITY10 | val | ep=14 | #04 b=128 t=21 v=0 tp=2.836000 y_true=0.133015 y_pred=-0.017421 abs_err=0.150436
+2025-12-23 06:32:03,365 | INFO | SANITY10 | val | ep=14 | #05 b=49 t=50 v=1 tp=2.684000 y_true=-0.127970 y_pred=-0.029376 abs_err=0.098594
+2025-12-23 06:32:03,365 | INFO | SANITY10 | val | ep=14 | #06 b=138 t=0 v=4 tp=1.004000 y_true=-0.585323 y_pred=-0.055907 abs_err=0.529416
+2025-12-23 06:32:03,365 | INFO | SANITY10 | val | ep=14 | #07 b=38 t=39 v=3 tp=1.730000 y_true=0.796362 y_pred=0.074489 abs_err=0.721874
+2025-12-23 06:32:03,365 | INFO | SANITY10 | val | ep=14 | #08 b=86 t=14 v=1 tp=2.346000 y_true=-0.127970 y_pred=-0.027515 abs_err=0.100455
+2025-12-23 06:32:03,365 | INFO | SANITY10 | val | ep=14 | #09 b=36 t=78 v=0 tp=2.014000 y_true=2.799053 y_pred=-0.011543 abs_err=2.810596
+2025-12-23 06:32:03,366 | INFO | SANITY10 | val | ep=14 | #10 b=5 t=33 v=4 tp=1.836000 y_true=0.040776 y_pred=0.100225 abs_err=0.059449
+2025-12-23 06:32:03,366 | INFO | [SCALE_CHECK] split=val epoch=14 pred(min,max,mean)=(-1.782600,0.624334,0.006847) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:32:03,367 | INFO | [SCALE_CHECK] split=val epoch=14 |pred|/|tgt| (q50,q90,q99)=(0.201696,0.574012,4.945964)
+2025-12-23 06:32:03,367 | INFO | [PAIR] split=val epoch=14 b=0 t=0 d=4 tgt=-0.480973 pred=0.092991
+2025-12-23 06:32:03,367 | INFO | [PAIR] split=val epoch=14 b=0 t=1 d=0 tgt=-0.305700 pred=-0.004108
+2025-12-23 06:32:03,367 | INFO | [PAIR] split=val epoch=14 b=0 t=2 d=2 tgt=-0.173762 pred=-0.043060
+2025-12-23 06:32:04,976 | INFO | SANITY10 | test | ep=14 | #01 b=84 t=50 v=1 tp=2.528000 y_true=-0.127970 y_pred=-0.028625 abs_err=0.099345
+2025-12-23 06:32:04,976 | INFO | SANITY10 | test | ep=14 | #02 b=189 t=38 v=3 tp=2.226000 y_true=-1.065483 y_pred=0.080619 abs_err=1.146102
+2025-12-23 06:32:04,976 | INFO | SANITY10 | test | ep=14 | #03 b=121 t=92 v=1 tp=3.114000 y_true=-0.127970 y_pred=-0.030950 abs_err=0.097020
+2025-12-23 06:32:04,977 | INFO | SANITY10 | test | ep=14 | #04 b=111 t=42 v=0 tp=1.660000 y_true=-0.305700 y_pred=-0.008905 abs_err=0.296795
+2025-12-23 06:32:04,977 | INFO | SANITY10 | test | ep=14 | #05 b=120 t=9 v=1 tp=2.124000 y_true=-0.127970 y_pred=-0.025970 abs_err=0.102000
+2025-12-23 06:32:04,977 | INFO | SANITY10 | test | ep=14 | #06 b=181 t=1 v=4 tp=1.096000 y_true=-1.315771 y_pred=0.093605 abs_err=1.409376
+2025-12-23 06:32:04,977 | INFO | SANITY10 | test | ep=14 | #07 b=147 t=40 v=0 tp=1.712000 y_true=-0.305700 y_pred=-0.009297 abs_err=0.296404
+2025-12-23 06:32:04,977 | INFO | SANITY10 | test | ep=14 | #08 b=44 t=7 v=4 tp=1.746000 y_true=0.823399 y_pred=0.099386 abs_err=0.724012
+2025-12-23 06:32:04,977 | INFO | SANITY10 | test | ep=14 | #09 b=190 t=28 v=2 tp=2.196000 y_true=-0.173762 y_pred=-0.044602 abs_err=0.129160
+2025-12-23 06:32:04,977 | INFO | SANITY10 | test | ep=14 | #10 b=87 t=25 v=1 tp=2.500000 y_true=-0.127970 y_pred=-0.028490 abs_err=0.099481
+2025-12-23 06:32:04,978 | INFO | [SCALE_CHECK] split=test epoch=14 pred(min,max,mean)=(-2.114085,3.307554,0.012467) tgt(min,max,mean)=(-3.738902,32.288517,-0.033093) count=14982
+2025-12-23 06:32:04,978 | INFO | [SCALE_CHECK] split=test epoch=14 |pred|/|tgt| (q50,q90,q99)=(0.197426,0.666729,5.773180)
+2025-12-23 06:32:04,979 | INFO | [PAIR] split=test epoch=14 b=0 t=0 d=3 tgt=-1.208702 pred=0.068038
+2025-12-23 06:32:04,979 | INFO | [PAIR] split=test epoch=14 b=0 t=1 d=3 tgt=-1.017743 pred=0.068199
+2025-12-23 06:32:04,979 | INFO | [PAIR] split=test epoch=14 b=0 t=2 d=3 tgt=-1.495139 pred=0.068234
+2025-12-23 06:32:15,859 | INFO | SANITY10 | val | ep=15 | #01 b=146 t=42 v=1 tp=1.758000 y_true=-0.127970 y_pred=0.006444 abs_err=0.134414
+2025-12-23 06:32:15,860 | INFO | SANITY10 | val | ep=15 | #02 b=4 t=73 v=0 tp=2.196000 y_true=5.903806 y_pred=0.036980 abs_err=5.866826
+2025-12-23 06:32:15,860 | INFO | SANITY10 | val | ep=15 | #03 b=42 t=57 v=3 tp=2.120000 y_true=-1.781577 y_pred=0.101657 abs_err=1.883235
+2025-12-23 06:32:15,860 | INFO | SANITY10 | val | ep=15 | #04 b=136 t=6 v=2 tp=1.058000 y_true=0.084129 y_pred=-0.101069 abs_err=0.185198
+2025-12-23 06:32:15,860 | INFO | SANITY10 | val | ep=15 | #05 b=5 t=10 v=0 tp=1.550000 y_true=-0.305700 y_pred=0.041701 abs_err=0.347401
+2025-12-23 06:32:15,860 | INFO | SANITY10 | val | ep=15 | #06 b=86 t=74 v=0 tp=3.096000 y_true=-0.305700 y_pred=0.031115 abs_err=0.336815
+2025-12-23 06:32:15,860 | INFO | SANITY10 | val | ep=15 | #07 b=127 t=40 v=0 tp=2.954000 y_true=-0.305700 y_pred=0.031974 abs_err=0.337674
+2025-12-23 06:32:15,861 | INFO | SANITY10 | val | ep=15 | #08 b=114 t=32 v=2 tp=1.946000 y_true=-0.173762 y_pred=-0.051367 abs_err=0.122396
+2025-12-23 06:32:15,861 | INFO | SANITY10 | val | ep=15 | #09 b=82 t=73 v=4 tp=2.664000 y_true=1.032098 y_pred=0.145559 abs_err=0.886539
+2025-12-23 06:32:15,861 | INFO | SANITY10 | val | ep=15 | #10 b=163 t=52 v=1 tp=3.260000 y_true=-0.127970 y_pred=-0.005189 abs_err=0.122781
+2025-12-23 06:32:15,861 | INFO | [SCALE_CHECK] split=val epoch=15 pred(min,max,mean)=(-1.913389,0.591878,0.030239) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:32:15,862 | INFO | [SCALE_CHECK] split=val epoch=15 |pred|/|tgt| (q50,q90,q99)=(0.155596,0.685706,6.028907)
+2025-12-23 06:32:15,862 | INFO | [PAIR] split=val epoch=15 b=0 t=0 d=4 tgt=-0.480973 pred=0.126011
+2025-12-23 06:32:15,862 | INFO | [PAIR] split=val epoch=15 b=0 t=1 d=0 tgt=-0.305700 pred=0.045693
+2025-12-23 06:32:15,862 | INFO | [PAIR] split=val epoch=15 b=0 t=2 d=2 tgt=-0.173762 pred=-0.049715
+2025-12-23 06:32:26,638 | INFO | SANITY10 | val | ep=16 | #01 b=13 t=41 v=3 tp=2.656000 y_true=1.178279 y_pred=0.073389 abs_err=1.104890
+2025-12-23 06:32:26,639 | INFO | SANITY10 | val | ep=16 | #02 b=32 t=17 v=1 tp=1.260000 y_true=-0.127970 y_pred=0.078358 abs_err=0.206328
+2025-12-23 06:32:26,639 | INFO | SANITY10 | val | ep=16 | #03 b=125 t=87 v=0 tp=3.356000 y_true=2.225348 y_pred=0.006657 abs_err=2.218692
+2025-12-23 06:32:26,639 | INFO | SANITY10 | val | ep=16 | #04 b=123 t=20 v=2 tp=2.496000 y_true=-0.173762 y_pred=-0.061158 abs_err=0.112604
+2025-12-23 06:32:26,639 | INFO | SANITY10 | val | ep=16 | #05 b=22 t=8 v=0 tp=3.014000 y_true=-0.305700 y_pred=0.008871 abs_err=0.314571
+2025-12-23 06:32:26,639 | INFO | SANITY10 | val | ep=16 | #06 b=107 t=25 v=4 tp=1.270000 y_true=-0.063574 y_pred=0.299164 abs_err=0.362738
+2025-12-23 06:32:26,639 | INFO | SANITY10 | val | ep=16 | #07 b=31 t=24 v=0 tp=1.390000 y_true=0.133015 y_pred=0.045011 abs_err=0.088004
+2025-12-23 06:32:26,639 | INFO | SANITY10 | val | ep=16 | #08 b=110 t=0 v=2 tp=1.174000 y_true=-0.173762 y_pred=-0.057011 abs_err=0.116751
+2025-12-23 06:32:26,640 | INFO | SANITY10 | val | ep=16 | #09 b=49 t=76 v=4 tp=2.996000 y_true=-1.524471 y_pred=0.094555 abs_err=1.619026
+2025-12-23 06:32:26,640 | INFO | SANITY10 | val | ep=16 | #10 b=2 t=83 v=4 tp=2.188000 y_true=-0.898372 y_pred=0.086929 abs_err=0.985301
+2025-12-23 06:32:26,640 | INFO | [SCALE_CHECK] split=val epoch=16 pred(min,max,mean)=(-1.741596,0.735314,0.009868) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:32:26,641 | INFO | [SCALE_CHECK] split=val epoch=16 |pred|/|tgt| (q50,q90,q99)=(0.141079,0.560436,4.403945)
+2025-12-23 06:32:26,641 | INFO | [PAIR] split=val epoch=16 b=0 t=0 d=4 tgt=-0.480973 pred=0.075441
+2025-12-23 06:32:26,641 | INFO | [PAIR] split=val epoch=16 b=0 t=1 d=0 tgt=-0.305700 pred=0.025889
+2025-12-23 06:32:26,641 | INFO | [PAIR] split=val epoch=16 b=0 t=2 d=2 tgt=-0.173762 pred=-0.056608
+2025-12-23 06:32:37,648 | INFO | SANITY10 | val | ep=17 | #01 b=34 t=53 v=2 tp=1.758000 y_true=-0.173762 y_pred=-0.124848 abs_err=0.048914
+2025-12-23 06:32:37,648 | INFO | SANITY10 | val | ep=17 | #02 b=5 t=28 v=0 tp=1.772000 y_true=-0.305700 y_pred=0.000798 abs_err=0.306499
+2025-12-23 06:32:37,648 | INFO | SANITY10 | val | ep=17 | #03 b=5 t=66 v=0 tp=2.220000 y_true=-0.305700 y_pred=-0.002863 abs_err=0.302837
+2025-12-23 06:32:37,648 | INFO | SANITY10 | val | ep=17 | #04 b=39 t=71 v=4 tp=2.154000 y_true=-0.950547 y_pred=0.075251 abs_err=1.025798
+2025-12-23 06:32:37,649 | INFO | SANITY10 | val | ep=17 | #05 b=126 t=92 v=4 tp=3.444000 y_true=0.562524 y_pred=0.086656 abs_err=0.475868
+2025-12-23 06:32:37,649 | INFO | SANITY10 | val | ep=17 | #06 b=41 t=1 v=3 tp=1.450000 y_true=-0.015211 y_pred=0.053896 abs_err=0.069107
+2025-12-23 06:32:37,649 | INFO | SANITY10 | val | ep=17 | #07 b=51 t=44 v=4 tp=2.768000 y_true=0.979923 y_pred=0.080871 abs_err=0.899052
+2025-12-23 06:32:37,649 | INFO | SANITY10 | val | ep=17 | #08 b=73 t=65 v=0 tp=1.914000 y_true=0.537983 y_pred=-0.000420 abs_err=0.538402
+2025-12-23 06:32:37,649 | INFO | SANITY10 | val | ep=17 | #09 b=80 t=89 v=3 tp=2.666000 y_true=0.414445 y_pred=0.064828 abs_err=0.349617
+2025-12-23 06:32:37,649 | INFO | SANITY10 | val | ep=17 | #10 b=108 t=10 v=0 tp=1.126000 y_true=-0.136964 y_pred=0.006691 abs_err=0.143655
+2025-12-23 06:32:37,650 | INFO | [SCALE_CHECK] split=val epoch=17 pred(min,max,mean)=(-1.923975,0.594021,-0.001765) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:32:37,650 | INFO | [SCALE_CHECK] split=val epoch=17 |pred|/|tgt| (q50,q90,q99)=(0.172318,0.491431,4.243442)
+2025-12-23 06:32:37,651 | INFO | [PAIR] split=val epoch=17 b=0 t=0 d=4 tgt=-0.480973 pred=0.064646
+2025-12-23 06:32:37,651 | INFO | [PAIR] split=val epoch=17 b=0 t=1 d=0 tgt=-0.305700 pred=0.007587
+2025-12-23 06:32:37,651 | INFO | [PAIR] split=val epoch=17 b=0 t=2 d=2 tgt=-0.173762 pred=-0.050662
+2025-12-23 06:32:48,669 | INFO | SANITY10 | val | ep=18 | #01 b=54 t=49 v=2 tp=3.098000 y_true=2.920930 y_pred=-0.052415 abs_err=2.973345
+2025-12-23 06:32:48,669 | INFO | SANITY10 | val | ep=18 | #02 b=11 t=44 v=0 tp=2.472000 y_true=-0.305700 y_pred=-0.010789 abs_err=0.294911
+2025-12-23 06:32:48,669 | INFO | SANITY10 | val | ep=18 | #03 b=127 t=93 v=0 tp=3.528000 y_true=-0.305700 y_pred=-0.017852 abs_err=0.287848
+2025-12-23 06:32:48,669 | INFO | SANITY10 | val | ep=18 | #04 b=72 t=80 v=1 tp=2.006000 y_true=-0.127970 y_pred=-0.026695 abs_err=0.101275
+2025-12-23 06:32:48,670 | INFO | SANITY10 | val | ep=18 | #05 b=183 t=37 v=2 tp=2.196000 y_true=0.599911 y_pred=-0.049213 abs_err=0.649124
+2025-12-23 06:32:48,670 | INFO | SANITY10 | val | ep=18 | #06 b=20 t=51 v=3 tp=3.310000 y_true=-1.065483 y_pred=0.082104 abs_err=1.147587
+2025-12-23 06:32:48,670 | INFO | SANITY10 | val | ep=18 | #07 b=120 t=57 v=0 tp=2.706000 y_true=-0.305700 y_pred=-0.012531 abs_err=0.293169
+2025-12-23 06:32:48,670 | INFO | SANITY10 | val | ep=18 | #08 b=130 t=62 v=2 tp=3.492000 y_true=-0.173762 y_pred=-0.053956 abs_err=0.119806
+2025-12-23 06:32:48,670 | INFO | SANITY10 | val | ep=18 | #09 b=190 t=56 v=3 tp=2.536000 y_true=0.796362 y_pred=0.076141 abs_err=0.720222
+2025-12-23 06:32:48,670 | INFO | SANITY10 | val | ep=18 | #10 b=4 t=84 v=0 tp=2.352000 y_true=-0.271953 y_pred=-0.009803 abs_err=0.262150
+2025-12-23 06:32:48,671 | INFO | [SCALE_CHECK] split=val epoch=18 pred(min,max,mean)=(-1.808163,0.506922,0.006037) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:32:48,671 | INFO | [SCALE_CHECK] split=val epoch=18 |pred|/|tgt| (q50,q90,q99)=(0.204211,0.580519,4.562039)
+2025-12-23 06:32:48,672 | INFO | [PAIR] split=val epoch=18 b=0 t=0 d=4 tgt=-0.480973 pred=0.083878
+2025-12-23 06:32:48,672 | INFO | [PAIR] split=val epoch=18 b=0 t=1 d=0 tgt=-0.305700 pred=0.002847
+2025-12-23 06:32:48,672 | INFO | [PAIR] split=val epoch=18 b=0 t=2 d=2 tgt=-0.173762 pred=-0.045052
+2025-12-23 06:32:59,632 | INFO | SANITY10 | val | ep=19 | #01 b=9 t=11 v=1 tp=1.874000 y_true=-0.127970 y_pred=-0.016291 abs_err=0.111679
+2025-12-23 06:32:59,632 | INFO | SANITY10 | val | ep=19 | #02 b=76 t=73 v=1 tp=2.216000 y_true=10.385485 y_pred=-0.019060 abs_err=10.404544
+2025-12-23 06:32:59,632 | INFO | SANITY10 | val | ep=19 | #03 b=48 t=18 v=3 tp=2.256000 y_true=-1.351921 y_pred=0.063734 abs_err=1.415655
+2025-12-23 06:32:59,633 | INFO | SANITY10 | val | ep=19 | #04 b=156 t=24 v=2 tp=2.338000 y_true=-0.173762 y_pred=-0.059548 abs_err=0.114214
+2025-12-23 06:32:59,633 | INFO | SANITY10 | val | ep=19 | #05 b=157 t=36 v=1 tp=2.534000 y_true=-0.127970 y_pred=-0.021585 abs_err=0.106385
+2025-12-23 06:32:59,633 | INFO | SANITY10 | val | ep=19 | #06 b=165 t=25 v=2 tp=3.120000 y_true=-0.173762 y_pred=-0.061939 abs_err=0.111823
+2025-12-23 06:32:59,633 | INFO | SANITY10 | val | ep=19 | #07 b=104 t=62 v=1 tp=1.590000 y_true=-0.127970 y_pred=-0.035126 abs_err=0.092844
+2025-12-23 06:32:59,634 | INFO | SANITY10 | val | ep=19 | #08 b=43 t=39 v=1 tp=2.002000 y_true=-0.127970 y_pred=-0.017342 abs_err=0.110628
+2025-12-23 06:32:59,634 | INFO | SANITY10 | val | ep=19 | #09 b=10 t=68 v=4 tp=2.698000 y_true=1.084273 y_pred=0.094011 abs_err=0.990262
+2025-12-23 06:32:59,634 | INFO | SANITY10 | val | ep=19 | #10 b=160 t=17 v=1 tp=2.534000 y_true=-0.127970 y_pred=-0.021585 abs_err=0.106385
+2025-12-23 06:32:59,635 | INFO | [SCALE_CHECK] split=val epoch=19 pred(min,max,mean)=(-1.872235,0.692042,0.010838) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:32:59,636 | INFO | [SCALE_CHECK] split=val epoch=19 |pred|/|tgt| (q50,q90,q99)=(0.162151,0.568242,3.830962)
+2025-12-23 06:32:59,636 | INFO | [PAIR] split=val epoch=19 b=0 t=0 d=4 tgt=-0.480973 pred=0.077557
+2025-12-23 06:32:59,636 | INFO | [PAIR] split=val epoch=19 b=0 t=1 d=0 tgt=-0.305700 pred=0.020281
+2025-12-23 06:32:59,636 | INFO | [PAIR] split=val epoch=19 b=0 t=2 d=2 tgt=-0.173762 pred=-0.055543
+2025-12-23 06:33:01,286 | INFO | SANITY10 | test | ep=19 | #01 b=150 t=64 v=0 tp=2.282000 y_true=-0.035722 y_pred=0.007768 abs_err=0.043490
+2025-12-23 06:33:01,287 | INFO | SANITY10 | test | ep=19 | #02 b=15 t=8 v=4 tp=2.336000 y_true=0.040776 y_pred=0.090435 abs_err=0.049659
+2025-12-23 06:33:01,287 | INFO | SANITY10 | test | ep=19 | #03 b=144 t=30 v=3 tp=1.416000 y_true=0.987321 y_pred=0.054513 abs_err=0.932808
+2025-12-23 06:33:01,287 | INFO | SANITY10 | test | ep=19 | #04 b=123 t=77 v=3 tp=3.112000 y_true=-0.301649 y_pred=0.074199 abs_err=0.375848
+2025-12-23 06:33:01,287 | INFO | SANITY10 | test | ep=19 | #05 b=136 t=11 v=0 tp=1.196000 y_true=-0.103216 y_pred=-0.057463 abs_err=0.045753
+2025-12-23 06:33:01,287 | INFO | SANITY10 | test | ep=19 | #06 b=156 t=55 v=4 tp=2.596000 y_true=0.979923 y_pred=0.092865 abs_err=0.887059
+2025-12-23 06:33:01,287 | INFO | SANITY10 | test | ep=19 | #07 b=120 t=41 v=1 tp=2.550000 y_true=-0.127970 y_pred=-0.021709 abs_err=0.106261
+2025-12-23 06:33:01,288 | INFO | SANITY10 | test | ep=19 | #08 b=174 t=24 v=4 tp=1.270000 y_true=-1.524471 y_pred=-0.451425 abs_err=1.073045
+2025-12-23 06:33:01,288 | INFO | SANITY10 | test | ep=19 | #09 b=165 t=77 v=3 tp=3.782000 y_true=-0.015211 y_pred=0.080254 abs_err=0.095465
+2025-12-23 06:33:01,288 | INFO | SANITY10 | test | ep=19 | #10 b=78 t=27 v=1 tp=2.158000 y_true=-0.127970 y_pred=-0.018599 abs_err=0.109371
+2025-12-23 06:33:01,288 | INFO | [SCALE_CHECK] split=test epoch=19 pred(min,max,mean)=(-2.062425,3.025824,0.014443) tgt(min,max,mean)=(-3.738902,32.288517,-0.033093) count=14982
+2025-12-23 06:33:01,289 | INFO | [SCALE_CHECK] split=test epoch=19 |pred|/|tgt| (q50,q90,q99)=(0.153066,0.631360,4.932580)
+2025-12-23 06:33:01,289 | INFO | [PAIR] split=test epoch=19 b=0 t=0 d=3 tgt=-1.208702 pred=0.050319
+2025-12-23 06:33:01,289 | INFO | [PAIR] split=test epoch=19 b=0 t=1 d=3 tgt=-1.017743 pred=0.050506
+2025-12-23 06:33:01,289 | INFO | [PAIR] split=test epoch=19 b=0 t=2 d=3 tgt=-1.495139 pred=0.050548
+2025-12-23 06:33:12,087 | INFO | SANITY10 | val | ep=20 | #01 b=150 t=8 v=4 tp=1.600000 y_true=1.814721 y_pred=0.083371 abs_err=1.731351
+2025-12-23 06:33:12,087 | INFO | SANITY10 | val | ep=20 | #02 b=17 t=21 v=2 tp=2.728000 y_true=-0.173762 y_pred=-0.058351 abs_err=0.115411
+2025-12-23 06:33:12,088 | INFO | SANITY10 | val | ep=20 | #03 b=136 t=7 v=4 tp=1.068000 y_true=-0.011399 y_pred=-0.720258 abs_err=0.708858
+2025-12-23 06:33:12,088 | INFO | SANITY10 | val | ep=20 | #04 b=79 t=83 v=0 tp=2.528000 y_true=0.335499 y_pred=0.011669 abs_err=0.323829
+2025-12-23 06:33:12,088 | INFO | SANITY10 | val | ep=20 | #05 b=42 t=66 v=2 tp=2.306000 y_true=-0.173762 y_pred=-0.057047 abs_err=0.116715
+2025-12-23 06:33:12,088 | INFO | SANITY10 | val | ep=20 | #06 b=184 t=16 v=3 tp=1.922000 y_true=-1.065483 y_pred=0.063848 abs_err=1.129331
+2025-12-23 06:33:12,088 | INFO | SANITY10 | val | ep=20 | #07 b=146 t=6 v=3 tp=1.308000 y_true=0.128008 y_pred=0.056979 abs_err=0.071029
+2025-12-23 06:33:12,088 | INFO | SANITY10 | val | ep=20 | #08 b=69 t=23 v=1 tp=1.348000 y_true=-0.127970 y_pred=0.105100 abs_err=0.233070
+2025-12-23 06:33:12,088 | INFO | SANITY10 | val | ep=20 | #09 b=17 t=6 v=2 tp=2.520000 y_true=-0.173762 y_pred=-0.057713 abs_err=0.116049
+2025-12-23 06:33:12,089 | INFO | SANITY10 | val | ep=20 | #10 b=156 t=37 v=3 tp=2.488000 y_true=0.366706 y_pred=0.071500 abs_err=0.295206
+2025-12-23 06:33:12,089 | INFO | [SCALE_CHECK] split=val epoch=20 pred(min,max,mean)=(-1.699551,1.718587,0.010997) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:33:12,090 | INFO | [SCALE_CHECK] split=val epoch=20 |pred|/|tgt| (q50,q90,q99)=(0.158155,0.572520,6.364486)
+2025-12-23 06:33:12,090 | INFO | [PAIR] split=val epoch=20 b=0 t=0 d=4 tgt=-0.480973 pred=0.077677
+2025-12-23 06:33:12,090 | INFO | [PAIR] split=val epoch=20 b=0 t=1 d=0 tgt=-0.305700 pred=0.025531
+2025-12-23 06:33:12,090 | INFO | [PAIR] split=val epoch=20 b=0 t=2 d=2 tgt=-0.173762 pred=-0.052330
+2025-12-23 06:33:13,684 | INFO | SANITY10 | test | ep=20 | #01 b=178 t=71 v=3 tp=1.820000 y_true=-0.444868 y_pred=-0.076233 abs_err=0.368634
+2025-12-23 06:33:13,684 | INFO | SANITY10 | test | ep=20 | #02 b=160 t=15 v=4 tp=2.540000 y_true=1.449497 y_pred=0.092869 abs_err=1.356628
+2025-12-23 06:33:13,685 | INFO | SANITY10 | test | ep=20 | #03 b=53 t=49 v=2 tp=3.004000 y_true=0.084129 y_pred=-0.059175 abs_err=0.143304
+2025-12-23 06:33:13,685 | INFO | SANITY10 | test | ep=20 | #04 b=79 t=0 v=0 tp=1.802000 y_true=-0.305700 y_pred=0.018048 abs_err=0.323748
+2025-12-23 06:33:13,685 | INFO | SANITY10 | test | ep=20 | #05 b=148 t=0 v=3 tp=1.340000 y_true=0.557664 y_pred=0.057339 abs_err=0.500326
+2025-12-23 06:33:13,685 | INFO | SANITY10 | test | ep=20 | #06 b=58 t=20 v=1 tp=3.044000 y_true=-0.127970 y_pred=-0.023868 abs_err=0.104102
+2025-12-23 06:33:13,685 | INFO | SANITY10 | test | ep=20 | #07 b=136 t=15 v=3 tp=1.224000 y_true=-1.351921 y_pred=-0.607431 abs_err=0.744490
+2025-12-23 06:33:13,685 | INFO | SANITY10 | test | ep=20 | #08 b=92 t=88 v=4 tp=3.614000 y_true=0.510349 y_pred=0.102552 abs_err=0.407797
+2025-12-23 06:33:13,685 | INFO | SANITY10 | test | ep=20 | #09 b=13 t=35 v=3 tp=2.716000 y_true=0.414445 y_pred=0.074328 abs_err=0.340117
+2025-12-23 06:33:13,685 | INFO | SANITY10 | test | ep=20 | #10 b=87 t=88 v=2 tp=3.144000 y_true=1.115693 y_pred=-0.059581 abs_err=1.175274
+2025-12-23 06:33:13,686 | INFO | [SCALE_CHECK] split=test epoch=20 pred(min,max,mean)=(-1.995849,3.903280,0.014245) tgt(min,max,mean)=(-3.738902,32.288517,-0.033093) count=14982
+2025-12-23 06:33:13,686 | INFO | [SCALE_CHECK] split=test epoch=20 |pred|/|tgt| (q50,q90,q99)=(0.150320,0.683568,5.235499)
+2025-12-23 06:33:13,687 | INFO | [PAIR] split=test epoch=20 b=0 t=0 d=3 tgt=-1.208702 pred=0.053621
+2025-12-23 06:33:13,687 | INFO | [PAIR] split=test epoch=20 b=0 t=1 d=3 tgt=-1.017743 pred=0.053824
+2025-12-23 06:33:13,687 | INFO | [PAIR] split=test epoch=20 b=0 t=2 d=3 tgt=-1.495139 pred=0.053869
+2025-12-23 06:33:24,515 | INFO | SANITY10 | val | ep=21 | #01 b=82 t=38 v=1 tp=2.308000 y_true=-0.127970 y_pred=-0.015832 abs_err=0.112138
+2025-12-23 06:33:24,515 | INFO | SANITY10 | val | ep=21 | #02 b=39 t=3 v=1 tp=1.338000 y_true=-0.127970 y_pred=-0.007787 abs_err=0.120183
+2025-12-23 06:33:24,515 | INFO | SANITY10 | val | ep=21 | #03 b=153 t=14 v=2 tp=1.962000 y_true=-0.173762 y_pred=-0.042736 abs_err=0.131026
+2025-12-23 06:33:24,515 | INFO | SANITY10 | val | ep=21 | #04 b=151 t=2 v=1 tp=1.628000 y_true=-0.127970 y_pred=-0.010315 abs_err=0.117655
+2025-12-23 06:33:24,515 | INFO | SANITY10 | val | ep=21 | #05 b=151 t=80 v=0 tp=2.634000 y_true=-0.305700 y_pred=0.003858 abs_err=0.309558
+2025-12-23 06:33:24,515 | INFO | SANITY10 | val | ep=21 | #06 b=51 t=50 v=0 tp=2.822000 y_true=-0.305700 y_pred=0.002307 abs_err=0.308008
+2025-12-23 06:33:24,516 | INFO | SANITY10 | val | ep=21 | #07 b=87 t=40 v=3 tp=2.666000 y_true=0.414445 y_pred=0.053873 abs_err=0.360573
+2025-12-23 06:33:24,516 | INFO | SANITY10 | val | ep=21 | #08 b=84 t=44 v=0 tp=2.528000 y_true=0.335499 y_pred=0.004767 abs_err=0.330732
+2025-12-23 06:33:24,516 | INFO | SANITY10 | val | ep=21 | #09 b=42 t=91 v=1 tp=2.564000 y_true=-0.127970 y_pred=-0.017732 abs_err=0.110238
+2025-12-23 06:33:24,516 | INFO | SANITY10 | val | ep=21 | #10 b=54 t=15 v=1 tp=2.684000 y_true=-0.127970 y_pred=-0.018585 abs_err=0.109385
+2025-12-23 06:33:24,516 | INFO | [SCALE_CHECK] split=val epoch=21 pred(min,max,mean)=(-1.603541,1.350635,0.000795) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:33:24,517 | INFO | [SCALE_CHECK] split=val epoch=21 |pred|/|tgt| (q50,q90,q99)=(0.129566,0.487991,5.991904)
+2025-12-23 06:33:24,517 | INFO | [PAIR] split=val epoch=21 b=0 t=0 d=4 tgt=-0.480973 pred=0.059904
+2025-12-23 06:33:24,517 | INFO | [PAIR] split=val epoch=21 b=0 t=1 d=0 tgt=-0.305700 pred=0.019221
+2025-12-23 06:33:24,517 | INFO | [PAIR] split=val epoch=21 b=0 t=2 d=2 tgt=-0.173762 pred=-0.039840
+2025-12-23 06:33:35,425 | INFO | SANITY10 | val | ep=22 | #01 b=129 t=27 v=4 tp=3.056000 y_true=-0.376623 y_pred=0.104206 abs_err=0.480829
+2025-12-23 06:33:35,426 | INFO | SANITY10 | val | ep=22 | #02 b=71 t=29 v=2 tp=1.412000 y_true=-0.173762 y_pred=-0.070663 abs_err=0.103100
+2025-12-23 06:33:35,426 | INFO | SANITY10 | val | ep=22 | #03 b=104 t=6 v=3 tp=1.092000 y_true=-1.686098 y_pred=0.056923 abs_err=1.743021
+2025-12-23 06:33:35,426 | INFO | SANITY10 | val | ep=22 | #04 b=105 t=71 v=4 tp=1.746000 y_true=0.301650 y_pred=0.050719 abs_err=0.250931
+2025-12-23 06:33:35,426 | INFO | SANITY10 | val | ep=22 | #05 b=59 t=21 v=4 tp=3.190000 y_true=-1.054897 y_pred=0.105300 abs_err=1.160197
+2025-12-23 06:33:35,426 | INFO | SANITY10 | val | ep=22 | #06 b=45 t=58 v=1 tp=2.456000 y_true=-0.127970 y_pred=-0.035130 abs_err=0.092840
+2025-12-23 06:33:35,426 | INFO | SANITY10 | val | ep=22 | #07 b=91 t=20 v=2 tp=2.790000 y_true=-0.173762 y_pred=-0.074304 abs_err=0.099458
+2025-12-23 06:33:35,427 | INFO | SANITY10 | val | ep=22 | #08 b=37 t=39 v=0 tp=1.704000 y_true=-0.305700 y_pred=-0.000270 abs_err=0.305430
+2025-12-23 06:33:35,427 | INFO | SANITY10 | val | ep=22 | #09 b=38 t=10 v=1 tp=1.286000 y_true=-0.127970 y_pred=-0.024643 abs_err=0.103327
+2025-12-23 06:33:35,427 | INFO | SANITY10 | val | ep=22 | #10 b=186 t=6 v=0 tp=1.832000 y_true=-0.069469 y_pred=-0.001355 abs_err=0.068114
+2025-12-23 06:33:35,427 | INFO | [SCALE_CHECK] split=val epoch=22 pred(min,max,mean)=(-1.858613,0.929627,0.003057) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:33:35,428 | INFO | [SCALE_CHECK] split=val epoch=22 |pred|/|tgt| (q50,q90,q99)=(0.235742,0.613396,5.439459)
+2025-12-23 06:33:35,428 | INFO | [PAIR] split=val epoch=22 b=0 t=0 d=4 tgt=-0.480973 pred=0.084413
+2025-12-23 06:33:35,428 | INFO | [PAIR] split=val epoch=22 b=0 t=1 d=0 tgt=-0.305700 pred=0.006032
+2025-12-23 06:33:35,428 | INFO | [PAIR] split=val epoch=22 b=0 t=2 d=2 tgt=-0.173762 pred=-0.067766
+2025-12-23 06:33:46,263 | INFO | SANITY10 | val | ep=23 | #01 b=101 t=17 v=0 tp=1.190000 y_true=-0.170711 y_pred=0.070231 abs_err=0.240942
+2025-12-23 06:33:46,263 | INFO | SANITY10 | val | ep=23 | #02 b=80 t=27 v=4 tp=1.944000 y_true=-0.533148 y_pred=0.132947 abs_err=0.666095
+2025-12-23 06:33:46,263 | INFO | SANITY10 | val | ep=23 | #03 b=40 t=0 v=1 tp=1.338000 y_true=-0.127970 y_pred=-0.005955 abs_err=0.122015
+2025-12-23 06:33:46,264 | INFO | SANITY10 | val | ep=23 | #04 b=57 t=21 v=4 tp=2.996000 y_true=-1.524471 y_pred=0.145201 abs_err=1.669672
+2025-12-23 06:33:46,264 | INFO | SANITY10 | val | ep=23 | #05 b=53 t=21 v=4 tp=2.628000 y_true=0.666874 y_pred=0.140720 abs_err=0.526154
+2025-12-23 06:33:46,264 | INFO | SANITY10 | val | ep=23 | #06 b=85 t=20 v=1 tp=2.354000 y_true=-0.127970 y_pred=-0.016760 abs_err=0.111210
+2025-12-23 06:33:46,264 | INFO | SANITY10 | val | ep=23 | #07 b=92 t=7 v=2 tp=2.738000 y_true=-0.173762 y_pred=-0.063345 abs_err=0.110418
+2025-12-23 06:33:46,264 | INFO | SANITY10 | val | ep=23 | #08 b=185 t=34 v=2 tp=2.166000 y_true=0.857802 y_pred=-0.060536 abs_err=0.918338
+2025-12-23 06:33:46,264 | INFO | SANITY10 | val | ep=23 | #09 b=72 t=12 v=1 tp=1.190000 y_true=-0.127970 y_pred=-0.004261 abs_err=0.123709
+2025-12-23 06:33:46,264 | INFO | SANITY10 | val | ep=23 | #10 b=127 t=81 v=1 tp=3.396000 y_true=-0.127970 y_pred=-0.024834 abs_err=0.103136
+2025-12-23 06:33:46,265 | INFO | [SCALE_CHECK] split=val epoch=23 pred(min,max,mean)=(-1.830957,0.819388,0.027128) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:33:46,265 | INFO | [SCALE_CHECK] split=val epoch=23 |pred|/|tgt| (q50,q90,q99)=(0.176925,0.707255,5.798849)
+2025-12-23 06:33:46,266 | INFO | [PAIR] split=val epoch=23 b=0 t=0 d=4 tgt=-0.480973 pred=0.122458
+2025-12-23 06:33:46,266 | INFO | [PAIR] split=val epoch=23 b=0 t=1 d=0 tgt=-0.305700 pred=0.029390
+2025-12-23 06:33:46,266 | INFO | [PAIR] split=val epoch=23 b=0 t=2 d=2 tgt=-0.173762 pred=-0.054004
+2025-12-23 06:33:57,084 | INFO | SANITY10 | val | ep=24 | #01 b=166 t=25 v=0 tp=3.224000 y_true=-0.305700 y_pred=-0.006125 abs_err=0.299575
+2025-12-23 06:33:57,085 | INFO | SANITY10 | val | ep=24 | #02 b=82 t=84 v=3 tp=2.762000 y_true=0.414445 y_pred=0.067153 abs_err=0.347292
+2025-12-23 06:33:57,085 | INFO | SANITY10 | val | ep=24 | #03 b=5 t=83 v=0 tp=2.472000 y_true=-0.305700 y_pred=-0.000749 abs_err=0.304951
+2025-12-23 06:33:57,085 | INFO | SANITY10 | val | ep=24 | #04 b=117 t=95 v=3 tp=2.830000 y_true=-0.015211 y_pred=0.067722 abs_err=0.082933
+2025-12-23 06:33:57,085 | INFO | SANITY10 | val | ep=24 | #05 b=83 t=63 v=2 tp=2.658000 y_true=-0.173762 y_pred=-0.040123 abs_err=0.133639
+2025-12-23 06:33:57,085 | INFO | SANITY10 | val | ep=24 | #06 b=72 t=5 v=4 tp=1.050000 y_true=-1.367946 y_pred=0.079245 abs_err=1.447191
+2025-12-23 06:33:57,085 | INFO | SANITY10 | val | ep=24 | #07 b=109 t=65 v=4 tp=1.746000 y_true=0.301650 y_pred=0.086213 abs_err=0.215437
+2025-12-23 06:33:57,086 | INFO | SANITY10 | val | ep=24 | #08 b=122 t=8 v=2 tp=2.282000 y_true=-0.173762 y_pred=-0.038963 abs_err=0.134799
+2025-12-23 06:33:57,086 | INFO | SANITY10 | val | ep=24 | #09 b=58 t=76 v=1 tp=3.820000 y_true=-0.127970 y_pred=-0.026923 abs_err=0.101047
+2025-12-23 06:33:57,086 | INFO | SANITY10 | val | ep=24 | #10 b=47 t=7 v=1 tp=2.002000 y_true=-0.127970 y_pred=-0.016647 abs_err=0.111323
+2025-12-23 06:33:57,086 | INFO | [SCALE_CHECK] split=val epoch=24 pred(min,max,mean)=(-1.736856,0.637990,0.012000) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:33:57,087 | INFO | [SCALE_CHECK] split=val epoch=24 |pred|/|tgt| (q50,q90,q99)=(0.154300,0.558905,4.484203)
+2025-12-23 06:33:57,087 | INFO | [PAIR] split=val epoch=24 b=0 t=0 d=4 tgt=-0.480973 pred=0.078988
+2025-12-23 06:33:57,087 | INFO | [PAIR] split=val epoch=24 b=0 t=1 d=0 tgt=-0.305700 pred=0.012697
+2025-12-23 06:33:57,087 | INFO | [PAIR] split=val epoch=24 b=0 t=2 d=2 tgt=-0.173762 pred=-0.033599
+2025-12-23 06:34:08,082 | INFO | SANITY10 | val | ep=25 | #01 b=130 t=31 v=4 tp=3.174000 y_true=-0.063574 y_pred=0.098721 abs_err=0.162295
+2025-12-23 06:34:08,082 | INFO | SANITY10 | val | ep=25 | #02 b=137 t=1 v=3 tp=1.010000 y_true=-1.447400 y_pred=-0.306075 abs_err=1.141325
+2025-12-23 06:34:08,082 | INFO | SANITY10 | val | ep=25 | #03 b=89 t=35 v=4 tp=2.828000 y_true=-0.167924 y_pred=0.095194 abs_err=0.263118
+2025-12-23 06:34:08,082 | INFO | SANITY10 | val | ep=25 | #04 b=91 t=74 v=3 tp=3.452000 y_true=0.080268 y_pred=0.084850 abs_err=0.004582
+2025-12-23 06:34:08,082 | INFO | SANITY10 | val | ep=25 | #05 b=106 t=17 v=0 tp=1.190000 y_true=-0.170711 y_pred=0.056438 abs_err=0.227149
+2025-12-23 06:34:08,083 | INFO | SANITY10 | val | ep=25 | #06 b=46 t=7 v=4 tp=1.912000 y_true=-0.794022 y_pred=0.086441 abs_err=0.880464
+2025-12-23 06:34:08,083 | INFO | SANITY10 | val | ep=25 | #07 b=121 t=78 v=1 tp=2.950000 y_true=-0.127970 y_pred=-0.022498 abs_err=0.105472
+2025-12-23 06:34:08,083 | INFO | SANITY10 | val | ep=25 | #08 b=163 t=24 v=4 tp=2.884000 y_true=0.145125 y_pred=0.095717 abs_err=0.049409
+2025-12-23 06:34:08,083 | INFO | SANITY10 | val | ep=25 | #09 b=127 t=5 v=1 tp=2.642000 y_true=-0.127970 y_pred=-0.019932 abs_err=0.108038
+2025-12-23 06:34:08,083 | INFO | SANITY10 | val | ep=25 | #10 b=49 t=84 v=2 tp=3.098000 y_true=2.920930 y_pred=-0.038937 abs_err=2.959867
+2025-12-23 06:34:08,084 | INFO | [SCALE_CHECK] split=val epoch=25 pred(min,max,mean)=(-1.707619,0.803125,0.014120) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:34:08,084 | INFO | [SCALE_CHECK] split=val epoch=25 |pred|/|tgt| (q50,q90,q99)=(0.150542,0.560372,4.401891)
+2025-12-23 06:34:08,084 | INFO | [PAIR] split=val epoch=25 b=0 t=0 d=4 tgt=-0.480973 pred=0.077308
+2025-12-23 06:34:08,085 | INFO | [PAIR] split=val epoch=25 b=0 t=1 d=0 tgt=-0.305700 pred=0.018165
+2025-12-23 06:34:08,085 | INFO | [PAIR] split=val epoch=25 b=0 t=2 d=2 tgt=-0.173762 pred=-0.028115
+2025-12-23 06:34:09,728 | INFO | SANITY10 | test | ep=25 | #01 b=20 t=25 v=4 tp=3.066000 y_true=-1.994045 y_pred=0.097452 abs_err=2.091496
+2025-12-23 06:34:09,728 | INFO | SANITY10 | test | ep=25 | #02 b=140 t=2 v=0 tp=1.048000 y_true=0.402993 y_pred=0.051441 abs_err=0.351553
+2025-12-23 06:34:09,728 | INFO | SANITY10 | test | ep=25 | #03 b=38 t=69 v=3 tp=2.110000 y_true=-1.351921 y_pred=0.070147 abs_err=1.422068
+2025-12-23 06:34:09,729 | INFO | SANITY10 | test | ep=25 | #04 b=108 t=89 v=4 tp=1.954000 y_true=0.719049 y_pred=0.086862 abs_err=0.632187
+2025-12-23 06:34:09,729 | INFO | SANITY10 | test | ep=25 | #05 b=154 t=5 v=2 tp=1.906000 y_true=-0.173762 y_pred=-0.034454 abs_err=0.139308
+2025-12-23 06:34:09,729 | INFO | SANITY10 | test | ep=25 | #06 b=190 t=96 v=1 tp=2.868000 y_true=-0.127970 y_pred=-0.021845 abs_err=0.106125
+2025-12-23 06:34:09,729 | INFO | SANITY10 | test | ep=25 | #07 b=51 t=94 v=3 tp=3.294000 y_true=-0.970004 y_pred=0.083227 abs_err=1.053230
+2025-12-23 06:34:09,729 | INFO | SANITY10 | test | ep=25 | #08 b=139 t=20 v=1 tp=1.268000 y_true=-0.127970 y_pred=-0.021793 abs_err=0.106178
+2025-12-23 06:34:09,729 | INFO | SANITY10 | test | ep=25 | #09 b=189 t=83 v=1 tp=2.706000 y_true=-0.127970 y_pred=-0.020490 abs_err=0.107480
+2025-12-23 06:34:09,729 | INFO | SANITY10 | test | ep=25 | #10 b=160 t=34 v=0 tp=2.730000 y_true=-0.305700 y_pred=-0.003994 abs_err=0.301706
+2025-12-23 06:34:09,730 | INFO | [SCALE_CHECK] split=test epoch=25 pred(min,max,mean)=(-2.110341,3.852464,0.015567) tgt(min,max,mean)=(-3.738902,32.288517,-0.033093) count=14982
+2025-12-23 06:34:09,730 | INFO | [SCALE_CHECK] split=test epoch=25 |pred|/|tgt| (q50,q90,q99)=(0.137533,0.622703,5.194117)
+2025-12-23 06:34:09,731 | INFO | [PAIR] split=test epoch=25 b=0 t=0 d=3 tgt=-1.208702 pred=0.059051
+2025-12-23 06:34:09,731 | INFO | [PAIR] split=test epoch=25 b=0 t=1 d=3 tgt=-1.017743 pred=0.059232
+2025-12-23 06:34:09,731 | INFO | [PAIR] split=test epoch=25 b=0 t=2 d=3 tgt=-1.495139 pred=0.059272
+2025-12-23 06:34:20,741 | INFO | SANITY10 | val | ep=26 | #01 b=16 t=69 v=4 tp=3.236000 y_true=-0.324449 y_pred=0.100466 abs_err=0.424914
+2025-12-23 06:34:20,741 | INFO | SANITY10 | val | ep=26 | #02 b=11 t=65 v=3 tp=2.732000 y_true=0.557664 y_pred=0.072324 abs_err=0.485340
+2025-12-23 06:34:20,741 | INFO | SANITY10 | val | ep=26 | #03 b=83 t=52 v=2 tp=2.536000 y_true=-0.173762 y_pred=-0.059046 abs_err=0.114716
+2025-12-23 06:34:20,741 | INFO | SANITY10 | val | ep=26 | #04 b=78 t=32 v=1 tp=1.840000 y_true=-0.127970 y_pred=-0.008802 abs_err=0.119168
+2025-12-23 06:34:20,742 | INFO | SANITY10 | val | ep=26 | #05 b=74 t=86 v=4 tp=2.242000 y_true=-0.741848 y_pred=0.090037 abs_err=0.831885
+2025-12-23 06:34:20,742 | INFO | SANITY10 | val | ep=26 | #06 b=158 t=12 v=1 tp=2.376000 y_true=-0.127970 y_pred=-0.015018 abs_err=0.112952
+2025-12-23 06:34:20,742 | INFO | SANITY10 | val | ep=26 | #07 b=20 t=68 v=1 tp=3.566000 y_true=-0.127970 y_pred=-0.025663 abs_err=0.102307
+2025-12-23 06:34:20,742 | INFO | SANITY10 | val | ep=26 | #08 b=48 t=77 v=3 tp=2.936000 y_true=-1.877056 y_pred=0.074904 abs_err=1.951960
+2025-12-23 06:34:20,742 | INFO | SANITY10 | val | ep=26 | #09 b=17 t=7 v=0 tp=2.524000 y_true=-0.238206 y_pred=0.023031 abs_err=0.261236
+2025-12-23 06:34:20,742 | INFO | SANITY10 | val | ep=26 | #10 b=10 t=20 v=4 tp=2.048000 y_true=-1.054897 y_pred=0.087892 abs_err=1.142789
+2025-12-23 06:34:20,743 | INFO | [SCALE_CHECK] split=val epoch=26 pred(min,max,mean)=(-1.747999,0.658416,0.013663) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:34:20,743 | INFO | [SCALE_CHECK] split=val epoch=26 |pred|/|tgt| (q50,q90,q99)=(0.148445,0.607413,4.088120)
+2025-12-23 06:34:20,744 | INFO | [PAIR] split=val epoch=26 b=0 t=0 d=4 tgt=-0.480973 pred=0.076983
+2025-12-23 06:34:20,744 | INFO | [PAIR] split=val epoch=26 b=0 t=1 d=0 tgt=-0.305700 pred=0.042851
+2025-12-23 06:34:20,744 | INFO | [PAIR] split=val epoch=26 b=0 t=2 d=2 tgt=-0.173762 pred=-0.046499
+2025-12-23 06:34:31,859 | INFO | SANITY10 | val | ep=27 | #01 b=5 t=15 v=4 tp=1.612000 y_true=1.292973 y_pred=0.060890 abs_err=1.232083
+2025-12-23 06:34:31,860 | INFO | SANITY10 | val | ep=27 | #02 b=159 t=23 v=4 tp=2.536000 y_true=1.710372 y_pred=0.070327 abs_err=1.640044
+2025-12-23 06:34:31,860 | INFO | SANITY10 | val | ep=27 | #03 b=10 t=15 v=1 tp=2.016000 y_true=2.149945 y_pred=-0.014351 abs_err=2.164296
+2025-12-23 06:34:31,860 | INFO | SANITY10 | val | ep=27 | #04 b=90 t=71 v=0 tp=3.378000 y_true=1.820381 y_pred=0.003273 abs_err=1.817108
+2025-12-23 06:34:31,860 | INFO | SANITY10 | val | ep=27 | #05 b=126 t=14 v=3 tp=2.672000 y_true=0.748623 y_pred=0.057721 abs_err=0.690901
+2025-12-23 06:34:31,860 | INFO | SANITY10 | val | ep=27 | #06 b=59 t=32 v=3 tp=3.432000 y_true=0.557664 y_pred=0.066516 abs_err=0.491148
+2025-12-23 06:34:31,860 | INFO | SANITY10 | val | ep=27 | #07 b=191 t=31 v=0 tp=2.350000 y_true=-0.305700 y_pred=0.012794 abs_err=0.318495
+2025-12-23 06:34:31,861 | INFO | SANITY10 | val | ep=27 | #08 b=23 t=27 v=0 tp=3.210000 y_true=3.946461 y_pred=0.004556 abs_err=3.941906
+2025-12-23 06:34:31,861 | INFO | SANITY10 | val | ep=27 | #09 b=55 t=77 v=2 tp=3.610000 y_true=-0.173762 y_pred=-0.067515 abs_err=0.106247
+2025-12-23 06:34:31,861 | INFO | SANITY10 | val | ep=27 | #10 b=45 t=47 v=3 tp=2.368000 y_true=0.175747 y_pred=0.053704 abs_err=0.122043
+2025-12-23 06:34:31,861 | INFO | [SCALE_CHECK] split=val epoch=27 pred(min,max,mean)=(-1.876601,0.553550,-0.006112) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:34:31,862 | INFO | [SCALE_CHECK] split=val epoch=27 |pred|/|tgt| (q50,q90,q99)=(0.141988,0.516371,3.941239)
+2025-12-23 06:34:31,862 | INFO | [PAIR] split=val epoch=27 b=0 t=0 d=4 tgt=-0.480973 pred=0.054669
+2025-12-23 06:34:31,862 | INFO | [PAIR] split=val epoch=27 b=0 t=1 d=0 tgt=-0.305700 pred=0.029776
+2025-12-23 06:34:31,862 | INFO | [PAIR] split=val epoch=27 b=0 t=2 d=2 tgt=-0.173762 pred=-0.048092
+2025-12-23 06:34:43,104 | INFO | SANITY10 | val | ep=28 | #01 b=44 t=33 v=3 tp=1.998000 y_true=-1.065483 y_pred=0.069162 abs_err=1.134645
+2025-12-23 06:34:43,104 | INFO | SANITY10 | val | ep=28 | #02 b=131 t=55 v=0 tp=3.524000 y_true=-0.305700 y_pred=-0.015960 abs_err=0.289740
+2025-12-23 06:34:43,104 | INFO | SANITY10 | val | ep=28 | #03 b=48 t=48 v=4 tp=2.602000 y_true=1.032098 y_pred=0.104632 abs_err=0.927467
+2025-12-23 06:34:43,104 | INFO | SANITY10 | val | ep=28 | #04 b=39 t=35 v=1 tp=1.756000 y_true=-0.127970 y_pred=-0.020777 abs_err=0.107194
+2025-12-23 06:34:43,104 | INFO | SANITY10 | val | ep=28 | #05 b=0 t=3 v=3 tp=1.064000 y_true=-0.874524 y_pred=0.058646 abs_err=0.933170
+2025-12-23 06:34:43,104 | INFO | SANITY10 | val | ep=28 | #06 b=15 t=48 v=2 tp=2.998000 y_true=-0.173762 y_pred=-0.061928 abs_err=0.111834
+2025-12-23 06:34:43,105 | INFO | SANITY10 | val | ep=28 | #07 b=17 t=16 v=4 tp=2.668000 y_true=1.084273 y_pred=0.105233 abs_err=0.979040
+2025-12-23 06:34:43,105 | INFO | SANITY10 | val | ep=28 | #08 b=103 t=31 v=3 tp=1.346000 y_true=-0.110690 y_pred=0.133994 abs_err=0.244684
+2025-12-23 06:34:43,105 | INFO | SANITY10 | val | ep=28 | #09 b=89 t=71 v=0 tp=3.316000 y_true=-0.305700 y_pred=-0.014475 abs_err=0.291226
+2025-12-23 06:34:43,105 | INFO | SANITY10 | val | ep=28 | #10 b=21 t=44 v=0 tp=3.324000 y_true=0.470488 y_pred=-0.014534 abs_err=0.485022
+2025-12-23 06:34:43,105 | INFO | [SCALE_CHECK] split=val epoch=28 pred(min,max,mean)=(-1.782392,1.240541,0.007866) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:34:43,106 | INFO | [SCALE_CHECK] split=val epoch=28 |pred|/|tgt| (q50,q90,q99)=(0.197893,0.640134,5.238428)
+2025-12-23 06:34:43,106 | INFO | [PAIR] split=val epoch=28 b=0 t=0 d=4 tgt=-0.480973 pred=0.085397
+2025-12-23 06:34:43,106 | INFO | [PAIR] split=val epoch=28 b=0 t=1 d=0 tgt=-0.305700 pred=0.012572
+2025-12-23 06:34:43,106 | INFO | [PAIR] split=val epoch=28 b=0 t=2 d=2 tgt=-0.173762 pred=-0.043396
+2025-12-23 06:34:54,556 | INFO | SANITY10 | val | ep=29 | #01 b=103 t=7 v=3 tp=1.114000 y_true=-1.113223 y_pred=-0.028664 abs_err=1.084558
+2025-12-23 06:34:54,557 | INFO | SANITY10 | val | ep=29 | #02 b=88 t=43 v=3 tp=2.762000 y_true=0.414445 y_pred=0.048514 abs_err=0.365932
+2025-12-23 06:34:54,557 | INFO | SANITY10 | val | ep=29 | #03 b=65 t=7 v=4 tp=1.088000 y_true=-1.002722 y_pred=-0.466779 abs_err=0.535942
+2025-12-23 06:34:54,557 | INFO | SANITY10 | val | ep=29 | #04 b=140 t=40 v=3 tp=1.528000 y_true=1.369238 y_pred=-0.006925 abs_err=1.376163
+2025-12-23 06:34:54,557 | INFO | SANITY10 | val | ep=29 | #05 b=104 t=6 v=3 tp=1.092000 y_true=-1.686098 y_pred=0.128320 abs_err=1.814418
+2025-12-23 06:34:54,557 | INFO | SANITY10 | val | ep=29 | #06 b=16 t=49 v=1 tp=3.048000 y_true=-0.127970 y_pred=-0.031549 abs_err=0.096421
+2025-12-23 06:34:54,557 | INFO | SANITY10 | val | ep=29 | #07 b=158 t=10 v=0 tp=2.368000 y_true=-0.305700 y_pred=-0.002590 abs_err=0.303110
+2025-12-23 06:34:54,557 | INFO | SANITY10 | val | ep=29 | #08 b=144 t=1 v=3 tp=1.010000 y_true=-1.447400 y_pred=0.029378 abs_err=1.476778
+2025-12-23 06:34:54,558 | INFO | SANITY10 | val | ep=29 | #09 b=158 t=6 v=4 tp=2.276000 y_true=-0.167924 y_pred=0.064468 abs_err=0.232392
+2025-12-23 06:34:54,558 | INFO | SANITY10 | val | ep=29 | #10 b=139 t=10 v=2 tp=1.108000 y_true=-0.173762 y_pred=-0.206193 abs_err=0.032431
+2025-12-23 06:34:54,558 | INFO | [SCALE_CHECK] split=val epoch=29 pred(min,max,mean)=(-1.631446,0.464803,-0.009137) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:34:54,559 | INFO | [SCALE_CHECK] split=val epoch=29 |pred|/|tgt| (q50,q90,q99)=(0.146755,0.493295,3.529854)
+2025-12-23 06:34:54,559 | INFO | [PAIR] split=val epoch=29 b=0 t=0 d=4 tgt=-0.480973 pred=0.051133
+2025-12-23 06:34:54,559 | INFO | [PAIR] split=val epoch=29 b=0 t=1 d=0 tgt=-0.305700 pred=0.015626
+2025-12-23 06:34:54,559 | INFO | [PAIR] split=val epoch=29 b=0 t=2 d=2 tgt=-0.173762 pred=-0.043771
+2025-12-23 06:35:05,532 | INFO | SANITY10 | val | ep=30 | #01 b=119 t=66 v=3 tp=2.684000 y_true=0.175747 y_pred=0.072598 abs_err=0.103150
+2025-12-23 06:35:05,532 | INFO | SANITY10 | val | ep=30 | #02 b=131 t=88 v=0 tp=3.912000 y_true=-0.305700 y_pred=0.006186 abs_err=0.311886
+2025-12-23 06:35:05,532 | INFO | SANITY10 | val | ep=30 | #03 b=93 t=5 v=1 tp=2.876000 y_true=-0.127970 y_pred=-0.006501 abs_err=0.121469
+2025-12-23 06:35:05,532 | INFO | SANITY10 | val | ep=30 | #04 b=38 t=53 v=0 tp=1.836000 y_true=-0.305700 y_pred=0.029560 abs_err=0.335260
+2025-12-23 06:35:05,532 | INFO | SANITY10 | val | ep=30 | #05 b=82 t=93 v=2 tp=2.912000 y_true=-0.173762 y_pred=-0.040701 abs_err=0.133061
+2025-12-23 06:35:05,532 | INFO | SANITY10 | val | ep=30 | #06 b=16 t=41 v=0 tp=2.954000 y_true=4.216440 y_pred=0.014955 abs_err=4.201485
+2025-12-23 06:35:05,533 | INFO | SANITY10 | val | ep=30 | #07 b=130 t=2 v=2 tp=2.862000 y_true=-0.173762 y_pred=-0.040279 abs_err=0.133483
+2025-12-23 06:35:05,533 | INFO | SANITY10 | val | ep=30 | #08 b=49 t=5 v=3 tp=2.120000 y_true=-1.781577 y_pred=0.064936 abs_err=1.846513
+2025-12-23 06:35:05,533 | INFO | SANITY10 | val | ep=30 | #09 b=155 t=37 v=4 tp=2.430000 y_true=0.353825 y_pred=0.088636 abs_err=0.265189
+2025-12-23 06:35:05,533 | INFO | SANITY10 | val | ep=30 | #10 b=37 t=42 v=1 tp=1.732000 y_true=-0.127970 y_pred=0.007279 abs_err=0.135249
+2025-12-23 06:35:05,533 | INFO | [SCALE_CHECK] split=val epoch=30 pred(min,max,mean)=(-1.624214,1.328291,0.014373) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:35:05,534 | INFO | [SCALE_CHECK] split=val epoch=30 |pred|/|tgt| (q50,q90,q99)=(0.113536,0.554899,4.903385)
+2025-12-23 06:35:05,534 | INFO | [PAIR] split=val epoch=30 b=0 t=0 d=4 tgt=-0.480973 pred=0.073417
+2025-12-23 06:35:05,534 | INFO | [PAIR] split=val epoch=30 b=0 t=1 d=0 tgt=-0.305700 pred=0.041443
+2025-12-23 06:35:05,534 | INFO | [PAIR] split=val epoch=30 b=0 t=2 d=2 tgt=-0.173762 pred=-0.020456
+2025-12-23 06:35:16,451 | INFO | SANITY10 | val | ep=31 | #01 b=58 t=77 v=4 tp=3.828000 y_true=-0.115749 y_pred=0.141125 abs_err=0.256874
+2025-12-23 06:35:16,451 | INFO | SANITY10 | val | ep=31 | #02 b=115 t=19 v=2 tp=1.880000 y_true=-0.173762 y_pred=-0.059505 abs_err=0.114257
+2025-12-23 06:35:16,451 | INFO | SANITY10 | val | ep=31 | #03 b=10 t=15 v=1 tp=2.016000 y_true=2.149945 y_pred=-0.022129 abs_err=2.172075
+2025-12-23 06:35:16,451 | INFO | SANITY10 | val | ep=31 | #04 b=160 t=30 v=1 tp=2.680000 y_true=-0.127970 y_pred=-0.030811 abs_err=0.097159
+2025-12-23 06:35:16,451 | INFO | SANITY10 | val | ep=31 | #05 b=70 t=49 v=3 tp=1.668000 y_true=0.796362 y_pred=-0.106697 abs_err=0.903060
+2025-12-23 06:35:16,452 | INFO | SANITY10 | val | ep=31 | #06 b=2 t=19 v=3 tp=1.428000 y_true=0.987321 y_pred=0.078989 abs_err=0.908332
+2025-12-23 06:35:16,452 | INFO | SANITY10 | val | ep=31 | #07 b=68 t=44 v=1 tp=1.646000 y_true=-0.127970 y_pred=0.081365 abs_err=0.209335
+2025-12-23 06:35:16,452 | INFO | SANITY10 | val | ep=31 | #08 b=127 t=74 v=0 tp=3.356000 y_true=2.225348 y_pred=-0.007353 abs_err=2.232701
+2025-12-23 06:35:16,452 | INFO | SANITY10 | val | ep=31 | #09 b=112 t=81 v=4 tp=2.228000 y_true=-0.063574 y_pred=0.122478 abs_err=0.186052
+2025-12-23 06:35:16,452 | INFO | SANITY10 | val | ep=31 | #10 b=165 t=29 v=2 tp=3.158000 y_true=-0.173762 y_pred=-0.071208 abs_err=0.102554
+2025-12-23 06:35:16,452 | INFO | [SCALE_CHECK] split=val epoch=31 pred(min,max,mean)=(-1.558292,0.883604,0.013927) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:35:16,453 | INFO | [SCALE_CHECK] split=val epoch=31 |pred|/|tgt| (q50,q90,q99)=(0.208751,0.653404,5.620955)
+2025-12-23 06:35:16,453 | INFO | [PAIR] split=val epoch=31 b=0 t=0 d=4 tgt=-0.480973 pred=0.101864
+2025-12-23 06:35:16,453 | INFO | [PAIR] split=val epoch=31 b=0 t=1 d=0 tgt=-0.305700 pred=0.025124
+2025-12-23 06:35:16,454 | INFO | [PAIR] split=val epoch=31 b=0 t=2 d=2 tgt=-0.173762 pred=-0.048921
+2025-12-23 06:35:27,419 | INFO | SANITY10 | val | ep=32 | #01 b=112 t=41 v=4 tp=1.746000 y_true=0.301650 y_pred=0.081644 abs_err=0.220006
+2025-12-23 06:35:27,419 | INFO | SANITY10 | val | ep=32 | #02 b=31 t=34 v=3 tp=1.562000 y_true=0.318966 y_pred=-0.729483 abs_err=1.048449
+2025-12-23 06:35:27,419 | INFO | SANITY10 | val | ep=32 | #03 b=105 t=78 v=1 tp=1.810000 y_true=-0.127970 y_pred=-0.087474 abs_err=0.040496
+2025-12-23 06:35:27,419 | INFO | SANITY10 | val | ep=32 | #04 b=131 t=61 v=1 tp=3.602000 y_true=-0.127970 y_pred=-0.034405 abs_err=0.093565
+2025-12-23 06:35:27,419 | INFO | SANITY10 | val | ep=32 | #05 b=1 t=4 v=0 tp=1.152000 y_true=0.369246 y_pred=0.035597 abs_err=0.333649
+2025-12-23 06:35:27,420 | INFO | SANITY10 | val | ep=32 | #06 b=188 t=65 v=4 tp=2.556000 y_true=0.301650 y_pred=0.093613 abs_err=0.208037
+2025-12-23 06:35:27,420 | INFO | SANITY10 | val | ep=32 | #07 b=109 t=21 v=2 tp=1.302000 y_true=-0.173762 y_pred=-0.045654 abs_err=0.128108
+2025-12-23 06:35:27,420 | INFO | SANITY10 | val | ep=32 | #08 b=80 t=97 v=2 tp=2.738000 y_true=-0.173762 y_pred=-0.061609 abs_err=0.112153
+2025-12-23 06:35:27,420 | INFO | SANITY10 | val | ep=32 | #09 b=34 t=34 v=2 tp=1.562000 y_true=-0.173762 y_pred=-0.134612 abs_err=0.039150
+2025-12-23 06:35:27,420 | INFO | SANITY10 | val | ep=32 | #10 b=138 t=0 v=4 tp=1.004000 y_true=-0.585323 y_pred=0.024384 abs_err=0.609707
+2025-12-23 06:35:27,420 | INFO | [SCALE_CHECK] split=val epoch=32 pred(min,max,mean)=(-1.717693,1.985760,0.015029) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:35:27,421 | INFO | [SCALE_CHECK] split=val epoch=32 |pred|/|tgt| (q50,q90,q99)=(0.170359,0.578740,5.793213)
+2025-12-23 06:35:27,421 | INFO | [PAIR] split=val epoch=32 b=0 t=0 d=4 tgt=-0.480973 pred=0.069073
+2025-12-23 06:35:27,421 | INFO | [PAIR] split=val epoch=32 b=0 t=1 d=0 tgt=-0.305700 pred=0.037683
+2025-12-23 06:35:27,422 | INFO | [PAIR] split=val epoch=32 b=0 t=2 d=2 tgt=-0.173762 pred=-0.042076
+2025-12-23 06:35:38,727 | INFO | SANITY10 | val | ep=33 | #01 b=91 t=78 v=0 tp=3.508000 y_true=-0.035722 y_pred=0.011111 abs_err=0.046833
+2025-12-23 06:35:38,727 | INFO | SANITY10 | val | ep=33 | #02 b=134 t=10 v=0 tp=1.108000 y_true=-0.305700 y_pred=0.433485 abs_err=0.739185
+2025-12-23 06:35:38,727 | INFO | SANITY10 | val | ep=33 | #03 b=17 t=1 v=0 tp=2.472000 y_true=-0.305700 y_pred=0.022439 abs_err=0.328140
+2025-12-23 06:35:38,727 | INFO | SANITY10 | val | ep=33 | #04 b=159 t=76 v=0 tp=3.198000 y_true=-0.305700 y_pred=0.013918 abs_err=0.319618
+2025-12-23 06:35:38,727 | INFO | SANITY10 | val | ep=33 | #05 b=122 t=22 v=1 tp=2.454000 y_true=-0.127970 y_pred=-0.004747 abs_err=0.123223
+2025-12-23 06:35:38,728 | INFO | SANITY10 | val | ep=33 | #06 b=123 t=40 v=0 tp=2.716000 y_true=-0.305700 y_pred=0.019276 abs_err=0.324976
+2025-12-23 06:35:38,728 | INFO | SANITY10 | val | ep=33 | #07 b=124 t=80 v=4 tp=3.176000 y_true=-0.220099 y_pred=0.113621 abs_err=0.333720
+2025-12-23 06:35:38,728 | INFO | SANITY10 | val | ep=33 | #08 b=66 t=21 v=0 tp=1.310000 y_true=-0.305700 y_pred=0.391390 abs_err=0.697090
+2025-12-23 06:35:38,728 | INFO | SANITY10 | val | ep=33 | #09 b=146 t=41 v=0 tp=1.754000 y_true=-0.170711 y_pred=0.033172 abs_err=0.203883
+2025-12-23 06:35:38,728 | INFO | SANITY10 | val | ep=33 | #10 b=51 t=68 v=2 tp=3.058000 y_true=1.373584 y_pred=-0.053363 abs_err=1.426947
+2025-12-23 06:35:38,729 | INFO | [SCALE_CHECK] split=val epoch=33 pred(min,max,mean)=(-1.745900,0.733978,0.013558) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:35:38,729 | INFO | [SCALE_CHECK] split=val epoch=33 |pred|/|tgt| (q50,q90,q99)=(0.128018,0.612643,4.419896)
+2025-12-23 06:35:38,729 | INFO | [PAIR] split=val epoch=33 b=0 t=0 d=4 tgt=-0.480973 pred=0.080489
+2025-12-23 06:35:38,730 | INFO | [PAIR] split=val epoch=33 b=0 t=1 d=0 tgt=-0.305700 pred=0.045274
+2025-12-23 06:35:38,730 | INFO | [PAIR] split=val epoch=33 b=0 t=2 d=2 tgt=-0.173762 pred=-0.030614
+2025-12-23 06:35:50,437 | INFO | SANITY10 | val | ep=34 | #01 b=132 t=2 v=0 tp=1.018000 y_true=-0.305700 y_pred=0.241784 abs_err=0.547485
+2025-12-23 06:35:50,437 | INFO | SANITY10 | val | ep=34 | #02 b=78 t=70 v=1 tp=2.308000 y_true=-0.127970 y_pred=-0.012374 abs_err=0.115596
+2025-12-23 06:35:50,437 | INFO | SANITY10 | val | ep=34 | #03 b=128 t=72 v=0 tp=3.388000 y_true=-0.305700 y_pred=0.008571 abs_err=0.314271
+2025-12-23 06:35:50,437 | INFO | SANITY10 | val | ep=34 | #04 b=147 t=73 v=3 tp=2.196000 y_true=0.414445 y_pred=0.072163 abs_err=0.342283
+2025-12-23 06:35:50,438 | INFO | SANITY10 | val | ep=34 | #05 b=44 t=63 v=0 tp=2.416000 y_true=-0.305700 y_pred=0.018928 abs_err=0.324628
+2025-12-23 06:35:50,438 | INFO | SANITY10 | val | ep=34 | #06 b=18 t=7 v=3 tp=2.570000 y_true=1.560196 y_pred=0.078112 abs_err=1.482085
+2025-12-23 06:35:50,438 | INFO | SANITY10 | val | ep=34 | #07 b=58 t=23 v=4 tp=3.140000 y_true=-1.159247 y_pred=0.103837 abs_err=1.263084
+2025-12-23 06:35:50,438 | INFO | SANITY10 | val | ep=34 | #08 b=140 t=49 v=3 tp=1.644000 y_true=0.939581 y_pred=-0.135915 abs_err=1.075496
+2025-12-23 06:35:50,438 | INFO | SANITY10 | val | ep=34 | #09 b=75 t=15 v=1 tp=1.500000 y_true=-0.127970 y_pred=-0.000509 abs_err=0.127461
+2025-12-23 06:35:50,438 | INFO | SANITY10 | val | ep=34 | #10 b=11 t=78 v=1 tp=2.982000 y_true=-0.127970 y_pred=-0.020565 abs_err=0.107405
+2025-12-23 06:35:50,439 | INFO | [SCALE_CHECK] split=val epoch=34 pred(min,max,mean)=(-1.650145,0.698050,0.011321) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:35:50,439 | INFO | [SCALE_CHECK] split=val epoch=34 |pred|/|tgt| (q50,q90,q99)=(0.150469,0.589144,4.288592)
+2025-12-23 06:35:50,439 | INFO | [PAIR] split=val epoch=34 b=0 t=0 d=4 tgt=-0.480973 pred=0.075140
+2025-12-23 06:35:50,440 | INFO | [PAIR] split=val epoch=34 b=0 t=1 d=0 tgt=-0.305700 pred=0.039073
+2025-12-23 06:35:50,440 | INFO | [PAIR] split=val epoch=34 b=0 t=2 d=2 tgt=-0.173762 pred=-0.036850
+2025-12-23 06:36:01,741 | INFO | SANITY10 | val | ep=35 | #01 b=151 t=42 v=4 tp=2.164000 y_true=-0.167924 y_pred=0.105542 abs_err=0.273466
+2025-12-23 06:36:01,741 | INFO | SANITY10 | val | ep=35 | #02 b=52 t=76 v=0 tp=3.252000 y_true=-0.305700 y_pred=-0.005209 abs_err=0.300491
+2025-12-23 06:36:01,741 | INFO | SANITY10 | val | ep=35 | #03 b=17 t=27 v=3 tp=2.816000 y_true=0.509925 y_pred=0.091588 abs_err=0.418337
+2025-12-23 06:36:01,741 | INFO | SANITY10 | val | ep=35 | #04 b=89 t=28 v=3 tp=2.724000 y_true=0.605404 y_pred=0.090304 abs_err=0.515100
+2025-12-23 06:36:01,742 | INFO | SANITY10 | val | ep=35 | #05 b=58 t=77 v=4 tp=3.828000 y_true=-0.115749 y_pred=0.122298 abs_err=0.238047
+2025-12-23 06:36:01,742 | INFO | SANITY10 | val | ep=35 | #06 b=19 t=87 v=1 tp=3.646000 y_true=-0.127970 y_pred=-0.033491 abs_err=0.094479
+2025-12-23 06:36:01,742 | INFO | SANITY10 | val | ep=35 | #07 b=110 t=65 v=2 tp=1.880000 y_true=-0.173762 y_pred=-0.046755 abs_err=0.127007
+2025-12-23 06:36:01,742 | INFO | SANITY10 | val | ep=35 | #08 b=119 t=1 v=2 tp=1.924000 y_true=-0.173762 y_pred=-0.047315 abs_err=0.126447
+2025-12-23 06:36:01,742 | INFO | SANITY10 | val | ep=35 | #09 b=110 t=23 v=3 tp=1.382000 y_true=1.035061 y_pred=0.068766 abs_err=0.966295
+2025-12-23 06:36:01,742 | INFO | SANITY10 | val | ep=35 | #10 b=47 t=80 v=4 tp=2.910000 y_true=-0.428798 y_pred=0.114419 abs_err=0.543218
+2025-12-23 06:36:01,743 | INFO | [SCALE_CHECK] split=val epoch=35 pred(min,max,mean)=(-1.723837,1.294471,0.012644) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:36:01,743 | INFO | [SCALE_CHECK] split=val epoch=35 |pred|/|tgt| (q50,q90,q99)=(0.178645,0.615792,5.525081)
+2025-12-23 06:36:01,744 | INFO | [PAIR] split=val epoch=35 b=0 t=0 d=4 tgt=-0.480973 pred=0.086848
+2025-12-23 06:36:01,744 | INFO | [PAIR] split=val epoch=35 b=0 t=1 d=0 tgt=-0.305700 pred=0.027403
+2025-12-23 06:36:01,744 | INFO | [PAIR] split=val epoch=35 b=0 t=2 d=2 tgt=-0.173762 pred=-0.035264
+2025-12-23 06:36:12,852 | INFO | SANITY10 | val | ep=36 | #01 b=70 t=70 v=2 tp=1.892000 y_true=-0.173762 y_pred=-0.098448 abs_err=0.075314
+2025-12-23 06:36:12,853 | INFO | SANITY10 | val | ep=36 | #02 b=8 t=20 v=4 tp=1.934000 y_true=-0.272274 y_pred=0.091026 abs_err=0.363299
+2025-12-23 06:36:12,853 | INFO | SANITY10 | val | ep=36 | #03 b=32 t=23 v=1 tp=1.358000 y_true=-0.127970 y_pred=0.095460 abs_err=0.223430
+2025-12-23 06:36:12,853 | INFO | SANITY10 | val | ep=36 | #04 b=57 t=66 v=1 tp=3.622000 y_true=-0.127970 y_pred=-0.031055 abs_err=0.096915
+2025-12-23 06:36:12,853 | INFO | SANITY10 | val | ep=36 | #05 b=151 t=43 v=1 tp=2.166000 y_true=-0.127970 y_pred=-0.015002 abs_err=0.112968
+2025-12-23 06:36:12,853 | INFO | SANITY10 | val | ep=36 | #06 b=186 t=11 v=4 tp=1.888000 y_true=-0.480973 y_pred=0.090365 abs_err=0.571339
+2025-12-23 06:36:12,853 | INFO | SANITY10 | val | ep=36 | #07 b=47 t=8 v=3 tp=2.012000 y_true=-1.399660 y_pred=0.065846 abs_err=1.465507
+2025-12-23 06:36:12,854 | INFO | SANITY10 | val | ep=36 | #08 b=150 t=68 v=3 tp=2.412000 y_true=0.366706 y_pred=0.072270 abs_err=0.294436
+2025-12-23 06:36:12,854 | INFO | SANITY10 | val | ep=36 | #09 b=49 t=42 v=0 tp=2.596000 y_true=-0.305700 y_pred=0.004458 abs_err=0.310158
+2025-12-23 06:36:12,854 | INFO | SANITY10 | val | ep=36 | #10 b=128 t=61 v=0 tp=3.288000 y_true=-0.305700 y_pred=-0.003444 abs_err=0.302257
+2025-12-23 06:36:12,854 | INFO | [SCALE_CHECK] split=val epoch=36 pred(min,max,mean)=(-1.602048,1.101551,0.007671) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:36:12,855 | INFO | [SCALE_CHECK] split=val epoch=36 |pred|/|tgt| (q50,q90,q99)=(0.159564,0.572888,4.787652)
+2025-12-23 06:36:12,855 | INFO | [PAIR] split=val epoch=36 b=0 t=0 d=4 tgt=-0.480973 pred=0.075960
+2025-12-23 06:36:12,855 | INFO | [PAIR] split=val epoch=36 b=0 t=1 d=0 tgt=-0.305700 pred=0.029637
+2025-12-23 06:36:12,855 | INFO | [PAIR] split=val epoch=36 b=0 t=2 d=2 tgt=-0.173762 pred=-0.035337
+2025-12-23 06:36:23,782 | INFO | SANITY10 | val | ep=37 | #01 b=109 t=31 v=4 tp=1.378000 y_true=0.040776 y_pred=0.097084 abs_err=0.056309
+2025-12-23 06:36:23,782 | INFO | SANITY10 | val | ep=37 | #02 b=158 t=8 v=4 tp=2.332000 y_true=0.197300 y_pred=0.111828 abs_err=0.085472
+2025-12-23 06:36:23,782 | INFO | SANITY10 | val | ep=37 | #03 b=143 t=3 v=1 tp=1.036000 y_true=-0.127970 y_pred=-0.042965 abs_err=0.085006
+2025-12-23 06:36:23,783 | INFO | SANITY10 | val | ep=37 | #04 b=128 t=13 v=2 tp=2.762000 y_true=-0.173762 y_pred=-0.045610 abs_err=0.128152
+2025-12-23 06:36:23,783 | INFO | SANITY10 | val | ep=37 | #05 b=127 t=56 v=1 tp=3.162000 y_true=-0.127970 y_pred=-0.020009 abs_err=0.107961
+2025-12-23 06:36:23,783 | INFO | SANITY10 | val | ep=37 | #06 b=71 t=58 v=0 tp=1.762000 y_true=-0.305700 y_pred=0.142652 abs_err=0.448353
+2025-12-23 06:36:23,783 | INFO | SANITY10 | val | ep=37 | #07 b=92 t=67 v=4 tp=3.500000 y_true=0.614699 y_pred=0.128988 abs_err=0.485711
+2025-12-23 06:36:23,783 | INFO | SANITY10 | val | ep=37 | #08 b=73 t=33 v=4 tp=1.570000 y_true=0.771224 y_pred=0.100260 abs_err=0.670964
+2025-12-23 06:36:23,783 | INFO | SANITY10 | val | ep=37 | #09 b=68 t=11 v=4 tp=1.186000 y_true=-0.846197 y_pred=0.181487 abs_err=1.027685
+2025-12-23 06:36:23,783 | INFO | SANITY10 | val | ep=37 | #10 b=78 t=62 v=0 tp=2.202000 y_true=2.225348 y_pred=0.018150 abs_err=2.207198
+2025-12-23 06:36:23,784 | INFO | [SCALE_CHECK] split=val epoch=37 pred(min,max,mean)=(-1.667103,0.966177,0.022285) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:36:23,784 | INFO | [SCALE_CHECK] split=val epoch=37 |pred|/|tgt| (q50,q90,q99)=(0.149082,0.620509,5.094192)
+2025-12-23 06:36:23,785 | INFO | [PAIR] split=val epoch=37 b=0 t=0 d=4 tgt=-0.480973 pred=0.089686
+2025-12-23 06:36:23,785 | INFO | [PAIR] split=val epoch=37 b=0 t=1 d=0 tgt=-0.305700 pred=0.037780
+2025-12-23 06:36:23,785 | INFO | [PAIR] split=val epoch=37 b=0 t=2 d=2 tgt=-0.173762 pred=-0.023346
+2025-12-23 06:36:34,705 | INFO | SANITY10 | val | ep=38 | #01 b=105 t=76 v=0 tp=1.790000 y_true=-0.305700 y_pred=0.169150 abs_err=0.474850
+2025-12-23 06:36:34,705 | INFO | SANITY10 | val | ep=38 | #02 b=7 t=25 v=2 tp=1.892000 y_true=-0.173762 y_pred=-0.057843 abs_err=0.115919
+2025-12-23 06:36:34,706 | INFO | SANITY10 | val | ep=38 | #03 b=112 t=46 v=0 tp=1.790000 y_true=-0.305700 y_pred=0.006060 abs_err=0.311760
+2025-12-23 06:36:34,706 | INFO | SANITY10 | val | ep=38 | #04 b=41 t=42 v=3 tp=1.900000 y_true=-1.160962 y_pred=0.077475 abs_err=1.238438
+2025-12-23 06:36:34,706 | INFO | SANITY10 | val | ep=38 | #05 b=152 t=85 v=1 tp=2.744000 y_true=-0.127970 y_pred=-0.033249 abs_err=0.094721
+2025-12-23 06:36:34,706 | INFO | SANITY10 | val | ep=38 | #06 b=110 t=61 v=0 tp=1.790000 y_true=-0.305700 y_pred=0.006060 abs_err=0.311760
+2025-12-23 06:36:34,706 | INFO | SANITY10 | val | ep=38 | #07 b=21 t=69 v=3 tp=3.614000 y_true=1.082800 y_pred=0.102399 abs_err=0.980401
+2025-12-23 06:36:34,706 | INFO | SANITY10 | val | ep=38 | #08 b=10 t=61 v=0 tp=2.616000 y_true=-0.305700 y_pred=-0.006332 abs_err=0.299368
+2025-12-23 06:36:34,706 | INFO | SANITY10 | val | ep=38 | #09 b=136 t=25 v=4 tp=1.330000 y_true=-0.272274 y_pred=-0.638799 abs_err=0.366525
+2025-12-23 06:36:34,707 | INFO | SANITY10 | val | ep=38 | #10 b=1 t=60 v=1 tp=1.836000 y_true=-0.127970 y_pred=-0.020875 abs_err=0.107095
+2025-12-23 06:36:34,707 | INFO | [SCALE_CHECK] split=val epoch=38 pred(min,max,mean)=(-1.469088,1.684938,0.013937) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:36:34,708 | INFO | [SCALE_CHECK] split=val epoch=38 |pred|/|tgt| (q50,q90,q99)=(0.203441,0.657047,6.455648)
+2025-12-23 06:36:34,708 | INFO | [PAIR] split=val epoch=38 b=0 t=0 d=4 tgt=-0.480973 pred=0.081002
+2025-12-23 06:36:34,708 | INFO | [PAIR] split=val epoch=38 b=0 t=1 d=0 tgt=-0.305700 pred=0.019498
+2025-12-23 06:36:34,708 | INFO | [PAIR] split=val epoch=38 b=0 t=2 d=2 tgt=-0.173762 pred=-0.045731
+2025-12-23 06:36:45,680 | INFO | SANITY10 | val | ep=39 | #01 b=93 t=22 v=4 tp=3.152000 y_true=-1.420121 y_pred=0.108379 abs_err=1.528500
+2025-12-23 06:36:45,680 | INFO | SANITY10 | val | ep=39 | #02 b=73 t=82 v=4 tp=2.104000 y_true=-0.898372 y_pred=0.094163 abs_err=0.992535
+2025-12-23 06:36:45,680 | INFO | SANITY10 | val | ep=39 | #03 b=143 t=45 v=4 tp=1.600000 y_true=1.814721 y_pred=0.168270 abs_err=1.646451
+2025-12-23 06:36:45,680 | INFO | SANITY10 | val | ep=39 | #04 b=120 t=14 v=0 tp=2.170000 y_true=0.065520 y_pred=-0.002337 abs_err=0.067857
+2025-12-23 06:36:45,680 | INFO | SANITY10 | val | ep=39 | #05 b=88 t=24 v=2 tp=2.604000 y_true=-0.173762 y_pred=-0.074519 abs_err=0.099243
+2025-12-23 06:36:45,681 | INFO | SANITY10 | val | ep=39 | #06 b=160 t=49 v=4 tp=2.884000 y_true=0.145125 y_pred=0.104769 abs_err=0.040356
+2025-12-23 06:36:45,681 | INFO | SANITY10 | val | ep=39 | #07 b=50 t=11 v=0 tp=2.378000 y_true=-0.238206 y_pred=-0.005345 abs_err=0.232861
+2025-12-23 06:36:45,681 | INFO | SANITY10 | val | ep=39 | #08 b=79 t=77 v=0 tp=2.454000 y_true=-0.136964 y_pred=-0.006413 abs_err=0.130551
+2025-12-23 06:36:45,681 | INFO | SANITY10 | val | ep=39 | #09 b=28 t=7 v=3 tp=1.090000 y_true=-1.304181 y_pred=-0.873070 abs_err=0.431111
+2025-12-23 06:36:45,681 | INFO | SANITY10 | val | ep=39 | #10 b=80 t=27 v=4 tp=1.944000 y_true=-0.533148 y_pred=0.091818 abs_err=0.624966
+2025-12-23 06:36:45,681 | INFO | [SCALE_CHECK] split=val epoch=39 pred(min,max,mean)=(-1.717298,0.743911,0.002540) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:36:45,682 | INFO | [SCALE_CHECK] split=val epoch=39 |pred|/|tgt| (q50,q90,q99)=(0.219806,0.600556,4.634182)
+2025-12-23 06:36:45,682 | INFO | [PAIR] split=val epoch=39 b=0 t=0 d=4 tgt=-0.480973 pred=0.076896
+2025-12-23 06:36:45,683 | INFO | [PAIR] split=val epoch=39 b=0 t=1 d=0 tgt=-0.305700 pred=0.015486
+2025-12-23 06:36:45,683 | INFO | [PAIR] split=val epoch=39 b=0 t=2 d=2 tgt=-0.173762 pred=-0.054315
+2025-12-23 06:36:56,608 | INFO | SANITY10 | val | ep=40 | #01 b=12 t=11 v=1 tp=2.132000 y_true=-0.127970 y_pred=-0.020675 abs_err=0.107295
+2025-12-23 06:36:56,609 | INFO | SANITY10 | val | ep=40 | #02 b=123 t=87 v=4 tp=3.176000 y_true=-0.220099 y_pred=0.113598 abs_err=0.333697
+2025-12-23 06:36:56,609 | INFO | SANITY10 | val | ep=40 | #03 b=8 t=27 v=0 tp=1.986000 y_true=-0.305700 y_pred=0.010269 abs_err=0.315969
+2025-12-23 06:36:56,609 | INFO | SANITY10 | val | ep=40 | #04 b=140 t=22 v=3 tp=1.308000 y_true=0.128008 y_pred=-0.457519 abs_err=0.585527
+2025-12-23 06:36:56,609 | INFO | SANITY10 | val | ep=40 | #05 b=20 t=77 v=3 tp=3.614000 y_true=1.082800 y_pred=0.097391 abs_err=0.985409
+2025-12-23 06:36:56,609 | INFO | SANITY10 | val | ep=40 | #06 b=22 t=63 v=4 tp=3.610000 y_true=1.606022 y_pred=0.117894 abs_err=1.488127
+2025-12-23 06:36:56,609 | INFO | SANITY10 | val | ep=40 | #07 b=135 t=9 v=4 tp=1.106000 y_true=-0.689673 y_pred=-0.670729 abs_err=0.018944
+2025-12-23 06:36:56,609 | INFO | SANITY10 | val | ep=40 | #08 b=53 t=27 v=0 tp=2.692000 y_true=-0.305700 y_pred=-0.000018 abs_err=0.305682
+2025-12-23 06:36:56,610 | INFO | SANITY10 | val | ep=40 | #09 b=153 t=72 v=3 tp=2.688000 y_true=1.321498 y_pred=0.083544 abs_err=1.237955
+2025-12-23 06:36:56,610 | INFO | SANITY10 | val | ep=40 | #10 b=113 t=75 v=4 tp=2.304000 y_true=-0.324449 y_pred=0.103515 abs_err=0.427964
+2025-12-23 06:36:56,610 | INFO | [SCALE_CHECK] split=val epoch=40 pred(min,max,mean)=(-1.406214,1.293005,0.010176) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:36:56,611 | INFO | [SCALE_CHECK] split=val epoch=40 |pred|/|tgt| (q50,q90,q99)=(0.189033,0.654582,4.772919)
+2025-12-23 06:36:56,611 | INFO | [PAIR] split=val epoch=40 b=0 t=0 d=4 tgt=-0.480973 pred=0.084063
+2025-12-23 06:36:56,611 | INFO | [PAIR] split=val epoch=40 b=0 t=1 d=0 tgt=-0.305700 pred=0.026441
+2025-12-23 06:36:56,611 | INFO | [PAIR] split=val epoch=40 b=0 t=2 d=2 tgt=-0.173762 pred=-0.046422
+2025-12-23 06:37:07,545 | INFO | SANITY10 | val | ep=41 | #01 b=111 t=38 v=1 tp=1.590000 y_true=-0.127970 y_pred=-0.017999 abs_err=0.109972
+2025-12-23 06:37:07,545 | INFO | SANITY10 | val | ep=41 | #02 b=162 t=32 v=4 tp=2.820000 y_true=-0.533148 y_pred=0.110706 abs_err=0.643855
+2025-12-23 06:37:07,545 | INFO | SANITY10 | val | ep=41 | #03 b=115 t=57 v=1 tp=2.316000 y_true=-0.127970 y_pred=-0.029329 abs_err=0.098641
+2025-12-23 06:37:07,545 | INFO | SANITY10 | val | ep=41 | #04 b=22 t=6 v=1 tp=2.982000 y_true=-0.127970 y_pred=-0.037588 abs_err=0.090383
+2025-12-23 06:37:07,545 | INFO | SANITY10 | val | ep=41 | #05 b=114 t=2 v=3 tp=1.520000 y_true=0.700883 y_pred=0.066081 abs_err=0.634802
+2025-12-23 06:37:07,546 | INFO | SANITY10 | val | ep=41 | #06 b=87 t=82 v=2 tp=3.264000 y_true=-0.173762 y_pred=-0.071652 abs_err=0.102110
+2025-12-23 06:37:07,546 | INFO | SANITY10 | val | ep=41 | #07 b=85 t=61 v=2 tp=2.790000 y_true=-0.173762 y_pred=-0.067535 abs_err=0.106227
+2025-12-23 06:37:07,546 | INFO | SANITY10 | val | ep=41 | #08 b=147 t=6 v=1 tp=1.326000 y_true=-0.127970 y_pred=-0.013418 abs_err=0.114553
+2025-12-23 06:37:07,546 | INFO | SANITY10 | val | ep=41 | #09 b=1 t=52 v=1 tp=1.742000 y_true=-0.127970 y_pred=-0.020542 abs_err=0.107428
+2025-12-23 06:37:07,546 | INFO | SANITY10 | val | ep=41 | #10 b=68 t=41 v=2 tp=1.584000 y_true=-0.173762 y_pred=0.089084 abs_err=0.262846
+2025-12-23 06:37:07,547 | INFO | [SCALE_CHECK] split=val epoch=41 pred(min,max,mean)=(-1.683374,1.487247,0.004329) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:37:07,547 | INFO | [SCALE_CHECK] split=val epoch=41 |pred|/|tgt| (q50,q90,q99)=(0.211931,0.651739,5.791074)
+2025-12-23 06:37:07,547 | INFO | [PAIR] split=val epoch=41 b=0 t=0 d=4 tgt=-0.480973 pred=0.081178
+2025-12-23 06:37:07,548 | INFO | [PAIR] split=val epoch=41 b=0 t=1 d=0 tgt=-0.305700 pred=0.013829
+2025-12-23 06:37:07,548 | INFO | [PAIR] split=val epoch=41 b=0 t=2 d=2 tgt=-0.173762 pred=-0.044653
+2025-12-23 06:37:18,491 | INFO | SANITY10 | val | ep=42 | #01 b=121 t=83 v=0 tp=3.040000 y_true=0.605477 y_pred=0.002845 abs_err=0.602632
+2025-12-23 06:37:18,491 | INFO | SANITY10 | val | ep=42 | #02 b=7 t=51 v=4 tp=2.188000 y_true=-0.898372 y_pred=0.121591 abs_err=1.019963
+2025-12-23 06:37:18,491 | INFO | SANITY10 | val | ep=42 | #03 b=111 t=0 v=2 tp=1.262000 y_true=-0.173762 y_pred=-0.048140 abs_err=0.125622
+2025-12-23 06:37:18,491 | INFO | SANITY10 | val | ep=42 | #04 b=157 t=86 v=2 tp=3.158000 y_true=-0.173762 y_pred=-0.072237 abs_err=0.101526
+2025-12-23 06:37:18,491 | INFO | SANITY10 | val | ep=42 | #05 b=155 t=60 v=0 tp=2.704000 y_true=-0.305700 y_pred=0.006840 abs_err=0.312540
+2025-12-23 06:37:18,492 | INFO | SANITY10 | val | ep=42 | #06 b=76 t=18 v=4 tp=1.570000 y_true=0.771224 y_pred=0.112116 abs_err=0.659108
+2025-12-23 06:37:18,492 | INFO | SANITY10 | val | ep=42 | #07 b=133 t=10 v=0 tp=1.108000 y_true=-0.305700 y_pred=0.040102 abs_err=0.345802
+2025-12-23 06:37:18,492 | INFO | SANITY10 | val | ep=42 | #08 b=40 t=46 v=1 tp=1.888000 y_true=-0.127970 y_pred=-0.011754 abs_err=0.116216
+2025-12-23 06:37:18,492 | INFO | SANITY10 | val | ep=42 | #09 b=89 t=60 v=1 tp=3.218000 y_true=-0.127970 y_pred=-0.028684 abs_err=0.099286
+2025-12-23 06:37:18,492 | INFO | SANITY10 | val | ep=42 | #10 b=159 t=84 v=0 tp=3.276000 y_true=-0.305700 y_pred=0.000413 abs_err=0.306113
+2025-12-23 06:37:18,492 | INFO | [SCALE_CHECK] split=val epoch=42 pred(min,max,mean)=(-1.544035,1.174920,0.018122) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:37:18,493 | INFO | [SCALE_CHECK] split=val epoch=42 |pred|/|tgt| (q50,q90,q99)=(0.183510,0.707149,5.859987)
+2025-12-23 06:37:18,493 | INFO | [PAIR] split=val epoch=42 b=0 t=0 d=4 tgt=-0.480973 pred=0.101074
+2025-12-23 06:37:18,494 | INFO | [PAIR] split=val epoch=42 b=0 t=1 d=0 tgt=-0.305700 pred=0.034001
+2025-12-23 06:37:18,494 | INFO | [PAIR] split=val epoch=42 b=0 t=2 d=2 tgt=-0.173762 pred=-0.044876
+2025-12-23 06:37:29,435 | INFO | SANITY10 | val | ep=43 | #01 b=71 t=73 v=2 tp=1.924000 y_true=-0.173762 y_pred=-0.059149 abs_err=0.114613
+2025-12-23 06:37:29,435 | INFO | SANITY10 | val | ep=43 | #02 b=48 t=60 v=2 tp=2.750000 y_true=-0.173762 y_pred=-0.069787 abs_err=0.103975
+2025-12-23 06:37:29,435 | INFO | SANITY10 | val | ep=43 | #03 b=155 t=25 v=4 tp=2.276000 y_true=-0.167924 y_pred=0.117920 abs_err=0.285844
+2025-12-23 06:37:29,435 | INFO | SANITY10 | val | ep=43 | #04 b=113 t=4 v=1 tp=1.444000 y_true=-0.127970 y_pred=-0.015912 abs_err=0.112059
+2025-12-23 06:37:29,435 | INFO | SANITY10 | val | ep=43 | #05 b=107 t=59 v=4 tp=1.550000 y_true=0.458175 y_pred=0.460580 abs_err=0.002405
+2025-12-23 06:37:29,435 | INFO | SANITY10 | val | ep=43 | #06 b=78 t=55 v=0 tp=2.076000 y_true=0.031773 y_pred=0.006321 abs_err=0.025452
+2025-12-23 06:37:29,436 | INFO | SANITY10 | val | ep=43 | #07 b=3 t=32 v=4 tp=1.646000 y_true=1.501672 y_pred=0.108961 abs_err=1.392711
+2025-12-23 06:37:29,436 | INFO | SANITY10 | val | ep=43 | #08 b=59 t=22 v=1 tp=3.202000 y_true=-0.127970 y_pred=-0.039372 abs_err=0.088598
+2025-12-23 06:37:29,436 | INFO | SANITY10 | val | ep=43 | #09 b=83 t=62 v=3 tp=2.640000 y_true=0.462185 y_pred=0.091845 abs_err=0.370340
+2025-12-23 06:37:29,436 | INFO | SANITY10 | val | ep=43 | #10 b=23 t=33 v=0 tp=3.284000 y_true=-0.305700 y_pred=-0.008688 abs_err=0.297012
+2025-12-23 06:37:29,436 | INFO | [SCALE_CHECK] split=val epoch=43 pred(min,max,mean)=(-1.568190,1.721877,0.014206) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:37:29,437 | INFO | [SCALE_CHECK] split=val epoch=43 |pred|/|tgt| (q50,q90,q99)=(0.220287,0.702222,6.524997)
+2025-12-23 06:37:29,437 | INFO | [PAIR] split=val epoch=43 b=0 t=0 d=4 tgt=-0.480973 pred=0.096592
+2025-12-23 06:37:29,437 | INFO | [PAIR] split=val epoch=43 b=0 t=1 d=0 tgt=-0.305700 pred=0.024323
+2025-12-23 06:37:29,437 | INFO | [PAIR] split=val epoch=43 b=0 t=2 d=2 tgt=-0.173762 pred=-0.047433
+2025-12-23 06:37:40,516 | INFO | SANITY10 | val | ep=44 | #01 b=7 t=42 v=3 tp=2.080000 y_true=-1.113223 y_pred=0.075580 abs_err=1.188803
+2025-12-23 06:37:40,516 | INFO | SANITY10 | val | ep=44 | #02 b=88 t=20 v=2 tp=2.536000 y_true=-0.173762 y_pred=-0.053372 abs_err=0.120390
+2025-12-23 06:37:40,516 | INFO | SANITY10 | val | ep=44 | #03 b=34 t=19 v=1 tp=1.286000 y_true=-0.127970 y_pred=0.059607 abs_err=0.187577
+2025-12-23 06:37:40,516 | INFO | SANITY10 | val | ep=44 | #04 b=131 t=53 v=0 tp=3.492000 y_true=-0.305700 y_pred=-0.007359 abs_err=0.298342
+2025-12-23 06:37:40,516 | INFO | SANITY10 | val | ep=44 | #05 b=154 t=45 v=0 tp=2.444000 y_true=0.166762 y_pred=0.004988 abs_err=0.161774
+2025-12-23 06:37:40,516 | INFO | SANITY10 | val | ep=44 | #06 b=16 t=42 v=1 tp=2.964000 y_true=-0.127970 y_pred=-0.036799 abs_err=0.091171
+2025-12-23 06:37:40,517 | INFO | SANITY10 | val | ep=44 | #07 b=124 t=57 v=4 tp=2.936000 y_true=-0.063574 y_pred=0.106557 abs_err=0.170131
+2025-12-23 06:37:40,517 | INFO | SANITY10 | val | ep=44 | #08 b=53 t=3 v=1 tp=2.452000 y_true=-0.127970 y_pred=-0.030731 abs_err=0.097239
+2025-12-23 06:37:40,517 | INFO | SANITY10 | val | ep=44 | #09 b=121 t=41 v=2 tp=2.596000 y_true=-0.173762 y_pred=-0.053929 abs_err=0.119833
+2025-12-23 06:37:40,517 | INFO | SANITY10 | val | ep=44 | #10 b=77 t=17 v=2 tp=1.654000 y_true=-0.173762 y_pred=-0.043413 abs_err=0.130349
+2025-12-23 06:37:40,517 | INFO | [SCALE_CHECK] split=val epoch=44 pred(min,max,mean)=(-1.464111,0.810488,0.012891) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:37:40,518 | INFO | [SCALE_CHECK] split=val epoch=44 |pred|/|tgt| (q50,q90,q99)=(0.206992,0.609804,4.601360)
+2025-12-23 06:37:40,518 | INFO | [PAIR] split=val epoch=44 b=0 t=0 d=4 tgt=-0.480973 pred=0.074140
+2025-12-23 06:37:40,518 | INFO | [PAIR] split=val epoch=44 b=0 t=1 d=0 tgt=-0.305700 pred=0.027875
+2025-12-23 06:37:40,518 | INFO | [PAIR] split=val epoch=44 b=0 t=2 d=2 tgt=-0.173762 pred=-0.034547
+2025-12-23 06:37:51,416 | INFO | SANITY10 | val | ep=45 | #01 b=129 t=50 v=0 tp=3.288000 y_true=-0.305700 y_pred=-0.008184 abs_err=0.297516
+2025-12-23 06:37:51,417 | INFO | SANITY10 | val | ep=45 | #02 b=120 t=34 v=0 tp=2.424000 y_true=-0.305700 y_pred=0.002393 abs_err=0.308093
+2025-12-23 06:37:51,417 | INFO | SANITY10 | val | ep=45 | #03 b=124 t=15 v=4 tp=2.526000 y_true=0.562524 y_pred=0.094013 abs_err=0.468511
+2025-12-23 06:37:51,417 | INFO | SANITY10 | val | ep=45 | #04 b=101 t=51 v=3 tp=1.480000 y_true=0.366706 y_pred=-0.551027 abs_err=0.917733
+2025-12-23 06:37:51,417 | INFO | SANITY10 | val | ep=45 | #05 b=179 t=16 v=3 tp=1.922000 y_true=-1.065483 y_pred=0.057342 abs_err=1.122825
+2025-12-23 06:37:51,417 | INFO | SANITY10 | val | ep=45 | #06 b=108 t=81 v=4 tp=1.884000 y_true=0.301650 y_pred=0.085282 abs_err=0.216368
+2025-12-23 06:37:51,417 | INFO | SANITY10 | val | ep=45 | #07 b=73 t=80 v=0 tp=2.076000 y_true=0.031773 y_pred=0.007686 abs_err=0.024087
+2025-12-23 06:37:51,417 | INFO | SANITY10 | val | ep=45 | #08 b=0 t=74 v=2 tp=1.952000 y_true=-0.173762 y_pred=-0.048199 abs_err=0.125563
+2025-12-23 06:37:51,418 | INFO | SANITY10 | val | ep=45 | #09 b=146 t=0 v=4 tp=1.182000 y_true=-0.950547 y_pred=0.072191 abs_err=1.022738
+2025-12-23 06:37:51,418 | INFO | SANITY10 | val | ep=45 | #10 b=69 t=7 v=4 tp=1.088000 y_true=-1.002722 y_pred=0.122942 abs_err=1.125664
+2025-12-23 06:37:51,418 | INFO | [SCALE_CHECK] split=val epoch=45 pred(min,max,mean)=(-1.571584,1.539713,0.004608) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:37:51,419 | INFO | [SCALE_CHECK] split=val epoch=45 |pred|/|tgt| (q50,q90,q99)=(0.167127,0.587405,4.934628)
+2025-12-23 06:37:51,419 | INFO | [PAIR] split=val epoch=45 b=0 t=0 d=4 tgt=-0.480973 pred=0.068643
+2025-12-23 06:37:51,419 | INFO | [PAIR] split=val epoch=45 b=0 t=1 d=0 tgt=-0.305700 pred=0.026146
+2025-12-23 06:37:51,419 | INFO | [PAIR] split=val epoch=45 b=0 t=2 d=2 tgt=-0.173762 pred=-0.034978
+2025-12-23 06:38:02,360 | INFO | SANITY10 | val | ep=46 | #01 b=14 t=48 v=0 tp=2.824000 y_true=3.170273 y_pred=0.007292 abs_err=3.162981
+2025-12-23 06:38:02,360 | INFO | SANITY10 | val | ep=46 | #02 b=163 t=82 v=1 tp=3.616000 y_true=-0.127970 y_pred=-0.028383 abs_err=0.099587
+2025-12-23 06:38:02,360 | INFO | SANITY10 | val | ep=46 | #03 b=95 t=41 v=4 tp=3.428000 y_true=0.875574 y_pred=0.111802 abs_err=0.763772
+2025-12-23 06:38:02,360 | INFO | SANITY10 | val | ep=46 | #04 b=149 t=18 v=0 tp=1.630000 y_true=-0.069469 y_pred=0.025303 abs_err=0.094772
+2025-12-23 06:38:02,360 | INFO | SANITY10 | val | ep=46 | #05 b=122 t=26 v=3 tp=2.496000 y_true=-0.062951 y_pred=0.075470 abs_err=0.138421
+2025-12-23 06:38:02,361 | INFO | SANITY10 | val | ep=46 | #06 b=124 t=62 v=0 tp=2.990000 y_true=-0.305700 y_pred=0.005351 abs_err=0.311051
+2025-12-23 06:38:02,361 | INFO | SANITY10 | val | ep=46 | #07 b=38 t=66 v=3 tp=1.998000 y_true=-1.065483 y_pred=0.067536 abs_err=1.133019
+2025-12-23 06:38:02,361 | INFO | SANITY10 | val | ep=46 | #08 b=165 t=73 v=4 tp=3.678000 y_true=1.292973 y_pred=0.114542 abs_err=1.178431
+2025-12-23 06:38:02,361 | INFO | SANITY10 | val | ep=46 | #09 b=88 t=34 v=4 tp=2.676000 y_true=1.345147 y_pred=0.104597 abs_err=1.240550
+2025-12-23 06:38:02,361 | INFO | SANITY10 | val | ep=46 | #10 b=127 t=79 v=0 tp=3.388000 y_true=-0.305700 y_pred=0.001354 abs_err=0.307054
+2025-12-23 06:38:02,361 | INFO | [SCALE_CHECK] split=val epoch=46 pred(min,max,mean)=(-1.518747,1.243112,0.010923) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:38:02,362 | INFO | [SCALE_CHECK] split=val epoch=46 |pred|/|tgt| (q50,q90,q99)=(0.156434,0.632552,4.681214)
+2025-12-23 06:38:02,362 | INFO | [PAIR] split=val epoch=46 b=0 t=0 d=4 tgt=-0.480973 pred=0.078921
+2025-12-23 06:38:02,362 | INFO | [PAIR] split=val epoch=46 b=0 t=1 d=0 tgt=-0.305700 pred=0.036262
+2025-12-23 06:38:02,363 | INFO | [PAIR] split=val epoch=46 b=0 t=2 d=2 tgt=-0.173762 pred=-0.036311
+2025-12-23 06:38:14,027 | INFO | SANITY10 | val | ep=47 | #01 b=127 t=19 v=1 tp=2.754000 y_true=-0.127970 y_pred=-0.019338 abs_err=0.108632
+2025-12-23 06:38:14,028 | INFO | SANITY10 | val | ep=47 | #02 b=75 t=63 v=1 tp=2.006000 y_true=-0.127970 y_pred=-0.009350 abs_err=0.118620
+2025-12-23 06:38:14,028 | INFO | SANITY10 | val | ep=47 | #03 b=156 t=2 v=1 tp=2.044000 y_true=4.252636 y_pred=-0.009907 abs_err=4.262543
+2025-12-23 06:38:14,028 | INFO | SANITY10 | val | ep=47 | #04 b=107 t=37 v=4 tp=1.378000 y_true=0.040776 y_pred=0.379510 abs_err=0.338735
+2025-12-23 06:38:14,028 | INFO | SANITY10 | val | ep=47 | #05 b=151 t=13 v=1 tp=1.758000 y_true=-0.127970 y_pred=-0.005613 abs_err=0.122357
+2025-12-23 06:38:14,028 | INFO | SANITY10 | val | ep=47 | #06 b=127 t=18 v=1 tp=2.750000 y_true=-0.127970 y_pred=-0.019291 abs_err=0.108680
+2025-12-23 06:38:14,028 | INFO | SANITY10 | val | ep=47 | #07 b=36 t=8 v=2 tp=1.150000 y_true=1.373584 y_pred=-0.031237 abs_err=1.404821
+2025-12-23 06:38:14,028 | INFO | SANITY10 | val | ep=47 | #08 b=55 t=67 v=4 tp=3.508000 y_true=0.353825 y_pred=0.103024 abs_err=0.250801
+2025-12-23 06:38:14,029 | INFO | SANITY10 | val | ep=47 | #09 b=32 t=34 v=4 tp=1.562000 y_true=0.614699 y_pred=-0.176752 abs_err=0.791451
+2025-12-23 06:38:14,029 | INFO | SANITY10 | val | ep=47 | #10 b=90 t=24 v=2 tp=2.738000 y_true=-0.173762 y_pred=-0.052014 abs_err=0.121748
+2025-12-23 06:38:14,029 | INFO | [SCALE_CHECK] split=val epoch=47 pred(min,max,mean)=(-1.515596,1.524148,0.007037) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:38:14,030 | INFO | [SCALE_CHECK] split=val epoch=47 |pred|/|tgt| (q50,q90,q99)=(0.144554,0.571579,4.839766)
+2025-12-23 06:38:14,030 | INFO | [PAIR] split=val epoch=47 b=0 t=0 d=4 tgt=-0.480973 pred=0.064846
+2025-12-23 06:38:14,030 | INFO | [PAIR] split=val epoch=47 b=0 t=1 d=0 tgt=-0.305700 pred=0.034714
+2025-12-23 06:38:14,030 | INFO | [PAIR] split=val epoch=47 b=0 t=2 d=2 tgt=-0.173762 pred=-0.029624
+2025-12-23 06:38:25,493 | INFO | SANITY10 | val | ep=48 | #01 b=68 t=10 v=1 tp=1.154000 y_true=-0.127970 y_pred=0.095919 abs_err=0.223889
+2025-12-23 06:38:25,493 | INFO | SANITY10 | val | ep=48 | #02 b=120 t=35 v=3 tp=2.440000 y_true=0.080268 y_pred=0.069625 abs_err=0.010643
+2025-12-23 06:38:25,493 | INFO | SANITY10 | val | ep=48 | #03 b=2 t=48 v=0 tp=1.780000 y_true=-0.305700 y_pred=0.010977 abs_err=0.316677
+2025-12-23 06:38:25,494 | INFO | SANITY10 | val | ep=48 | #04 b=187 t=35 v=3 tp=2.170000 y_true=-1.399660 y_pred=0.065365 abs_err=1.465025
+2025-12-23 06:38:25,494 | INFO | SANITY10 | val | ep=48 | #05 b=106 t=60 v=3 tp=1.566000 y_true=0.462185 y_pred=0.281989 abs_err=0.180196
+2025-12-23 06:38:25,494 | INFO | SANITY10 | val | ep=48 | #06 b=10 t=46 v=4 tp=2.392000 y_true=0.249475 y_pred=0.094524 abs_err=0.154952
+2025-12-23 06:38:25,494 | INFO | SANITY10 | val | ep=48 | #07 b=41 t=71 v=0 tp=2.316000 y_true=-0.305700 y_pred=0.002387 abs_err=0.308087
+2025-12-23 06:38:25,494 | INFO | SANITY10 | val | ep=48 | #08 b=44 t=88 v=4 tp=2.672000 y_true=0.458175 y_pred=0.097729 abs_err=0.360445
+2025-12-23 06:38:25,494 | INFO | SANITY10 | val | ep=48 | #09 b=67 t=42 v=4 tp=1.600000 y_true=1.397322 y_pred=-0.067730 abs_err=1.465053
+2025-12-23 06:38:25,495 | INFO | SANITY10 | val | ep=48 | #10 b=88 t=73 v=3 tp=3.246000 y_true=-0.062951 y_pred=0.081090 abs_err=0.144040
+2025-12-23 06:38:25,495 | INFO | [SCALE_CHECK] split=val epoch=48 pred(min,max,mean)=(-1.573092,1.423038,0.003943) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:38:25,496 | INFO | [SCALE_CHECK] split=val epoch=48 |pred|/|tgt| (q50,q90,q99)=(0.179179,0.623164,4.944211)
+2025-12-23 06:38:25,496 | INFO | [PAIR] split=val epoch=48 b=0 t=0 d=4 tgt=-0.480973 pred=0.070631
+2025-12-23 06:38:25,496 | INFO | [PAIR] split=val epoch=48 b=0 t=1 d=0 tgt=-0.305700 pred=0.024632
+2025-12-23 06:38:25,496 | INFO | [PAIR] split=val epoch=48 b=0 t=2 d=2 tgt=-0.173762 pred=-0.040774
+2025-12-23 06:38:36,399 | INFO | SANITY10 | val | ep=49 | #01 b=12 t=55 v=0 tp=2.722000 y_true=-0.305700 y_pred=0.015170 abs_err=0.320870
+2025-12-23 06:38:36,399 | INFO | SANITY10 | val | ep=49 | #02 b=70 t=33 v=4 tp=1.508000 y_true=1.136448 y_pred=0.215404 abs_err=0.921044
+2025-12-23 06:38:36,399 | INFO | SANITY10 | val | ep=49 | #03 b=99 t=16 v=4 tp=1.182000 y_true=0.040776 y_pred=-0.385141 abs_err=0.425917
+2025-12-23 06:38:36,399 | INFO | SANITY10 | val | ep=49 | #04 b=68 t=46 v=2 tp=1.652000 y_true=-0.173762 y_pred=0.091471 abs_err=0.265233
+2025-12-23 06:38:36,399 | INFO | SANITY10 | val | ep=49 | #05 b=28 t=12 v=3 tp=1.208000 y_true=-1.686098 y_pred=-0.922348 abs_err=0.763750
+2025-12-23 06:38:36,400 | INFO | SANITY10 | val | ep=49 | #06 b=33 t=12 v=3 tp=1.208000 y_true=-1.686098 y_pred=-0.424038 abs_err=1.262060
+2025-12-23 06:38:36,400 | INFO | SANITY10 | val | ep=49 | #07 b=118 t=15 v=0 tp=2.002000 y_true=-0.305700 y_pred=0.025685 abs_err=0.331385
+2025-12-23 06:38:36,400 | INFO | SANITY10 | val | ep=49 | #08 b=159 t=8 v=1 tp=2.376000 y_true=-0.127970 y_pred=-0.007424 abs_err=0.120546
+2025-12-23 06:38:36,400 | INFO | SANITY10 | val | ep=49 | #09 b=124 t=101 v=1 tp=3.396000 y_true=-0.127970 y_pred=-0.018811 abs_err=0.109159
+2025-12-23 06:38:36,400 | INFO | SANITY10 | val | ep=49 | #10 b=3 t=33 v=1 tp=1.676000 y_true=-0.127970 y_pred=0.002832 abs_err=0.130802
+2025-12-23 06:38:36,400 | INFO | [SCALE_CHECK] split=val epoch=49 pred(min,max,mean)=(-1.543747,1.604594,0.011531) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:38:36,401 | INFO | [SCALE_CHECK] split=val epoch=49 |pred|/|tgt| (q50,q90,q99)=(0.130043,0.618330,5.134611)
+2025-12-23 06:38:36,401 | INFO | [PAIR] split=val epoch=49 b=0 t=0 d=4 tgt=-0.480973 pred=0.069298
+2025-12-23 06:38:36,401 | INFO | [PAIR] split=val epoch=49 b=0 t=1 d=0 tgt=-0.305700 pred=0.043079
+2025-12-23 06:38:36,402 | INFO | [PAIR] split=val epoch=49 b=0 t=2 d=2 tgt=-0.173762 pred=-0.024422
+2025-12-23 06:38:47,335 | INFO | SANITY10 | val | ep=50 | #01 b=167 t=23 v=0 tp=3.246000 y_true=-0.305700 y_pred=-0.003916 abs_err=0.301784
+2025-12-23 06:38:47,335 | INFO | SANITY10 | val | ep=50 | #02 b=116 t=52 v=2 tp=2.332000 y_true=-0.173762 y_pred=-0.051881 abs_err=0.121881
+2025-12-23 06:38:47,336 | INFO | SANITY10 | val | ep=50 | #03 b=21 t=2 v=0 tp=2.768000 y_true=-0.305700 y_pred=0.001420 abs_err=0.307121
+2025-12-23 06:38:47,336 | INFO | SANITY10 | val | ep=50 | #04 b=1 t=52 v=4 tp=1.742000 y_true=1.084273 y_pred=0.092504 abs_err=0.991769
+2025-12-23 06:38:47,336 | INFO | SANITY10 | val | ep=50 | #05 b=124 t=17 v=0 tp=2.536000 y_true=-0.305700 y_pred=0.004478 abs_err=0.310178
+2025-12-23 06:38:47,336 | INFO | SANITY10 | val | ep=50 | #06 b=184 t=25 v=0 tp=2.036000 y_true=-0.238206 y_pred=0.011990 abs_err=0.250196
+2025-12-23 06:38:47,336 | INFO | SANITY10 | val | ep=50 | #07 b=87 t=30 v=1 tp=2.556000 y_true=-0.127970 y_pred=-0.020654 abs_err=0.107317
+2025-12-23 06:38:47,336 | INFO | SANITY10 | val | ep=50 | #08 b=152 t=62 v=3 tp=2.494000 y_true=0.557664 y_pred=0.080000 abs_err=0.477664
+2025-12-23 06:38:47,336 | INFO | SANITY10 | val | ep=50 | #09 b=53 t=57 v=4 tp=3.068000 y_true=-2.567968 y_pred=0.109343 abs_err=2.677312
+2025-12-23 06:38:47,336 | INFO | SANITY10 | val | ep=50 | #10 b=102 t=51 v=3 tp=1.480000 y_true=0.366706 y_pred=-0.322705 abs_err=0.689411
+2025-12-23 06:38:47,337 | INFO | [SCALE_CHECK] split=val epoch=50 pred(min,max,mean)=(-1.588959,1.528774,0.010357) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:38:47,338 | INFO | [SCALE_CHECK] split=val epoch=50 |pred|/|tgt| (q50,q90,q99)=(0.166919,0.634662,5.596871)
+2025-12-23 06:38:47,338 | INFO | [PAIR] split=val epoch=50 b=0 t=0 d=4 tgt=-0.480973 pred=0.077932
+2025-12-23 06:38:47,338 | INFO | [PAIR] split=val epoch=50 b=0 t=1 d=0 tgt=-0.305700 pred=0.029979
+2025-12-23 06:38:47,338 | INFO | [PAIR] split=val epoch=50 b=0 t=2 d=2 tgt=-0.173762 pred=-0.033845
+2025-12-23 06:38:58,257 | INFO | SANITY10 | val | ep=51 | #01 b=52 t=18 v=1 tp=2.520000 y_true=-0.127970 y_pred=-0.028622 abs_err=0.099348
+2025-12-23 06:38:58,257 | INFO | SANITY10 | val | ep=51 | #02 b=93 t=42 v=2 tp=3.350000 y_true=-0.173762 y_pred=-0.069877 abs_err=0.103885
+2025-12-23 06:38:58,257 | INFO | SANITY10 | val | ep=51 | #03 b=83 t=16 v=3 tp=2.104000 y_true=-1.304181 y_pred=0.072994 abs_err=1.377175
+2025-12-23 06:38:58,257 | INFO | SANITY10 | val | ep=51 | #04 b=129 t=76 v=1 tp=3.570000 y_true=-0.127970 y_pred=-0.039543 abs_err=0.088427
+2025-12-23 06:38:58,257 | INFO | SANITY10 | val | ep=51 | #05 b=98 t=18 v=1 tp=1.212000 y_true=-0.127970 y_pred=0.018236 abs_err=0.146206
+2025-12-23 06:38:58,257 | INFO | SANITY10 | val | ep=51 | #06 b=157 t=12 v=1 tp=2.196000 y_true=-0.127970 y_pred=-0.024236 abs_err=0.103734
+2025-12-23 06:38:58,258 | INFO | SANITY10 | val | ep=51 | #07 b=3 t=59 v=2 tp=1.984000 y_true=-0.173762 y_pred=-0.055620 abs_err=0.118142
+2025-12-23 06:38:58,258 | INFO | SANITY10 | val | ep=51 | #08 b=56 t=75 v=4 tp=3.654000 y_true=0.875574 y_pred=0.115315 abs_err=0.760258
+2025-12-23 06:38:58,258 | INFO | SANITY10 | val | ep=51 | #09 b=163 t=24 v=4 tp=2.884000 y_true=0.145125 y_pred=0.105835 abs_err=0.039291
+2025-12-23 06:38:58,258 | INFO | SANITY10 | val | ep=51 | #10 b=89 t=72 v=0 tp=3.326000 y_true=-0.170711 y_pred=-0.011013 abs_err=0.159698
+2025-12-23 06:38:58,258 | INFO | [SCALE_CHECK] split=val epoch=51 pred(min,max,mean)=(-1.457529,1.347962,0.003695) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:38:58,259 | INFO | [SCALE_CHECK] split=val epoch=51 |pred|/|tgt| (q50,q90,q99)=(0.195223,0.625488,5.558736)
+2025-12-23 06:38:58,259 | INFO | [PAIR] split=val epoch=51 b=0 t=0 d=4 tgt=-0.480973 pred=0.075401
+2025-12-23 06:38:58,259 | INFO | [PAIR] split=val epoch=51 b=0 t=1 d=0 tgt=-0.305700 pred=0.023888
+2025-12-23 06:38:58,260 | INFO | [PAIR] split=val epoch=51 b=0 t=2 d=2 tgt=-0.173762 pred=-0.042005
+2025-12-23 06:39:09,187 | INFO | SANITY10 | val | ep=52 | #01 b=19 t=85 v=0 tp=3.626000 y_true=0.402993 y_pred=-0.013012 abs_err=0.416005
+2025-12-23 06:39:09,187 | INFO | SANITY10 | val | ep=52 | #02 b=139 t=36 v=2 tp=1.498000 y_true=-0.173762 y_pred=-0.145920 abs_err=0.027842
+2025-12-23 06:39:09,187 | INFO | SANITY10 | val | ep=52 | #03 b=129 t=0 v=3 tp=2.750000 y_true=0.653144 y_pred=0.082998 abs_err=0.570145
+2025-12-23 06:39:09,187 | INFO | SANITY10 | val | ep=52 | #04 b=19 t=8 v=4 tp=2.698000 y_true=1.084273 y_pred=0.103765 abs_err=0.980509
+2025-12-23 06:39:09,188 | INFO | SANITY10 | val | ep=52 | #05 b=35 t=32 v=3 tp=1.530000 y_true=0.748623 y_pred=-0.110621 abs_err=0.859244
+2025-12-23 06:39:09,188 | INFO | SANITY10 | val | ep=52 | #06 b=10 t=40 v=4 tp=2.316000 y_true=-0.063574 y_pred=0.098921 abs_err=0.162495
+2025-12-23 06:39:09,188 | INFO | SANITY10 | val | ep=52 | #07 b=125 t=70 v=4 tp=3.166000 y_true=-0.428798 y_pred=0.109208 abs_err=0.538007
+2025-12-23 06:39:09,188 | INFO | SANITY10 | val | ep=52 | #08 b=33 t=13 v=2 tp=1.214000 y_true=3.178822 y_pred=-0.132673 abs_err=3.311494
+2025-12-23 06:39:09,188 | INFO | SANITY10 | val | ep=52 | #09 b=20 t=66 v=2 tp=3.492000 y_true=-0.173762 y_pred=-0.068656 abs_err=0.105106
+2025-12-23 06:39:09,188 | INFO | SANITY10 | val | ep=52 | #10 b=145 t=45 v=3 tp=1.724000 y_true=1.464717 y_pred=0.065810 abs_err=1.398907
+2025-12-23 06:39:09,189 | INFO | [SCALE_CHECK] split=val epoch=52 pred(min,max,mean)=(-1.592271,1.125480,0.005307) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:39:09,189 | INFO | [SCALE_CHECK] split=val epoch=52 |pred|/|tgt| (q50,q90,q99)=(0.190894,0.634367,4.491859)
+2025-12-23 06:39:09,190 | INFO | [PAIR] split=val epoch=52 b=0 t=0 d=4 tgt=-0.480973 pred=0.076171
+2025-12-23 06:39:09,190 | INFO | [PAIR] split=val epoch=52 b=0 t=1 d=0 tgt=-0.305700 pred=0.024064
+2025-12-23 06:39:09,190 | INFO | [PAIR] split=val epoch=52 b=0 t=2 d=2 tgt=-0.173762 pred=-0.040067
+2025-12-23 06:39:20,274 | INFO | SANITY10 | val | ep=53 | #01 b=69 t=42 v=4 tp=1.600000 y_true=1.397322 y_pred=0.208020 abs_err=1.189303
+2025-12-23 06:39:20,274 | INFO | SANITY10 | val | ep=53 | #02 b=67 t=30 v=0 tp=1.418000 y_true=-0.305700 y_pred=0.048313 abs_err=0.354014
+2025-12-23 06:39:20,275 | INFO | SANITY10 | val | ep=53 | #03 b=9 t=51 v=1 tp=2.358000 y_true=-0.127970 y_pred=-0.021264 abs_err=0.106706
+2025-12-23 06:39:20,275 | INFO | SANITY10 | val | ep=53 | #04 b=19 t=5 v=4 tp=2.668000 y_true=1.084273 y_pred=0.097378 abs_err=0.986895
+2025-12-23 06:39:20,275 | INFO | SANITY10 | val | ep=53 | #05 b=48 t=45 v=0 tp=2.566000 y_true=-0.305700 y_pred=0.001991 abs_err=0.307692
+2025-12-23 06:39:20,275 | INFO | SANITY10 | val | ep=53 | #06 b=152 t=41 v=1 tp=2.196000 y_true=-0.127970 y_pred=-0.019009 abs_err=0.108961
+2025-12-23 06:39:20,275 | INFO | SANITY10 | val | ep=53 | #07 b=0 t=3 v=3 tp=1.064000 y_true=-0.874524 y_pred=0.045340 abs_err=0.919865
+2025-12-23 06:39:20,275 | INFO | SANITY10 | val | ep=53 | #08 b=129 t=20 v=1 tp=2.948000 y_true=-0.127970 y_pred=-0.028541 abs_err=0.099429
+2025-12-23 06:39:20,275 | INFO | SANITY10 | val | ep=53 | #09 b=88 t=60 v=3 tp=3.048000 y_true=-0.970004 y_pred=0.080294 abs_err=1.050298
+2025-12-23 06:39:20,276 | INFO | SANITY10 | val | ep=53 | #10 b=159 t=2 v=4 tp=2.276000 y_true=-0.167924 y_pred=0.092330 abs_err=0.260254
+2025-12-23 06:39:20,276 | INFO | [SCALE_CHECK] split=val epoch=53 pred(min,max,mean)=(-1.572031,1.091010,0.003090) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:39:20,277 | INFO | [SCALE_CHECK] split=val epoch=53 |pred|/|tgt| (q50,q90,q99)=(0.171483,0.597206,4.824482)
+2025-12-23 06:39:20,277 | INFO | [PAIR] split=val epoch=53 b=0 t=0 d=4 tgt=-0.480973 pred=0.068871
+2025-12-23 06:39:20,277 | INFO | [PAIR] split=val epoch=53 b=0 t=1 d=0 tgt=-0.305700 pred=0.028161
+2025-12-23 06:39:20,277 | INFO | [PAIR] split=val epoch=53 b=0 t=2 d=2 tgt=-0.173762 pred=-0.034841
+2025-12-23 06:39:31,183 | INFO | SANITY10 | val | ep=54 | #01 b=14 t=58 v=0 tp=3.018000 y_true=-0.305700 y_pred=-0.003956 abs_err=0.301744
+2025-12-23 06:39:31,183 | INFO | SANITY10 | val | ep=54 | #02 b=125 t=89 v=0 tp=3.374000 y_true=-0.238206 y_pred=-0.007505 abs_err=0.230700
+2025-12-23 06:39:31,183 | INFO | SANITY10 | val | ep=54 | #03 b=52 t=70 v=3 tp=3.184000 y_true=-1.017743 y_pred=0.087603 abs_err=1.105346
+2025-12-23 06:39:31,183 | INFO | SANITY10 | val | ep=54 | #04 b=2 t=44 v=4 tp=1.742000 y_true=1.084273 y_pred=0.090540 abs_err=0.993734
+2025-12-23 06:39:31,183 | INFO | SANITY10 | val | ep=54 | #05 b=50 t=41 v=4 tp=2.672000 y_true=0.458175 y_pred=0.103783 abs_err=0.354391
+2025-12-23 06:39:31,184 | INFO | SANITY10 | val | ep=54 | #06 b=8 t=82 v=4 tp=2.698000 y_true=1.084273 y_pred=0.104120 abs_err=0.980153
+2025-12-23 06:39:31,184 | INFO | SANITY10 | val | ep=54 | #07 b=78 t=1 v=4 tp=1.508000 y_true=1.136448 y_pred=0.086707 abs_err=1.049741
+2025-12-23 06:39:31,184 | INFO | SANITY10 | val | ep=54 | #08 b=75 t=52 v=3 tp=1.882000 y_true=-1.065483 y_pred=0.067515 abs_err=1.132998
+2025-12-23 06:39:31,184 | INFO | SANITY10 | val | ep=54 | #09 b=95 t=44 v=4 tp=3.448000 y_true=0.301650 y_pred=0.113170 abs_err=0.188480
+2025-12-23 06:39:31,184 | INFO | SANITY10 | val | ep=54 | #10 b=117 t=40 v=1 tp=2.234000 y_true=-0.127970 y_pred=-0.019058 abs_err=0.108912
+2025-12-23 06:39:31,184 | INFO | [SCALE_CHECK] split=val epoch=54 pred(min,max,mean)=(-1.460692,1.135035,0.008718) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:39:31,185 | INFO | [SCALE_CHECK] split=val epoch=54 |pred|/|tgt| (q50,q90,q99)=(0.175901,0.621415,4.463763)
+2025-12-23 06:39:31,185 | INFO | [PAIR] split=val epoch=54 b=0 t=0 d=4 tgt=-0.480973 pred=0.075933
+2025-12-23 06:39:31,185 | INFO | [PAIR] split=val epoch=54 b=0 t=1 d=0 tgt=-0.305700 pred=0.027786
+2025-12-23 06:39:31,186 | INFO | [PAIR] split=val epoch=54 b=0 t=2 d=2 tgt=-0.173762 pred=-0.036454
+2025-12-23 06:39:42,078 | INFO | SANITY10 | val | ep=55 | #01 b=91 t=10 v=4 tp=2.676000 y_true=1.345147 y_pred=0.093618 abs_err=1.251529
+2025-12-23 06:39:42,079 | INFO | SANITY10 | val | ep=55 | #02 b=55 t=58 v=4 tp=3.420000 y_true=0.249475 y_pred=0.103473 abs_err=0.146002
+2025-12-23 06:39:42,079 | INFO | SANITY10 | val | ep=55 | #03 b=81 t=31 v=4 tp=2.094000 y_true=-1.002722 y_pred=0.085750 abs_err=1.088472
+2025-12-23 06:39:42,079 | INFO | SANITY10 | val | ep=55 | #04 b=80 t=55 v=3 tp=2.316000 y_true=-0.444868 y_pred=0.066383 abs_err=0.511251
+2025-12-23 06:39:42,079 | INFO | SANITY10 | val | ep=55 | #05 b=16 t=48 v=2 tp=3.040000 y_true=-0.173762 y_pred=-0.062235 abs_err=0.111527
+2025-12-23 06:39:42,079 | INFO | SANITY10 | val | ep=55 | #06 b=143 t=70 v=3 tp=1.952000 y_true=0.414445 y_pred=-0.170445 abs_err=0.584891
+2025-12-23 06:39:42,079 | INFO | SANITY10 | val | ep=55 | #07 b=21 t=24 v=3 tp=3.124000 y_true=-0.970004 y_pred=0.078754 abs_err=1.048757
+2025-12-23 06:39:42,079 | INFO | SANITY10 | val | ep=55 | #08 b=183 t=1 v=2 tp=1.750000 y_true=-0.173762 y_pred=-0.047115 abs_err=0.126647
+2025-12-23 06:39:42,080 | INFO | SANITY10 | val | ep=55 | #09 b=5 t=33 v=4 tp=1.836000 y_true=0.040776 y_pred=0.081903 abs_err=0.041127
+2025-12-23 06:39:42,080 | INFO | SANITY10 | val | ep=55 | #10 b=1 t=63 v=4 tp=1.868000 y_true=0.145125 y_pred=0.082392 abs_err=0.062733
+2025-12-23 06:39:42,080 | INFO | [SCALE_CHECK] split=val epoch=55 pred(min,max,mean)=(-1.498111,1.360442,0.005134) tgt(min,max,mean)=(-2.831849,20.022820,0.004576) count=14742
+2025-12-23 06:39:42,081 | INFO | [SCALE_CHECK] split=val epoch=55 |pred|/|tgt| (q50,q90,q99)=(0.169039,0.597309,4.900181)
+2025-12-23 06:39:42,081 | INFO | [PAIR] split=val epoch=55 b=0 t=0 d=4 tgt=-0.480973 pred=0.065706
+2025-12-23 06:39:42,081 | INFO | [PAIR] split=val epoch=55 b=0 t=1 d=0 tgt=-0.305700 pred=0.029128
+2025-12-23 06:39:42,081 | INFO | [PAIR] split=val epoch=55 b=0 t=2 d=2 tgt=-0.173762 pred=-0.036822
+2025-12-23 06:39:43,664 | INFO | EARLY_STOP | epoch=55 best_epoch=25 patience=30

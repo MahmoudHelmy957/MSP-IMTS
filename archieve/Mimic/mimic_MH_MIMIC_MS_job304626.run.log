@@ -1,0 +1,59 @@
+2025-12-22 03:34:40,804 | INFO | DATA_STATS | dataset=mimic
+2025-12-22 03:34:40,804 | INFO | DATA_STATS | data_min: {'shape': (96,), 'min': 0.0, 'max': 100.0, 'mean': 4.605417251586914}
+2025-12-22 03:34:40,804 | INFO | DATA_STATS | data_max: {'shape': (96,), 'min': 1.0800000429153442, 'max': 36400.0, 'mean': 1157.1973876953125}
+2025-12-22 03:34:40,805 | INFO | DATA_STATS | time_max: {'shape': (), 'min': 47.98333740234375, 'max': 47.98333740234375, 'mean': 47.98333740234375}
+2025-12-22 03:34:40,805 | INFO | DATA_STATS | first_10_dims data_min=[2.0, 5.0, 3.0999999046325684, 39.0, 0.0, 0.0, 0.20000000298023224, 0.0, 1.5, 74.0] data_max=[56.0, 50.0, 27.399999618530273, 155.0, 27.799999237060547, 2340.0, 37.5, 32.5, 15.600000381469727, 182.0]
+2025-12-22 03:34:40,811 | INFO | [MS] use_ms=True fusion=concat scales=8,16 strides=4,8 npatches_per_scale=[6, 3]
+2025-12-22 03:34:40,832 | INFO | [TS_DEBUG] split=train use_ms=True history=24.0 scales=[8.0, 16.0] strides=[4.0, 8.0] time_max=47.98333740234375
+2025-12-22 03:34:40,836 | INFO | [TS_DEBUG] split=train batch=0 MS keys=['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+2025-12-22 03:34:40,837 | INFO | [TS_DEBUG] split=train batch=0 #scales=2 X_shapes=[(4, 6, 17, 96), (4, 3, 17, 96)]
+2025-12-22 03:34:40,837 | INFO | [TS_DEBUG] split=train batch=0 tt_list_minmax=[(0.0, 0.9916667342185974), (0.0, 0.9916667342185974)]
+2025-12-22 03:34:40,837 | INFO | [TS_DEBUG] split=train batch=0 tp_to_predict_minmax=(0.000000,1.972222) tp_shape=(4, 33)
+2025-12-22 03:34:40,837 | INFO | [TS_DEBUG] split=train batch=0 mask_sum=156.0 mask_ratio=0.012311 mask_dtype=torch.float32 mask_shape=(4, 33, 96)
+2025-12-22 03:34:40,843 | INFO | [TS_DEBUG] split=train batch=1 MS keys=['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+2025-12-22 03:34:40,843 | INFO | [TS_DEBUG] split=train batch=1 #scales=2 X_shapes=[(4, 6, 21, 96), (4, 3, 37, 96)]
+2025-12-22 03:34:40,843 | INFO | [TS_DEBUG] split=train batch=1 tt_list_minmax=[(0.0, 0.9979166984558105), (0.0, 0.9979166984558105)]
+2025-12-22 03:34:40,843 | INFO | [TS_DEBUG] split=train batch=1 tp_to_predict_minmax=(0.000000,1.991667) tp_shape=(4, 159)
+2025-12-22 03:34:40,843 | INFO | [TS_DEBUG] split=train batch=1 mask_sum=604.0 mask_ratio=0.009893 mask_dtype=torch.float32 mask_shape=(4, 159, 96)
+2025-12-22 03:34:40,843 | INFO | [TS_DEBUG] split=val use_ms=True history=24.0 scales=[8.0, 16.0] strides=[4.0, 8.0] time_max=47.98333740234375
+2025-12-22 03:34:40,848 | INFO | [TS_DEBUG] split=val batch=0 MS keys=['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+2025-12-22 03:34:40,848 | INFO | [TS_DEBUG] split=val batch=0 #scales=2 X_shapes=[(4, 6, 34, 96), (4, 3, 58, 96)]
+2025-12-22 03:34:40,849 | INFO | [TS_DEBUG] split=val batch=0 tt_list_minmax=[(0.0, 0.9923611879348755), (0.0, 0.9923611879348755)]
+2025-12-22 03:34:40,849 | INFO | [TS_DEBUG] split=val batch=0 tp_to_predict_minmax=(0.000000,1.989583) tp_shape=(4, 205)
+2025-12-22 03:34:40,849 | INFO | [TS_DEBUG] split=val batch=0 mask_sum=540.0 mask_ratio=0.006860 mask_dtype=torch.float32 mask_shape=(4, 205, 96)
+2025-12-22 03:34:40,854 | INFO | [TS_DEBUG] split=val batch=1 MS keys=['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+2025-12-22 03:34:40,854 | INFO | [TS_DEBUG] split=val batch=1 #scales=2 X_shapes=[(4, 6, 10, 96), (4, 3, 10, 96)]
+2025-12-22 03:34:40,854 | INFO | [TS_DEBUG] split=val batch=1 tt_list_minmax=[(0.0, 0.9597222805023193), (0.0, 0.9597222805023193)]
+2025-12-22 03:34:40,854 | INFO | [TS_DEBUG] split=val batch=1 tp_to_predict_minmax=(0.000000,1.958333) tp_shape=(4, 90)
+2025-12-22 03:34:40,854 | INFO | [TS_DEBUG] split=val batch=1 mask_sum=410.0 mask_ratio=0.011863 mask_dtype=torch.float32 mask_shape=(4, 90, 96)
+2025-12-22 03:34:40,854 | INFO | [TS_DEBUG] split=test use_ms=True history=24.0 scales=[8.0, 16.0] strides=[4.0, 8.0] time_max=47.98333740234375
+2025-12-22 03:34:40,859 | INFO | [TS_DEBUG] split=test batch=0 MS keys=['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+2025-12-22 03:34:40,859 | INFO | [TS_DEBUG] split=test batch=0 #scales=2 X_shapes=[(4, 6, 17, 96), (4, 3, 32, 96)]
+2025-12-22 03:34:40,859 | INFO | [TS_DEBUG] split=test batch=0 tt_list_minmax=[(0.0, 0.9965278506278992), (0.0, 0.9965278506278992)]
+2025-12-22 03:34:40,859 | INFO | [TS_DEBUG] split=test batch=0 tp_to_predict_minmax=(0.000000,1.997917) tp_shape=(4, 123)
+2025-12-22 03:34:40,860 | INFO | [TS_DEBUG] split=test batch=0 mask_sum=577.0 mask_ratio=0.012216 mask_dtype=torch.float32 mask_shape=(4, 123, 96)
+2025-12-22 03:34:40,864 | INFO | [TS_DEBUG] split=test batch=1 MS keys=['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+2025-12-22 03:34:40,864 | INFO | [TS_DEBUG] split=test batch=1 #scales=2 X_shapes=[(4, 6, 3, 96), (4, 3, 3, 96)]
+2025-12-22 03:34:40,864 | INFO | [TS_DEBUG] split=test batch=1 tt_list_minmax=[(0.0, 0.6916667222976685), (0.0, 0.6916667222976685)]
+2025-12-22 03:34:40,864 | INFO | [TS_DEBUG] split=test batch=1 tp_to_predict_minmax=(0.000000,1.981250) tp_shape=(4, 17)
+2025-12-22 03:34:40,864 | INFO | [TS_DEBUG] split=test batch=1 mask_sum=250.0 mask_ratio=0.038297 mask_dtype=torch.float32 mask_shape=(4, 17, 96)
+2025-12-22 03:34:40,869 | INFO | [VAL_DEBUG] split=train batch=0 X_list[0] min=0.000000 max=1.000000 mean=0.004145
+2025-12-22 03:34:40,869 | INFO | [VAL_DEBUG] split=train batch=0 X_list[1] min=0.000000 max=1.000000 mean=0.004219
+2025-12-22 03:34:40,870 | INFO | [VAL_DEBUG] split=train batch=0 data_to_predict min=0.000000 max=0.903030 mean=0.001940
+2025-12-22 03:34:40,874 | INFO | [VAL_DEBUG] split=val batch=0 X_list[0] min=0.000000 max=0.993049 mean=0.003859
+2025-12-22 03:34:40,875 | INFO | [VAL_DEBUG] split=val batch=0 X_list[1] min=0.000000 max=0.993049 mean=0.007573
+2025-12-22 03:34:40,875 | INFO | [VAL_DEBUG] split=val batch=0 data_to_predict min=0.000000 max=1.000000 mean=0.001627
+2025-12-22 03:34:40,880 | INFO | [VAL_DEBUG] split=test batch=0 X_list[0] min=0.000000 max=1.000000 mean=0.003720
+2025-12-22 03:34:40,880 | INFO | [VAL_DEBUG] split=test batch=0 X_list[1] min=0.000000 max=1.000000 mean=0.003779
+2025-12-22 03:34:40,880 | INFO | [VAL_DEBUG] split=test batch=0 data_to_predict min=0.000000 max=0.798750 mean=0.001385
+2025-12-22 03:34:40,880 | INFO | 2025-12-22 03:34:40
+2025-12-22 03:34:40,880 | INFO | command: RunModelsLogs.py --dataset mimic --history 24 --quantization 1.0 --hid_dim 64 --te_dim 10 --node_dim 10 --nlayer 1 --tf_layer 1 --nhead 1 --batch_size 4 --lr 1e-4 --patience 30 --epoch 300 --seed 1 --gpu 0 --multi_scales 8,16 --multi_strides 4,8 --fusion concat
+2025-12-22 03:34:40,880 | INFO | ExpID=72244 PID=524254 host=stud-000 device=cuda CUDA_VISIBLE_DEVICES=0
+2025-12-22 03:34:40,880 | INFO | SLURM_JOB_NAME=MH_MIMIC_MS SLURM_JOB_ID=304626
+2025-12-22 03:34:40,880 | INFO | ckpt_path=experiments/experiment_72244.ckpt
+2025-12-22 03:34:40,880 | INFO | args=Namespace(multi_scales='8,16', multi_strides='4,8', fusion='concat', state='def', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=300, patience=30, history=24, patch_size=24, stride=24, logmode='a', lr=0.0001, w_decay=0.0, batch_size=4, save='experiments/', load=None, seed=1, dataset='mimic', quantization=1.0, model='tPatchGNN', outlayer='Linear', hid_dim=64, te_dim=10, node_dim=10, gpu='0', topk_err=10, data_sanity_batches=3, npatch=1, device=device(type='cuda'), PID=524254, ndim=96)
+2025-12-22 03:34:40,880 | INFO | data: input_dim=96 n_train_batches=3519 n_val_batches=1173 n_test_batches=1173 quantization=1.0 history=24 patch_size=24 stride=24 npatch=1
+2025-12-22 03:34:40,896 | INFO | DATA_SANITY | split=train sampled_batches=3 mask_ratio_mean=0.006890 mask_ratio_min=0.005353 mask_ratio_max=0.007771
+2025-12-22 03:34:40,909 | INFO | DATA_SANITY | split=val sampled_batches=3 mask_ratio_mean=0.035068 mask_ratio_min=0.007548 mask_ratio_max=0.058594
+2025-12-22 03:34:40,922 | INFO | DATA_SANITY | split=test sampled_batches=3 mask_ratio_mean=0.022388 mask_ratio_min=0.005901 mask_ratio_max=0.051373
+2025-12-22 06:50:34,624 | INFO | EARLY_STOP | epoch=62 best_epoch=32 patience=30

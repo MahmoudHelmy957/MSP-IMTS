@@ -11,6 +11,13 @@ from torchvision.datasets.utils import download_url
 from lib.utils import get_device
 
 # Adapted from: https://github.com/rtqichen/time-series-datasets
+def _masked_minmax(x, m):
+    if x is None or m is None: 
+        return None
+    xx = x[m > 0]
+    if xx.numel() == 0:
+        return ("empty", "empty", 0)
+    return (float(xx.min()), float(xx.max()), int(xx.numel()))
 
 class PhysioNet(object):
 
@@ -381,6 +388,11 @@ def patch_variable_time_collate_fn(batch, args, device = torch.device("cpu"), da
 	return data_dict
 
 #####################" multi scale" ######################
+import torch
+from torch.nn.utils.rnn import pad_sequence
+import lib.utils as utils
+
+
 def patch_variable_time_collate_fn_ms(
     batch, args, device=torch.device("cpu"),
     data_min=None, data_max=None, time_max=None,
@@ -388,27 +400,43 @@ def patch_variable_time_collate_fn_ms(
 ):
     """
     Multi-scale collate:
-      - builds a union timeline over the batch (1-D combined_tt),
+      - builds a union timeline over the batch (combined_tt),
       - aligns values/masks to that timeline,
-      - normalizes data and time,
-      - returns per-scale patched tensors via utils.multiscale_split_and_patch_batch.
+      - normalizes data (like original) EXCEPT for USHCN (keep raw values),
+      - IMPORTANT: multi-scale patching expects time in [0,1] over *history_hours*
+        (not over global time_max).
+
     Output keys:
-      X_list, tt_list, mk_list, npatches, tp_to_predict, data_to_predict, mask_predicted_data
+      X_list, tt_list, mk_list, npatches,
+      tp_to_predict, data_to_predict, mask_predicted_data
     """
     if strides_hours is None:
         strides_hours = scales_hours
 
-    # Build union timeline across the batch (exactly like patch_variable_time_collate_fn)
+    # ------------------- local helpers (debug) -------------------
+    def _masked_minmax(x, m):
+        if x is None or m is None:
+            return None
+        xx = x[m > 0]
+        if xx.numel() == 0:
+            return ("empty", "empty", 0)
+        return (float(xx.min()), float(xx.max()), int(xx.numel()))
+
+    # ------------------- build union timeline -------------------
+    # batch: list of (record_id, tt, vals, mask)
+    # tt: (T,), vals/mask: (T, D)
     D = batch[0][2].shape[1]
+
     combined_tt, inverse_indices = torch.unique(
-        torch.cat([ex[1] for ex in batch]), sorted=True, return_inverse=True
+        torch.cat([ex[1] for ex in batch]),
+        sorted=True,
+        return_inverse=True
     )
 
-    # number of observed time points (< history)
-    n_observed_tp = torch.lt(combined_tt, args.history).sum()
-    observed_tt = combined_tt[:n_observed_tp]  # (T_obs,)
+    # observed window = tt < history (in raw units of tt)
+    n_observed_tp = int(torch.lt(combined_tt, args.history).sum().item())
+    observed_tt_raw = combined_tt[:n_observed_tp]  # (T_obs,)
 
-    # Allocate aligned arrays (B, T_all, D), then trim to T_obs
     B = len(batch)
     combined_vals = torch.zeros([B, len(combined_tt), D], device=device)
     combined_mask = torch.zeros_like(combined_vals)
@@ -419,55 +447,100 @@ def patch_variable_time_collate_fn_ms(
     for b, (record_id, tt, vals, mask) in enumerate(batch):
         idx = inverse_indices[offset:offset + len(tt)]
         offset += len(tt)
+
         combined_vals[b, idx] = vals.to(device)
         combined_mask[b, idx] = mask.to(device)
 
-        n_obs_cur = torch.lt(tt, args.history).sum()
+        n_obs_cur = int(torch.lt(tt, args.history).sum().item())
         predicted_tp_list.append(tt[n_obs_cur:])
         predicted_data_list.append(vals[n_obs_cur:])
         predicted_mask_list.append(mask[n_obs_cur:])
 
-    # Trim to observed window
-    combined_vals = combined_vals[:, :n_observed_tp]
-    combined_mask = combined_mask[:, :n_observed_tp]
+    # ------------------- trim to observed window -------------------
+    combined_vals = combined_vals[:, :n_observed_tp]  # (B, T_obs, D)
+    combined_mask = combined_mask[:, :n_observed_tp]  # (B, T_obs, D)
 
-    # Pad future (prediction) parts
-    from torch.nn.utils.rnn import pad_sequence
-    predicted_tp   = pad_sequence(predicted_tp_list,   batch_first=True)
-    predicted_data = pad_sequence(predicted_data_list, batch_first=True)
-    predicted_mask = pad_sequence(predicted_mask_list, batch_first=True)
+    # ------------------- pad prediction parts -------------------
+    # predicted_tp:   (B, T_pred_max)
+    # predicted_data: (B, T_pred_max, D)
+    # predicted_mask: (B, T_pred_max, D)
+    predicted_tp   = pad_sequence(predicted_tp_list,   batch_first=True).to(device)
+    predicted_data = pad_sequence(predicted_data_list, batch_first=True).to(device)
+    predicted_mask = pad_sequence(predicted_mask_list, batch_first=True).to(device)
 
-    # Normalize values (same logic as original)
-    if args.dataset != 'ushcn':
+    # ------------------- normalize VALUES (NOT for USHCN) -------------------
+    if args.dataset != "ushcn":
         combined_vals = utils.normalize_masked_data(
             combined_vals, combined_mask, att_min=data_min, att_max=data_max
         )
         predicted_data = utils.normalize_masked_data(
             predicted_data, predicted_mask, att_min=data_min, att_max=data_max
         )
+    else:
+        # Keep raw; ensure padded/masked entries are zero
+        combined_vals = combined_vals.clone()
+        predicted_data = predicted_data.clone()
+        combined_vals[combined_mask == 0] = 0.0
+        predicted_data[predicted_mask == 0] = 0.0
+		
 
-    # Normalize time to [0,1] by time_max
-    observed_tt  = utils.normalize_masked_tp(observed_tt,  att_min=0, att_max=time_max)
-    predicted_tp = utils.normalize_masked_tp(predicted_tp, att_min=0, att_max=time_max)
+    # ------------------- normalize TIME to history window -------------------
+    # observed time_steps must be [0,1] over history
+    # predicted_tp normalized same way (can exceed 1.0)
+    if observed_tt_raw.numel() > 0:
+        t0 = observed_tt_raw[0].to(device)
+    else:
+        t0 = torch.tensor(0.0, device=device)
 
-    # Build the "single" dict expected by split_and_patch_batch
+    observed_tt = (observed_tt_raw.to(device) - t0) / float(history_hours)
+    observed_tt = torch.clamp(observed_tt, min=0.0, max=1.0)  # (T_obs,)
+
+    predicted_tp = (predicted_tp - t0) / float(history_hours)
+    predicted_tp = torch.clamp(predicted_tp, min=0.0)         # allow >1.0
+
     single = {
-        "data": combined_vals,           # (B, T_obs, D)
-        "time_steps": observed_tt,       # (T_obs,)
-        "mask": combined_mask,           # (B, T_obs, D)
-        "data_to_predict": predicted_data,
-        "tp_to_predict": predicted_tp,
-        "mask_predicted_data": predicted_mask,
+        "data": combined_vals,                 # (B, T_obs, D)
+        "time_steps": observed_tt,             # (T_obs,) in [0,1]
+        "mask": combined_mask,                 # (B, T_obs, D)
+        "data_to_predict": predicted_data,     # (B, T_pred, D) raw for USHCN
+        "tp_to_predict": predicted_tp,         # (B, T_pred) normalized to history
+        "mask_predicted_data": predicted_mask  # (B, T_pred, D)
     }
 
-    # Multi-scale split using union timeline (1-D)
+    # Tell downstream utils: already history-normalized in this collate
+    single["_tp_is_history_norm"] = True
+
+    # Optional: store global max for debugging
+    if time_max is not None:
+        try:
+            single["_time_max"] = float(time_max) if not torch.is_tensor(time_max) else float(time_max.item())
+        except Exception:
+            pass
+
+    # ------------------- DEBUG (scale) -------------------
+    obs_mm = _masked_minmax(single["data"], single["mask"])
+    tgt_mm = _masked_minmax(single["data_to_predict"], single["mask_predicted_data"])
+    print(f"[MS SCALE] observed(masked) min/max/count={obs_mm}")
+    print(f"[MS SCALE] target(masked)   min/max/count={tgt_mm}")
+
+    # ------------------- multi-scale patching -------------------
     ms = utils.multiscale_split_and_patch_batch(
-        data_dict=single, args=args, history_hours=float(history_hours),
-        scales_hours=list(scales_hours), strides_hours=list(strides_hours)
+        data_dict=single,
+        args=args,
+        history_hours=float(history_hours),
+        scales_hours=list(scales_hours),
+        strides_hours=list(strides_hours),
     )
 
+    # ------------------- DEBUG (per-scale X_list) -------------------
+    for k, (Xk, Mk) in enumerate(zip(ms["X_list"], ms["mk_list"])):
+        mm = _masked_minmax(Xk, Mk)
+        print(f"[MS SCALE] X_list[{k}](masked) min/max/count={mm} shape={tuple(Xk.shape)}")
+
     return {
-        "X_list": ms["X_list"], "tt_list": ms["tt_list"], "mk_list": ms["mk_list"],
+        "X_list": ms["X_list"],
+        "tt_list": ms["tt_list"],
+        "mk_list": ms["mk_list"],
         "npatches": ms["npatches"],
         "tp_to_predict": single["tp_to_predict"],
         "data_to_predict": single["data_to_predict"],
@@ -537,6 +610,6 @@ def variable_time_collate_fn(batch, args, device = torch.device("cpu"), data_typ
 if __name__ == '__main__':
 	torch.manual_seed(1991)
 
-	dataset = PhysioNet('../data/physionet', train=False, download=True)
+	dataset = PhysioNet('../dataIR/physionet', train=False, download=True)
 	dataloader = DataLoader(dataset, batch_size=10, shuffle=True, collate_fn=variable_time_collate_fn)
 	print(dataloader.__iter__().next())

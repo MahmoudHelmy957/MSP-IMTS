@@ -82,18 +82,18 @@ def load_pickle(filename):
 		filecontent = pickle.load(pkl_file)
 	return filecontent
 
-def make_dataset(dataset_type = "spiral",**kwargs):
-	if dataset_type == "spiral":
-		data_path = "data/spirals.pickle"
-		dataset = load_pickle(data_path)["dataset"]
-		chiralities = load_pickle(data_path)["chiralities"]
-	elif dataset_type == "chiralspiral":
-		data_path = "data/chiral-spirals.pickle"
-		dataset = load_pickle(data_path)["dataset"]
-		chiralities = load_pickle(data_path)["chiralities"]
-	else:
-		raise Exception("Unknown dataset type " + dataset_type)
-	return dataset, chiralities
+# def make_dataset(dataset_type = "spiral",**kwargs):
+# 	if dataset_type == "spiral":
+# 		data_path = "data/spirals.pickle"
+# 		dataset = load_pickle(data_path)["dataset"]
+# 		chiralities = load_pickle(data_path)["chiralities"]
+# 	elif dataset_type == "chiralspiral":
+# 		data_path = "data/chiral-spirals.pickle"
+# 		dataset = load_pickle(data_path)["dataset"]
+# 		chiralities = load_pickle(data_path)["chiralities"]
+# 	else:
+# 		raise Exception("Unknown dataset type " + dataset_type)
+# 	return dataset, chiralities
 
 
 def split_last_dim(data):
@@ -301,7 +301,8 @@ def normalize_data(data):
 	att_max[ att_max == 0.] = 1.
 
 	if (att_max != 0.).all():
-		data_norm = (data - att_min) / att_max
+		data_norm = data_norm = (data - att_min) / (att_max - att_min + 1e-8)
+
 	else:
 		raise Exception("Zero!")
 
@@ -646,62 +647,175 @@ def build_patch_indices_time(observed_tp, patch_size_hours, stride_hours, histor
     return patch_indices
 
 def multiscale_split_and_patch_batch(data_dict, args, history_hours, scales_hours, strides_hours):
-    assert len(scales_hours) == len(strides_hours)
-    # Pass n_months for USHCN; for other datasets it won't exist and stays None.
+    """
+    Build per-scale patched tensors from a single batch dict.
+
+    Goal:
+      - Ensure observed timeline is normalized to [0,1] over the *history window*
+      - Patch binning uses patch_size/history and stride/history (same units)
+
+    Robust to:
+      A) raw time units (hours/months/ms)
+      B) already-normalized time in [0,1] over history
+      C) already-normalized time in [0,1] over a *global* window (PhysioNet/MIMIC time_max, or USHCN n_months)
+
+    IMPORTANT FIX:
+      - If collate already normalized time over HISTORY (e.g., your USHCN-MS collate),
+        then we MUST NOT apply the "global->history" rescale again.
+        We detect that via: data_dict["_tp_is_history_norm"] = True.
+
+    Returns:
+      dict with:
+        X_list, tt_list, mk_list, npatches
+    """
+    assert len(scales_hours) == len(strides_hours), "scales_hours and strides_hours length mismatch"
+
     n_months = getattr(args, "n_months", None)
+
+    # For PhysioNet/MIMIC you may inject this in collate as data_dict["_time_max"]
+    time_max_global = data_dict.get("_time_max", None)
+
+    # If True: collate already produced time_steps in [0,1] over HISTORY, so skip global rescaling
+    tp_is_history_norm = bool(data_dict.get("_tp_is_history_norm", False))
+
+    # Debug print (safe & aligned)
+    if "time_steps" in data_dict and torch.is_tensor(data_dict["time_steps"]) and data_dict["time_steps"].numel() > 0:
+        print(
+            "[MS CHECK] before norm time_steps min/max:",
+            float(data_dict["time_steps"].min()),
+            float(data_dict["time_steps"].max()),
+            "n_months=", n_months,
+            "time_max_global=", time_max_global,
+            "_tp_is_history_norm=", tp_is_history_norm
+        )
+    else:
+        print(
+            "[MS CHECK] before norm time_steps: missing/empty",
+            "n_months=", n_months,
+            "time_max_global=", time_max_global,
+            "_tp_is_history_norm=", tp_is_history_norm
+        )
+
+    # Normalize time axis to history window, but ONLY if it is not already history-normalized
     data_dict_norm = _normalize_timelines_for_history(
-        data_dict, history_hours, n_months=n_months
+        data_dict,
+        history_hours=float(history_hours),
+        n_months=None if tp_is_history_norm else (float(n_months) if n_months is not None else None),
+        time_max_global=None if tp_is_history_norm else (float(time_max_global) if time_max_global is not None else None),
     )
 
     observed_tp_1d = data_dict_norm["time_steps"]
-    X_list, tt_list, mk_list, npatches = [], [], [], []
-    for ps_h, st_h in zip(scales_hours, strides_hours):
-        indices = build_patch_indices_time(observed_tp_1d, ps_h, st_h, history_hours)
-        old_npatch = getattr(args, "npatch")
-        setattr(args, "npatch", len(indices))
-        split_dict = split_and_patch_batch(
-            data_dict_norm, args, n_observed_tp=len(observed_tp_1d), patch_indices=indices
+    if observed_tp_1d.dim() != 1:
+        raise ValueError(
+            f"Expected time_steps to be 1-D (union timeline), got shape={tuple(observed_tp_1d.shape)}"
         )
+
+    X_list, tt_list, mk_list, npatches = [], [], [], []
+
+    for ps_h, st_h in zip(scales_hours, strides_hours):
+        indices = build_patch_indices_time(
+            observed_tp=observed_tp_1d,
+            patch_size_hours=float(ps_h),
+            stride_hours=float(st_h),
+            history_hours=float(history_hours),
+        )
+
+        # Temporarily override args.npatch for split_and_patch_batch
+        old_npatch = getattr(args, "npatch", None)
+        args.npatch = len(indices)
+
+        split_dict = split_and_patch_batch(
+            data_dict_norm,
+            args,
+            n_observed_tp=len(observed_tp_1d),
+            patch_indices=indices,
+        )
+
+        # Each is (B, M_k, L_k, N)
         X_list.append(split_dict["observed_data"])
-        tt_list.append(split_dict["observed_tp"])   # now ~[0,1]
+        tt_list.append(split_dict["observed_tp"])      # should be [0,1] over history
         mk_list.append(split_dict["observed_mask"])
         npatches.append(len(indices))
-        setattr(args, "npatch", old_npatch)
+
+        # Restore args.npatch
+        if old_npatch is not None:
+            args.npatch = old_npatch
+
     return {"X_list": X_list, "tt_list": tt_list, "mk_list": mk_list, "npatches": npatches}
 
-
-def _normalize_timelines_for_history(data_dict, history_hours: float, *, n_months: float | None = None):
+def _normalize_timelines_for_history(
+    data_dict,
+    history_hours: float,
+    *,
+    n_months: float | None = None,
+    time_max_global: float | None = None,
+):
     """
-    Normalize time axes to [0,1] over the history window.
-    - If times already in [0,1] over a total window (e.g., USHCN over n_months=48),
-      rebase to local chunk by dividing by (history / n_months).
-    - Else, assume times are in the same unit as `history_hours` and divide by `history_hours`.
+    Normalize observed time axis so that the observed timeline covers [0,1] over the *history window*.
+
+    Cases:
+      1) Raw time (hours/months/ms): divide by history_hours
+      2) Already [0,1] over history: keep (rebase by t0)
+      3) Already [0,1] over GLOBAL window:
+         - USHCN: global window = n_months
+         - PhysioNet/MIMIC: global window = time_max_global (e.g., 48h)
+         -> rescale by (history / global_window)
     """
     out = dict(data_dict)
-    tt = out["time_steps"]  # (L,)
+    tt = out.get("time_steps", None)
+    if tt is None:
+        return out
+
     t0 = tt[0]
     tmax = float(tt.max())
+    tmin = float(tt.min())
 
-    if tmax <= 1.0001 and (n_months is not None and n_months > 0):
-        # Already global-normalized to [0,1] over n_months: compress to local history window
-        scale = float(history_hours) / float(n_months)  # e.g., 24/48 = 0.5
-        tt_norm = (tt - t0) / scale
-        if "tp_to_predict" in out and out["tp_to_predict"] is not None:
-            tp = out["tp_to_predict"]
-            tp_norm = (tp - t0) / scale
-            out["tp_to_predict"] = torch.clamp(tp_norm, min=0.0)
+    def _apply_to_tp(tp, fn):
+        if tp is None:
+            return None
+        return torch.clamp(fn(tp), min=0.0)
+
+    already_unit = (tmin >= -1e-6) and (tmax <= 1.0001)
+
+    # Decide if it's globally-normalized [0,1] but NOT history-normalized
+    global_window = None
+    if n_months is not None and n_months > 0:
+        global_window = float(n_months)
+    elif time_max_global is not None and time_max_global > 0:
+        global_window = float(time_max_global)
+
+    if already_unit:
+        if global_window is not None:
+            # global normalized to [0,1] over global_window -> rescale to history
+            scale = float(history_hours) / global_window
+            if scale <= 0:
+                raise ValueError(f"Invalid scale from history_hours={history_hours}, global_window={global_window}")
+
+            tt_norm = (tt - t0) / scale
+            out["time_steps"] = torch.clamp(tt_norm, min=0.0, max=1.0)
+
+            if out.get("tp_to_predict", None) is not None:
+                tp = out["tp_to_predict"]
+                out["tp_to_predict"] = _apply_to_tp(tp, lambda x: (x - t0) / scale)
+        else:
+            # already normalized over history -> just rebase
+            tt_norm = (tt - t0)
+            out["time_steps"] = torch.clamp(tt_norm, min=0.0, max=1.0)
+
+            if out.get("tp_to_predict", None) is not None:
+                tp = out["tp_to_predict"]
+                out["tp_to_predict"] = _apply_to_tp(tp, lambda x: (x - t0))
+
     else:
-        # Raw units (months / hours / ms): divide by `history_hours` as before
+        # raw units -> divide by history_hours
+        if history_hours <= 0:
+            raise ValueError(f"history_hours must be >0, got {history_hours}")
+
         tt_norm = (tt - t0) / float(history_hours)
-        if "tp_to_predict" in out and out["tp_to_predict"] is not None:
+        out["time_steps"] = torch.clamp(tt_norm, min=0.0, max=1.0)
+
+        if out.get("tp_to_predict", None) is not None:
             tp = out["tp_to_predict"]
-            tp_norm = (tp - t0) / float(history_hours)
-            out["tp_to_predict"] = torch.clamp(tp_norm, min=0.0)
+            out["tp_to_predict"] = _apply_to_tp(tp, lambda x: (x - t0) / float(history_hours))
 
-    out["time_steps"] = torch.clamp(tt_norm, min=0.0, max=1.0)
     return out
-
-
-
-
-

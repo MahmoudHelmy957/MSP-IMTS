@@ -1,0 +1,11 @@
+2025-12-20 10:47:44 | INFO | [MS] use_ms=True fusion=concat scales=2,8 strides=2,8 npatches_per_scale=[12, 3]
+2025-12-20 10:47:44 | INFO | 2025-12-20 10:47:44
+2025-12-20 10:47:44 | INFO | command: RunModelsLogs.py --dataset physionet --history 24 --quantization 1.0 --hid_dim 64 --te_dim 10 --node_dim 10 --nlayer 1 --tf_layer 1 --nhead 1 --batch_size 32 --lr 1e-3 --patience 60 --epoch 600 --seed 1 --gpu 0 --multi_scales 2,8 --multi_strides 2,8 --fusion concat
+2025-12-20 10:47:44 | INFO | ExpID=77750 PID=3239216 host=test-000 device=cuda CUDA_VISIBLE_DEVICES=0
+2025-12-20 10:47:44 | INFO | SLURM_JOB_NAME=MH_PHYSIO_MS SLURM_JOB_ID=303708
+2025-12-20 10:47:44 | INFO | ckpt_path=experiments/experiment_77750.ckpt
+2025-12-20 10:47:44 | INFO | args=Namespace(multi_scales='2,8', multi_strides='2,8', fusion='concat', state='def', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=600, patience=60, history=24, patch_size=24, stride=24, logmode='a', lr=0.001, w_decay=0.0, batch_size=32, save='experiments/', load=None, seed=1, dataset='physionet', quantization=1.0, model='tPatchGNN', outlayer='Linear', hid_dim=64, te_dim=10, node_dim=10, gpu='0', topk_err=10, data_sanity_batches=3, npatch=1, device=device(type='cuda'), PID=3239216, ndim=41)
+2025-12-20 10:47:44 | INFO | data: input_dim=41 n_train_batches=225 n_val_batches=75 n_test_batches=75 quantization=1.0 history=24 patch_size=24 stride=24 npatch=1
+2025-12-20 10:47:44 | INFO | DATA_SANITY | split=train sampled_batches=3 mask_ratio_mean=0.167226 mask_ratio_min=0.149848 mask_ratio_max=0.184604
+2025-12-20 10:47:44 | INFO | DATA_SANITY | split=val sampled_batches=3 mask_ratio_mean=0.174949 mask_ratio_min=0.164909 mask_ratio_max=0.182287
+2025-12-20 10:47:44 | INFO | DATA_SANITY | split=test sampled_batches=3 mask_ratio_mean=0.174177 mask_ratio_min=0.166555 mask_ratio_max=0.181189

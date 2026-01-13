@@ -1,0 +1,58 @@
+INFO | DATA_STATS | dataset=ushcn
+INFO | DATA_STATS | data_min: {'shape': (5,), 'min': -4.185389518737793, 'max': -0.1279701292514801, 'mean': -1.7349885702133179}
+INFO | DATA_STATS | data_max: {'shape': (5,), 'min': 2.910393714904785, 'max': 38.25200271606445, 'mean': 23.62533950805664}
+INFO | DATA_STATS | time_max: {'shape': (), 'min': 48.0, 'max': 48.0, 'mean': 48.0}
+INFO | DATA_STATS | first_5_dims data_min=[-0.3057002127170563, -0.1279701292514801, -0.17376209795475006, -3.8821206092834473, -4.185389518737793] data_max=[37.255062103271484, 36.669124603271484, 38.25200271606445, 3.0401246547698975, 2.910393714904785]
+INFO | DATA_STATS | dataset=ushcn
+INFO | DATA_STATS | data_min: {'shape': (5,), 'min': -4.185389518737793, 'max': -0.1279701292514801, 'mean': -1.7349885702133179}
+INFO | DATA_STATS | data_max: {'shape': (5,), 'min': 2.910393714904785, 'max': 38.25200271606445, 'mean': 23.62533950805664}
+INFO | DATA_STATS | time_max: {'shape': (), 'min': 48.0, 'max': 48.0, 'mean': 48.0}
+INFO | DATA_STATS | first_5_dims data_min=[-0.3057002127170563, -0.1279701292514801, -0.17376209795475006, -3.8821206092834473, -4.185389518737793] data_max=[37.255062103271484, 36.669124603271484, 38.25200271606445, 3.0401246547698975, 2.910393714904785]
+INFO | [MS] use_ms=True fusion=concat scales=4,12 strides=4,12 npatches_per_scale=[6, 2]
+INFO | [MS_INIT] forced forward done. decoder_is_none=False
+INFO | [TS_DEBUG] split=train use_ms=True history=24.0 scales=[4.0, 12.0] strides=[4.0, 12.0] time_max=48.0
+INFO | [TS_DEBUG] split=train batch=0 MS keys=['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+INFO | [TS_DEBUG] split=train batch=0 #scales=2 X_shapes=[(256, 6, 16, 5), (256, 2, 33, 5)]
+INFO | [TS_DEBUG] split=train batch=0 tt_list_minmax=[(0.0, 0.996999979019165), (0.0, 0.996999979019165)]
+INFO | [TS_DEBUG] split=train batch=0 tp_to_predict_minmax=(0.000000,1.998000) tp_shape=(256, 176)
+INFO | [TS_DEBUG] split=train batch=0 mask_sum=24014.0 mask_ratio=0.106596 mask_dtype=torch.float32 mask_shape=(256, 176, 5)
+INFO | [TS_DEBUG] split=train batch=1 MS keys=['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+INFO | [TS_DEBUG] split=train batch=1 #scales=2 X_shapes=[(256, 6, 16, 5), (256, 2, 33, 5)]
+INFO | [TS_DEBUG] split=train batch=1 tt_list_minmax=[(0.0, 0.996999979019165), (0.0, 0.996999979019165)]
+INFO | [TS_DEBUG] split=train batch=1 tp_to_predict_minmax=(0.000000,1.998000) tp_shape=(256, 182)
+INFO | [TS_DEBUG] split=train batch=1 mask_sum=22689.0 mask_ratio=0.097394 mask_dtype=torch.float32 mask_shape=(256, 182, 5)
+INFO | [TS_DEBUG] split=val use_ms=True history=24.0 scales=[4.0, 12.0] strides=[4.0, 12.0] time_max=48.0
+INFO | [TS_DEBUG] split=val batch=0 MS keys=['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+INFO | [TS_DEBUG] split=val batch=0 #scales=2 X_shapes=[(256, 6, 16, 5), (256, 2, 28, 5)]
+INFO | [TS_DEBUG] split=val batch=0 tt_list_minmax=[(0.0, 0.996999979019165), (0.0, 0.996999979019165)]
+INFO | [TS_DEBUG] split=val batch=0 tp_to_predict_minmax=(0.000000,1.998000) tp_shape=(256, 169)
+INFO | [TS_DEBUG] split=val batch=0 mask_sum=21040.0 mask_ratio=0.097263 mask_dtype=torch.float32 mask_shape=(256, 169, 5)
+INFO | [TS_DEBUG] split=val batch=1 MS keys=['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+INFO | [TS_DEBUG] split=val batch=1 #scales=2 X_shapes=[(256, 6, 13, 5), (256, 2, 29, 5)]
+INFO | [TS_DEBUG] split=val batch=1 tt_list_minmax=[(0.0, 0.9990000128746033), (0.0, 0.9990000128746033)]
+INFO | [TS_DEBUG] split=val batch=1 tp_to_predict_minmax=(0.000000,2.000000) tp_shape=(256, 179)
+INFO | [TS_DEBUG] split=val batch=1 mask_sum=23165.0 mask_ratio=0.101104 mask_dtype=torch.float32 mask_shape=(256, 179, 5)
+INFO | [TS_DEBUG] split=test use_ms=True history=24.0 scales=[4.0, 12.0] strides=[4.0, 12.0] time_max=48.0
+INFO | [TS_DEBUG] split=test batch=0 MS keys=['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+INFO | [TS_DEBUG] split=test batch=0 #scales=2 X_shapes=[(256, 6, 15, 5), (256, 2, 30, 5)]
+INFO | [TS_DEBUG] split=test batch=0 tt_list_minmax=[(0.0, 0.9990000128746033), (0.0, 0.9990000128746033)]
+INFO | [TS_DEBUG] split=test batch=0 tp_to_predict_minmax=(0.000000,2.000000) tp_shape=(256, 180)
+INFO | [TS_DEBUG] split=test batch=0 mask_sum=23715.0 mask_ratio=0.102930 mask_dtype=torch.float32 mask_shape=(256, 180, 5)
+INFO | [TS_DEBUG] split=test batch=1 MS keys=['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+INFO | [TS_DEBUG] split=test batch=1 #scales=2 X_shapes=[(256, 6, 12, 5), (256, 2, 28, 5)]
+INFO | [TS_DEBUG] split=test batch=1 tt_list_minmax=[(0.0, 0.9990000128746033), (0.0, 0.9990000128746033)]
+INFO | [TS_DEBUG] split=test batch=1 tp_to_predict_minmax=(0.000000,2.000000) tp_shape=(256, 173)
+INFO | [TS_DEBUG] split=test batch=1 mask_sum=23843.0 mask_ratio=0.107673 mask_dtype=torch.float32 mask_shape=(256, 173, 5)
+INFO | [VAL_DEBUG] split=train batch=0 TARGET(masked) min=-4.185390 max=19.200247 mean=-0.016142 count=20986
+INFO | [VAL_DEBUG] split=train batch=0 X_list[0](masked) min=-3.715816 max=20.898941 mean=0.044701 count=24732
+INFO | [VAL_DEBUG] split=train batch=0 X_list[1](masked) min=-3.715816 max=20.898941 mean=0.044701 count=24732
+INFO | [VAL_DEBUG] split=val batch=0 TARGET(masked) min=-2.933192 max=26.155668 mean=0.004140 count=25539
+INFO | [VAL_DEBUG] split=val batch=0 X_list[0](masked) min=-3.350591 max=16.343109 mean=-0.019090 count=22749
+INFO | [VAL_DEBUG] split=val batch=0 X_list[1](masked) min=-3.350591 max=16.343109 mean=-0.019090 count=22749
+INFO | [VAL_DEBUG] split=test batch=0 TARGET(masked) min=-3.298417 max=28.258360 mean=-0.021412 count=24754
+INFO | [VAL_DEBUG] split=test batch=0 X_list[0](masked) min=-2.975068 max=8.633243 mean=-0.049728 count=22023
+INFO | [VAL_DEBUG] split=test batch=0 X_list[1](masked) min=-2.975068 max=8.633243 mean=-0.049728 count=22023
+INFO | [PER_DIM_TGT] split=train epoch=init (dim,min,max,mean,count)=[(0, -0.3057002127170563, 37.255062103271484, 0.004858450498431921, 4776), (1, -0.1279701292514801, 16.343109130859375, -0.006822348106652498, 4679), (2, -0.17376209795475006, 7.562969207763672, -0.07038313150405884, 4635), (3, -3.5956828594207764, 2.085332155227661, -0.0206795334815979, 4627), (4, -3.7679903507232666, 2.0755958557128906, 0.02473217435181141, 4631)]
+INFO | [PER_DIM_TGT] split=val epoch=init (dim,min,max,mean,count)=[(0, -0.3057002127170563, 6.241278648376465, 0.09128804504871368, 5147), (1, -0.1279701292514801, 20.02281951904297, 0.15419970452785492, 4799), (2, -0.17376209795475006, 3.694603681564331, -0.07868954539299011, 4294), (3, -2.8318488597869873, 1.7034152746200562, -0.09641680121421814, 4552), (4, -2.5679683685302734, 1.8668962717056274, 0.035307854413986206, 4733)]
+INFO | [PER_DIM_TGT] split=test epoch=init (dim,min,max,mean,count)=[(0, -0.3057002127170563, 6.679993629455566, -0.028230762109160423, 4433), (1, -0.1279701292514801, 8.6332426071167, 0.022836068645119667, 4607), (2, -0.17376209795475006, 3.178821563720703, -0.05218948796391487, 4005), (3, -3.5956828594207764, 1.9421132802963257, -0.20410789549350739, 4955), (4, -2.8810174465179443, 1.8668962717056274, -0.06257928907871246, 4615)]
+INFO | [OPT_CHECK] decoder_params=6 in_optimizer=6 missing=0

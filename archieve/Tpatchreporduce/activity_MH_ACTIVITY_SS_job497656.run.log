@@ -1,0 +1,12 @@
+INFO | 2025-12-31 10:55:33
+INFO | command: RunModelsSingle.py --dataset activity --state def --history 3000 --patience 10 --batch_size 32 --lr 1e-3 --patch_size 300 --stride 300 --nhead 1 --tf_layer 1 --nlayer 1 --te_dim 10 --node_dim 10 --hid_dim 32 --outlayer Linear --seed 1 --gpu 0
+INFO | ExpID=21244 PID=3838874 host=stud-000 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MH_ACTIVITY_SS SLURM_JOB_ID=497656
+INFO | ckpt_path=experiments/experiment_21244.ckpt
+INFO | args=Namespace(state='def', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=1000, patience=10, history=3000, patch_size=300.0, stride=300.0, logmode='a', lr=0.001, w_decay=0.0, batch_size=32, save='experiments/', load=None, seed=1, dataset='activity', quantization=0.0, model='tPatchGNN', outlayer='Linear', hid_dim=32, te_dim=10, node_dim=10, gpu='0', data_sanity_batches=3, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=10, device=device(type='cuda'), PID=3838874)
+INFO | data: input_dim=12 n_train_batches=104 n_val_batches=32 n_test_batches=34 quantization=0.0 history=3000 patch_size=300.0 stride=300.0 npatch=10
+INFO | DATA_SANITY | split=train sampled_batches=3 mask_ratio_mean=0.228378 mask_ratio_min=0.224905 mask_ratio_max=0.231534
+INFO | DATA_SANITY | split=val sampled_batches=3 mask_ratio_mean=0.222057 mask_ratio_min=0.210205 mask_ratio_max=0.232008
+INFO | DATA_SANITY | split=test sampled_batches=3 mask_ratio_mean=0.221275 mask_ratio_min=0.203598 mask_ratio_max=0.232718
+INFO | n_train_batches: 104
+INFO | EARLY_STOP | epoch=34 best_epoch=24 patience=10

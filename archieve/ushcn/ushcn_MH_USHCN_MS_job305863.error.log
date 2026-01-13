@@ -1,0 +1,16 @@
+ERROR | EXCEPTION | train | epoch=0
+ERROR | Traceback (most recent call last):
+  File "/home/helmy/MSP-IMTS/tPatchGNN/RunModelsLogsUSHCN.py", line 1374, in <module>
+    out = model(
+  File "/home/helmy/miniconda3/envs/condaworld310/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/helmy/MSP-IMTS/tPatchGNN/model/multiscale_tpatchgnn.py", line 151, in forward
+    h_i = mdl.encode_from_patched(Xd, ttd, mkd)  # (B, N, D_k)
+  File "/home/helmy/MSP-IMTS/tPatchGNN/model/tPatchGNN.py", line 346, in encode_from_patched
+    h = self.IMTS_Model(X_, mk_)  # (B, N, hid_dim)
+  File "/home/helmy/MSP-IMTS/tPatchGNN/model/tPatchGNN.py", line 272, in IMTS_Model
+    x_patch = self.TTCN(x, mask_X)  # (B*N*M, hid_dim-1)
+  File "/home/helmy/MSP-IMTS/tPatchGNN/model/tPatchGNN.py", line 246, in TTCN
+    Filter_mask = Filter * mask_X + (1.0 - mask_X) * (-1e8)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 1006.00 MiB (GPU 0; 7.79 GiB total capacity; 5.86 GiB already allocated; 478.44 MiB free; 7.18 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+
