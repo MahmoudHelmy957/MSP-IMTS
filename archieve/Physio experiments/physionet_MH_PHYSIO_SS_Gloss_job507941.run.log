@@ -1,0 +1,65 @@
+INFO | 2026-01-13 14:46:12
+INFO | command: RunModelsSingleGLoss.py --dataset physionet --state def --quantization 1.0 --history 24 --patience 30 --batch_size 32 --lr 1e-3 --patch_size 8 --stride 8 --nhead 1 --tf_layer 1 --nlayer 1 --te_dim 10 --node_dim 10 --hid_dim 64 --outlayer Linear --seed 1 --gpu 0
+INFO | ExpID=92327 PID=4037614 host=stud-000 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MH_PHYSIO_SS_Gloss SLURM_JOB_ID=507941
+INFO | ckpt_path=experiments/experiment_92327.ckpt
+INFO | args=Namespace(state='def', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=1000, patience=30, normalization=0, history=24, patch_size=8.0, stride=8.0, logmode='a', lr=0.001, w_decay=0.0, batch_size=32, save='experiments/', load=None, seed=1, dataset='physionet', quantization=1.0, model='tPatchGNN', outlayer='Linear', hid_dim=64, te_dim=10, node_dim=10, gpu='0', data_sanity_batches=3, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=3, device=device(type='cuda'), PID=4037614)
+INFO | LOSS_MODE | TRAIN uses GLOBAL masked MSE: mean((pred-true)^2 over ALL masked points)
+INFO | data: input_dim=41 n_train_batches=225 n_val_batches=75 n_test_batches=75 quantization=1.0 history=24 patch_size=8.0 stride=8.0 npatch=3
+INFO | DATA_SANITY | split=train sampled_batches=3 mask_ratio_mean=0.166992 mask_ratio_min=0.149146 mask_ratio_max=0.184604
+INFO | DATA_SANITY | split=val sampled_batches=3 mask_ratio_mean=0.174949 mask_ratio_min=0.164909 mask_ratio_max=0.182287
+INFO | DATA_SANITY | split=test sampled_batches=3 mask_ratio_mean=0.174177 mask_ratio_min=0.166555 mask_ratio_max=0.181189
+INFO | n_train_batches: 225
+INFO | EARLY_STOP | epoch=67 best_epoch=37 patience=30
+INFO | 2026-01-13 14:56:59
+INFO | command: RunModelsSingleGLoss.py --dataset physionet --state def --quantization 1.0 --history 24 --patience 30 --batch_size 32 --lr 1e-3 --patch_size 8 --stride 8 --nhead 1 --tf_layer 1 --nlayer 1 --te_dim 10 --node_dim 10 --hid_dim 64 --outlayer Linear --seed 2 --gpu 0
+INFO | ExpID=19840 PID=4040703 host=stud-000 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MH_PHYSIO_SS_Gloss SLURM_JOB_ID=507941
+INFO | ckpt_path=experiments/experiment_19840.ckpt
+INFO | args=Namespace(state='def', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=1000, patience=30, normalization=0, history=24, patch_size=8.0, stride=8.0, logmode='a', lr=0.001, w_decay=0.0, batch_size=32, save='experiments/', load=None, seed=2, dataset='physionet', quantization=1.0, model='tPatchGNN', outlayer='Linear', hid_dim=64, te_dim=10, node_dim=10, gpu='0', data_sanity_batches=3, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=3, device=device(type='cuda'), PID=4040703)
+INFO | LOSS_MODE | TRAIN uses GLOBAL masked MSE: mean((pred-true)^2 over ALL masked points)
+INFO | data: input_dim=41 n_train_batches=225 n_val_batches=75 n_test_batches=75 quantization=1.0 history=24 patch_size=8.0 stride=8.0 npatch=3
+INFO | DATA_SANITY | split=train sampled_batches=3 mask_ratio_mean=0.175325 mask_ratio_min=0.164299 mask_ratio_max=0.181616
+INFO | DATA_SANITY | split=val sampled_batches=3 mask_ratio_mean=0.174949 mask_ratio_min=0.164909 mask_ratio_max=0.182287
+INFO | DATA_SANITY | split=test sampled_batches=3 mask_ratio_mean=0.174177 mask_ratio_min=0.166555 mask_ratio_max=0.181189
+INFO | n_train_batches: 225
+INFO | EARLY_STOP | epoch=141 best_epoch=111 patience=30
+INFO | 2026-01-13 15:18:09
+INFO | command: RunModelsSingleGLoss.py --dataset physionet --state def --quantization 1.0 --history 24 --patience 30 --batch_size 32 --lr 1e-3 --patch_size 8 --stride 8 --nhead 1 --tf_layer 1 --nlayer 1 --te_dim 10 --node_dim 10 --hid_dim 64 --outlayer Linear --seed 3 --gpu 0
+INFO | ExpID=94637 PID=4047702 host=stud-000 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MH_PHYSIO_SS_Gloss SLURM_JOB_ID=507941
+INFO | ckpt_path=experiments/experiment_94637.ckpt
+INFO | args=Namespace(state='def', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=1000, patience=30, normalization=0, history=24, patch_size=8.0, stride=8.0, logmode='a', lr=0.001, w_decay=0.0, batch_size=32, save='experiments/', load=None, seed=3, dataset='physionet', quantization=1.0, model='tPatchGNN', outlayer='Linear', hid_dim=64, te_dim=10, node_dim=10, gpu='0', data_sanity_batches=3, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=3, device=device(type='cuda'), PID=4047702)
+INFO | LOSS_MODE | TRAIN uses GLOBAL masked MSE: mean((pred-true)^2 over ALL masked points)
+INFO | data: input_dim=41 n_train_batches=225 n_val_batches=75 n_test_batches=75 quantization=1.0 history=24 patch_size=8.0 stride=8.0 npatch=3
+INFO | DATA_SANITY | split=train sampled_batches=3 mask_ratio_mean=0.173953 mask_ratio_min=0.168323 mask_ratio_max=0.180640
+INFO | DATA_SANITY | split=val sampled_batches=3 mask_ratio_mean=0.174949 mask_ratio_min=0.164909 mask_ratio_max=0.182287
+INFO | DATA_SANITY | split=test sampled_batches=3 mask_ratio_mean=0.174177 mask_ratio_min=0.166555 mask_ratio_max=0.181189
+INFO | n_train_batches: 225
+INFO | EARLY_STOP | epoch=45 best_epoch=15 patience=30
+INFO | 2026-01-13 15:25:36
+INFO | command: RunModelsSingleGLoss.py --dataset physionet --state def --quantization 1.0 --history 24 --patience 30 --batch_size 32 --lr 1e-3 --patch_size 8 --stride 8 --nhead 1 --tf_layer 1 --nlayer 1 --te_dim 10 --node_dim 10 --hid_dim 64 --outlayer Linear --seed 4 --gpu 0
+INFO | ExpID=34458 PID=4050223 host=stud-000 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MH_PHYSIO_SS_Gloss SLURM_JOB_ID=507941
+INFO | ckpt_path=experiments/experiment_34458.ckpt
+INFO | args=Namespace(state='def', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=1000, patience=30, normalization=0, history=24, patch_size=8.0, stride=8.0, logmode='a', lr=0.001, w_decay=0.0, batch_size=32, save='experiments/', load=None, seed=4, dataset='physionet', quantization=1.0, model='tPatchGNN', outlayer='Linear', hid_dim=64, te_dim=10, node_dim=10, gpu='0', data_sanity_batches=3, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=3, device=device(type='cuda'), PID=4050223)
+INFO | LOSS_MODE | TRAIN uses GLOBAL masked MSE: mean((pred-true)^2 over ALL masked points)
+INFO | data: input_dim=41 n_train_batches=225 n_val_batches=75 n_test_batches=75 quantization=1.0 history=24 patch_size=8.0 stride=8.0 npatch=3
+INFO | DATA_SANITY | split=train sampled_batches=3 mask_ratio_mean=0.173232 mask_ratio_min=0.167652 mask_ratio_max=0.182988
+INFO | DATA_SANITY | split=val sampled_batches=3 mask_ratio_mean=0.174949 mask_ratio_min=0.164909 mask_ratio_max=0.182287
+INFO | DATA_SANITY | split=test sampled_batches=3 mask_ratio_mean=0.174177 mask_ratio_min=0.166555 mask_ratio_max=0.181189
+INFO | n_train_batches: 225
+INFO | EARLY_STOP | epoch=97 best_epoch=67 patience=30
+INFO | 2026-01-13 15:40:28
+INFO | command: RunModelsSingleGLoss.py --dataset physionet --state def --quantization 1.0 --history 24 --patience 30 --batch_size 32 --lr 1e-3 --patch_size 8 --stride 8 --nhead 1 --tf_layer 1 --nlayer 1 --te_dim 10 --node_dim 10 --hid_dim 64 --outlayer Linear --seed 5 --gpu 0
+INFO | ExpID=84265 PID=4054807 host=stud-000 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MH_PHYSIO_SS_Gloss SLURM_JOB_ID=507941
+INFO | ckpt_path=experiments/experiment_84265.ckpt
+INFO | args=Namespace(state='def', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=1000, patience=30, normalization=0, history=24, patch_size=8.0, stride=8.0, logmode='a', lr=0.001, w_decay=0.0, batch_size=32, save='experiments/', load=None, seed=5, dataset='physionet', quantization=1.0, model='tPatchGNN', outlayer='Linear', hid_dim=64, te_dim=10, node_dim=10, gpu='0', data_sanity_batches=3, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=3, device=device(type='cuda'), PID=4054807)
+INFO | LOSS_MODE | TRAIN uses GLOBAL masked MSE: mean((pred-true)^2 over ALL masked points)
+INFO | data: input_dim=41 n_train_batches=225 n_val_batches=75 n_test_batches=75 quantization=1.0 history=24 patch_size=8.0 stride=8.0 npatch=3
+INFO | DATA_SANITY | split=train sampled_batches=3 mask_ratio_mean=0.169909 mask_ratio_min=0.154543 mask_ratio_max=0.178963
+INFO | DATA_SANITY | split=val sampled_batches=3 mask_ratio_mean=0.174949 mask_ratio_min=0.164909 mask_ratio_max=0.182287
+INFO | DATA_SANITY | split=test sampled_batches=3 mask_ratio_mean=0.174177 mask_ratio_min=0.166555 mask_ratio_max=0.181189
+INFO | n_train_batches: 225
+INFO | EARLY_STOP | epoch=93 best_epoch=63 patience=30

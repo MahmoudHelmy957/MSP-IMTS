@@ -1,0 +1,60 @@
+INFO | 2026-01-13 14:44:46
+INFO | command: RunModelsSingleDLoss.py --dataset physionet --state def --quantization 1.0 --history 24 --patience 30 --batch_size 32 --lr 1e-3 --patch_size 8 --stride 8 --nhead 1 --tf_layer 1 --nlayer 1 --te_dim 10 --node_dim 10 --hid_dim 64 --outlayer Linear --seed 1 --gpu 0
+INFO | ExpID=14915 PID=4037219 host=stud-000 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MH_PHYSIO_SS_Dloss SLURM_JOB_ID=507940
+INFO | ckpt_path=experiments/experiment_14915.ckpt
+INFO | args=Namespace(state='def', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=1000, patience=30, history=24, patch_size=8.0, stride=8.0, logmode='a', normalization=0, lr=0.001, w_decay=0.0, batch_size=32, save='experiments/', load=None, seed=1, dataset='physionet', quantization=1.0, model='tPatchGNN', outlayer='Linear', hid_dim=64, te_dim=10, node_dim=10, gpu='0', data_sanity_batches=3, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=3, device=device(type='cuda'), PID=4037219)
+INFO | data: input_dim=41 n_train_batches=225 n_val_batches=75 n_test_batches=75 quantization=1.0 history=24 patch_size=8.0 stride=8.0 npatch=3
+INFO | DATA_SANITY | split=train sampled_batches=3 mask_ratio_mean=0.166992 mask_ratio_min=0.149146 mask_ratio_max=0.184604
+INFO | DATA_SANITY | split=val sampled_batches=3 mask_ratio_mean=0.174949 mask_ratio_min=0.164909 mask_ratio_max=0.182287
+INFO | DATA_SANITY | split=test sampled_batches=3 mask_ratio_mean=0.174177 mask_ratio_min=0.166555 mask_ratio_max=0.181189
+INFO | n_train_batches: 225
+INFO | EARLY_STOP | epoch=160 best_epoch=130 patience=30
+INFO | 2026-01-13 15:07:13
+INFO | command: RunModelsSingleDLoss.py --dataset physionet --state def --quantization 1.0 --history 24 --patience 30 --batch_size 32 --lr 1e-3 --patch_size 8 --stride 8 --nhead 1 --tf_layer 1 --nlayer 1 --te_dim 10 --node_dim 10 --hid_dim 64 --outlayer Linear --seed 2 --gpu 0
+INFO | ExpID=51041 PID=4043982 host=stud-000 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MH_PHYSIO_SS_Dloss SLURM_JOB_ID=507940
+INFO | ckpt_path=experiments/experiment_51041.ckpt
+INFO | args=Namespace(state='def', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=1000, patience=30, history=24, patch_size=8.0, stride=8.0, logmode='a', normalization=0, lr=0.001, w_decay=0.0, batch_size=32, save='experiments/', load=None, seed=2, dataset='physionet', quantization=1.0, model='tPatchGNN', outlayer='Linear', hid_dim=64, te_dim=10, node_dim=10, gpu='0', data_sanity_batches=3, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=3, device=device(type='cuda'), PID=4043982)
+INFO | data: input_dim=41 n_train_batches=225 n_val_batches=75 n_test_batches=75 quantization=1.0 history=24 patch_size=8.0 stride=8.0 npatch=3
+INFO | DATA_SANITY | split=train sampled_batches=3 mask_ratio_mean=0.175325 mask_ratio_min=0.164299 mask_ratio_max=0.181616
+INFO | DATA_SANITY | split=val sampled_batches=3 mask_ratio_mean=0.174949 mask_ratio_min=0.164909 mask_ratio_max=0.182287
+INFO | DATA_SANITY | split=test sampled_batches=3 mask_ratio_mean=0.174177 mask_ratio_min=0.166555 mask_ratio_max=0.181189
+INFO | n_train_batches: 225
+INFO | EARLY_STOP | epoch=90 best_epoch=60 patience=30
+INFO | 2026-01-13 15:20:21
+INFO | command: RunModelsSingleDLoss.py --dataset physionet --state def --quantization 1.0 --history 24 --patience 30 --batch_size 32 --lr 1e-3 --patch_size 8 --stride 8 --nhead 1 --tf_layer 1 --nlayer 1 --te_dim 10 --node_dim 10 --hid_dim 64 --outlayer Linear --seed 3 --gpu 0
+INFO | ExpID=65215 PID=4048434 host=stud-000 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MH_PHYSIO_SS_Dloss SLURM_JOB_ID=507940
+INFO | ckpt_path=experiments/experiment_65215.ckpt
+INFO | args=Namespace(state='def', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=1000, patience=30, history=24, patch_size=8.0, stride=8.0, logmode='a', normalization=0, lr=0.001, w_decay=0.0, batch_size=32, save='experiments/', load=None, seed=3, dataset='physionet', quantization=1.0, model='tPatchGNN', outlayer='Linear', hid_dim=64, te_dim=10, node_dim=10, gpu='0', data_sanity_batches=3, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=3, device=device(type='cuda'), PID=4048434)
+INFO | data: input_dim=41 n_train_batches=225 n_val_batches=75 n_test_batches=75 quantization=1.0 history=24 patch_size=8.0 stride=8.0 npatch=3
+INFO | DATA_SANITY | split=train sampled_batches=3 mask_ratio_mean=0.173953 mask_ratio_min=0.168323 mask_ratio_max=0.180640
+INFO | DATA_SANITY | split=val sampled_batches=3 mask_ratio_mean=0.174949 mask_ratio_min=0.164909 mask_ratio_max=0.182287
+INFO | DATA_SANITY | split=test sampled_batches=3 mask_ratio_mean=0.174177 mask_ratio_min=0.166555 mask_ratio_max=0.181189
+INFO | n_train_batches: 225
+INFO | EARLY_STOP | epoch=70 best_epoch=40 patience=30
+INFO | 2026-01-13 15:30:49
+INFO | command: RunModelsSingleDLoss.py --dataset physionet --state def --quantization 1.0 --history 24 --patience 30 --batch_size 32 --lr 1e-3 --patch_size 8 --stride 8 --nhead 1 --tf_layer 1 --nlayer 1 --te_dim 10 --node_dim 10 --hid_dim 64 --outlayer Linear --seed 4 --gpu 0
+INFO | ExpID=85944 PID=4051806 host=stud-000 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MH_PHYSIO_SS_Dloss SLURM_JOB_ID=507940
+INFO | ckpt_path=experiments/experiment_85944.ckpt
+INFO | args=Namespace(state='def', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=1000, patience=30, history=24, patch_size=8.0, stride=8.0, logmode='a', normalization=0, lr=0.001, w_decay=0.0, batch_size=32, save='experiments/', load=None, seed=4, dataset='physionet', quantization=1.0, model='tPatchGNN', outlayer='Linear', hid_dim=64, te_dim=10, node_dim=10, gpu='0', data_sanity_batches=3, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=3, device=device(type='cuda'), PID=4051806)
+INFO | data: input_dim=41 n_train_batches=225 n_val_batches=75 n_test_batches=75 quantization=1.0 history=24 patch_size=8.0 stride=8.0 npatch=3
+INFO | DATA_SANITY | split=train sampled_batches=3 mask_ratio_mean=0.173232 mask_ratio_min=0.167652 mask_ratio_max=0.182988
+INFO | DATA_SANITY | split=val sampled_batches=3 mask_ratio_mean=0.174949 mask_ratio_min=0.164909 mask_ratio_max=0.182287
+INFO | DATA_SANITY | split=test sampled_batches=3 mask_ratio_mean=0.174177 mask_ratio_min=0.166555 mask_ratio_max=0.181189
+INFO | n_train_batches: 225
+INFO | EARLY_STOP | epoch=79 best_epoch=49 patience=30
+INFO | 2026-01-13 15:42:56
+INFO | command: RunModelsSingleDLoss.py --dataset physionet --state def --quantization 1.0 --history 24 --patience 30 --batch_size 32 --lr 1e-3 --patch_size 8 --stride 8 --nhead 1 --tf_layer 1 --nlayer 1 --te_dim 10 --node_dim 10 --hid_dim 64 --outlayer Linear --seed 5 --gpu 0
+INFO | ExpID=41488 PID=4055613 host=stud-000 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MH_PHYSIO_SS_Dloss SLURM_JOB_ID=507940
+INFO | ckpt_path=experiments/experiment_41488.ckpt
+INFO | args=Namespace(state='def', n=100000000, hop=1, nhead=1, tf_layer=1, nlayer=1, epoch=1000, patience=30, history=24, patch_size=8.0, stride=8.0, logmode='a', normalization=0, lr=0.001, w_decay=0.0, batch_size=32, save='experiments/', load=None, seed=5, dataset='physionet', quantization=1.0, model='tPatchGNN', outlayer='Linear', hid_dim=64, te_dim=10, node_dim=10, gpu='0', data_sanity_batches=3, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=3, device=device(type='cuda'), PID=4055613)
+INFO | data: input_dim=41 n_train_batches=225 n_val_batches=75 n_test_batches=75 quantization=1.0 history=24 patch_size=8.0 stride=8.0 npatch=3
+INFO | DATA_SANITY | split=train sampled_batches=3 mask_ratio_mean=0.169909 mask_ratio_min=0.154543 mask_ratio_max=0.178963
+INFO | DATA_SANITY | split=val sampled_batches=3 mask_ratio_mean=0.174949 mask_ratio_min=0.164909 mask_ratio_max=0.182287
+INFO | DATA_SANITY | split=test sampled_batches=3 mask_ratio_mean=0.174177 mask_ratio_min=0.166555 mask_ratio_max=0.181189
+INFO | n_train_batches: 225
+INFO | EARLY_STOP | epoch=82 best_epoch=52 patience=30
