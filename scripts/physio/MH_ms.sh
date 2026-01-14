@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#SBATCH --job-name=MH_PHYSIO_MS_DLOSS
+#SBATCH --job-name=MH_PHYSIO_MS_GLOSS
 #SBATCH --partition=STUD
 #SBATCH --gres=gpu:1
 #SBATCH --array=1
@@ -33,7 +33,7 @@ for SEED in 1 2 3 4 5; do
   echo "=============================="
 
 
-  python RunModelsMultiDLoss.py \
+  python RunModelsMultiGLoss.py \
     --dataset physionet \
     --history $HISTORY \
     --quantization $QUANT \
