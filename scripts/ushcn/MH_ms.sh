@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#SBATCH --job-name=MH_USHCN_MS_GLOSS
+#SBATCH --job-name=MH_USHCN_MS_DLOSS
 #SBATCH --partition=STUD
 #SBATCH --gres=gpu:1
 #SBATCH --array=1
@@ -20,7 +20,7 @@ cd /home/helmy/MSP-IMTS/tPatchGNN
 GPU=0
 EPOCHS=300            # okay to go higher; early stop handles it
 PATIENCE=50           # paper
-BATCH=256             # paper
+BATCH=192             # paper
 LR=1e-3
 HISTORY=24            # paper
 # HID=32                # paper
@@ -35,7 +35,7 @@ for SEED in 1 2 3 4 5; do
   echo "=============================="
   echo "Running with SEED=${SEED}"
   echo "=============================="
-  python RunModelsMultiGLoss.py \
+  python RunModelsMultiDLoss.py \
     --dataset ushcn \
     --state def \
     --history $HISTORY \
