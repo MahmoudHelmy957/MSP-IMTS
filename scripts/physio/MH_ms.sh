@@ -25,34 +25,29 @@ HISTORY=24
 QUANT=1.0
 SCALES="2,8"
 STRIDES="2,8" #was 2,8  #best 1,4
+SEED=4
 
 
-for SEED in 1 2 3 4 5; do
-  echo "=============================="
-  echo "Running with SEED=${SEED}"
-  echo "=============================="
+python RunModelsMultiGLoss.py \
+  --dataset physionet \
+  --history $HISTORY \
+  --quantization $QUANT \
+  --hid_dim 64 \
+  --te_dim 32 \
+  --node_dim 16 \
+  --nlayer 2 \
+  --tf_layer 2 \
+  --nhead 4 \
+  --batch_size $BATCH \
+  --lr $LR \
+  --patience $PATIENCE \
+  --epoch $EPOCHS \
+  --seed $SEED \
+  --gpu $GPU \
+  --multi_scales "$SCALES" \
+  --multi_strides "$STRIDES" \
+  --fusion concat
 
 
-  python RunModelsMultiGLoss.py \
-    --dataset physionet \
-    --history $HISTORY \
-    --quantization $QUANT \
-    --hid_dim 64 \
-    --te_dim 32 \
-    --node_dim 16 \
-    --nlayer 2 \
-    --tf_layer 2 \
-    --nhead 4 \
-    --batch_size $BATCH \
-    --lr $LR \
-    --patience $PATIENCE \
-    --epoch $EPOCHS \
-    --seed $SEED \
-    --gpu $GPU \
-    --multi_scales "$SCALES" \
-    --multi_strides "$STRIDES" \
-    --fusion concat
-
-done
 
 

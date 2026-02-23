@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-#SBATCH --job-name=MH_ACTIVITY_SS_GNorm_DLoss
-#SBATCH --partition=STUD
+#SBATCH --job-name=N0_G0_D1
+#SBATCH --partition=GPU
 #SBATCH --gres=gpu:1
 #SBATCH --array=1
 #SBATCH --output=/dev/null
@@ -30,9 +30,11 @@ for SEED in 1 2 3 4 5; do
   echo "=============================="
 
 
-    python RunModelsSingleDLoss.py \
+    python RunModelsSingle.py \
       --dataset activity \
-      --normalization 1\
+      --normalization 1 \
+      --denorm_test_pred 0 \
+      --global_loss 0 \
       --history $HISTORY \
       --hid_dim 64 \
       --te_dim 10 \

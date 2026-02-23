@@ -1,0 +1,70 @@
+INFO | 2026-02-22 09:54:20
+INFO | command: RunModelsSingleGLoss.py --dataset activity --normalization 1 --history 3000 --hid_dim 32 --te_dim 10 --node_dim 10 --nlayer 1 --tf_layer 1 --nhead 1 --batch_size 32 --lr 1e-3 --patience 10 --epoch 500 --seed 1 --gpu 0 --outlayer Linear --patch_size 300 --stride 300
+INFO | ExpID=39444 PID=405576 host=gpu-001 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MH_ACTIVITY_SS_GNorm_GLoss_PHD SLURM_JOB_ID=535156
+INFO | ckpt_path=experiments/experiment_39444.ckpt
+INFO | args=Namespace(state='def', n=100000000, dataset='activity', model='tPatchGNN', outlayer='Linear', hop=1, nhead=1, tf_layer=1, nlayer=1, hid_dim=32, te_dim=10, node_dim=10, epoch=500, patience=10, lr=0.001, w_decay=0.0, batch_size=32, seed=1, history=3000, patch_size=300.0, stride=300.0, normalization=1, logmode='a', save='experiments/', load=None, gpu='0', data_sanity_batches=3, quantization=0.0, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=10, device=device(type='cuda'), PID=405576)
+INFO | LOSS_MODE | TRAIN/VAL/TEST uses GLOBAL masked MSE: mean((pred-true)^2 over ALL masked points)
+INFO | METRICS | We report BOTH scaled (normalized) and real-unit (denormalized) MSE for val/test.
+INFO | data: input_dim=12 n_train_batches=104 n_val_batches=32 n_test_batches=34 quantization=0.0 history=3000 patch_size=300.0 stride=300.0 npatch=10
+INFO | DATA_SANITY | split=train sampled_batches=3 mask_ratio_mean=0.228614 mask_ratio_min=0.223011 mask_ratio_max=0.234375
+INFO | DATA_SANITY | split=val sampled_batches=3 mask_ratio_mean=0.222057 mask_ratio_min=0.210205 mask_ratio_max=0.232008
+INFO | DATA_SANITY | split=test sampled_batches=3 mask_ratio_mean=0.221275 mask_ratio_min=0.203598 mask_ratio_max=0.232718
+INFO | n_train_batches: 104
+INFO | EARLY_STOP | epoch=42 best_epoch=32 patience=10
+INFO | 2026-02-22 09:57:25
+INFO | command: RunModelsSingleGLoss.py --dataset activity --normalization 1 --history 3000 --hid_dim 32 --te_dim 10 --node_dim 10 --nlayer 1 --tf_layer 1 --nhead 1 --batch_size 32 --lr 1e-3 --patience 10 --epoch 500 --seed 2 --gpu 0 --outlayer Linear --patch_size 300 --stride 300
+INFO | ExpID=21284 PID=405631 host=gpu-001 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MH_ACTIVITY_SS_GNorm_GLoss_PHD SLURM_JOB_ID=535156
+INFO | ckpt_path=experiments/experiment_21284.ckpt
+INFO | args=Namespace(state='def', n=100000000, dataset='activity', model='tPatchGNN', outlayer='Linear', hop=1, nhead=1, tf_layer=1, nlayer=1, hid_dim=32, te_dim=10, node_dim=10, epoch=500, patience=10, lr=0.001, w_decay=0.0, batch_size=32, seed=2, history=3000, patch_size=300.0, stride=300.0, normalization=1, logmode='a', save='experiments/', load=None, gpu='0', data_sanity_batches=3, quantization=0.0, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=10, device=device(type='cuda'), PID=405631)
+INFO | LOSS_MODE | TRAIN/VAL/TEST uses GLOBAL masked MSE: mean((pred-true)^2 over ALL masked points)
+INFO | METRICS | We report BOTH scaled (normalized) and real-unit (denormalized) MSE for val/test.
+INFO | data: input_dim=12 n_train_batches=104 n_val_batches=32 n_test_batches=34 quantization=0.0 history=3000 patch_size=300.0 stride=300.0 npatch=10
+INFO | DATA_SANITY | split=train sampled_batches=3 mask_ratio_mean=0.228851 mask_ratio_min=0.227746 mask_ratio_max=0.230587
+INFO | DATA_SANITY | split=val sampled_batches=3 mask_ratio_mean=0.222057 mask_ratio_min=0.210205 mask_ratio_max=0.232008
+INFO | DATA_SANITY | split=test sampled_batches=3 mask_ratio_mean=0.221275 mask_ratio_min=0.203598 mask_ratio_max=0.232718
+INFO | n_train_batches: 104
+INFO | EARLY_STOP | epoch=18 best_epoch=8 patience=10
+INFO | 2026-02-22 09:58:47
+INFO | command: RunModelsSingleGLoss.py --dataset activity --normalization 1 --history 3000 --hid_dim 32 --te_dim 10 --node_dim 10 --nlayer 1 --tf_layer 1 --nhead 1 --batch_size 32 --lr 1e-3 --patience 10 --epoch 500 --seed 3 --gpu 0 --outlayer Linear --patch_size 300 --stride 300
+INFO | ExpID=64568 PID=405661 host=gpu-001 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MH_ACTIVITY_SS_GNorm_GLoss_PHD SLURM_JOB_ID=535156
+INFO | ckpt_path=experiments/experiment_64568.ckpt
+INFO | args=Namespace(state='def', n=100000000, dataset='activity', model='tPatchGNN', outlayer='Linear', hop=1, nhead=1, tf_layer=1, nlayer=1, hid_dim=32, te_dim=10, node_dim=10, epoch=500, patience=10, lr=0.001, w_decay=0.0, batch_size=32, seed=3, history=3000, patch_size=300.0, stride=300.0, normalization=1, logmode='a', save='experiments/', load=None, gpu='0', data_sanity_batches=3, quantization=0.0, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=10, device=device(type='cuda'), PID=405661)
+INFO | LOSS_MODE | TRAIN/VAL/TEST uses GLOBAL masked MSE: mean((pred-true)^2 over ALL masked points)
+INFO | METRICS | We report BOTH scaled (normalized) and real-unit (denormalized) MSE for val/test.
+INFO | data: input_dim=12 n_train_batches=104 n_val_batches=32 n_test_batches=34 quantization=0.0 history=3000 patch_size=300.0 stride=300.0 npatch=10
+INFO | DATA_SANITY | split=train sampled_batches=3 mask_ratio_mean=0.227036 mask_ratio_min=0.224669 mask_ratio_max=0.229403
+INFO | DATA_SANITY | split=val sampled_batches=3 mask_ratio_mean=0.222057 mask_ratio_min=0.210205 mask_ratio_max=0.232008
+INFO | DATA_SANITY | split=test sampled_batches=3 mask_ratio_mean=0.221275 mask_ratio_min=0.203598 mask_ratio_max=0.232718
+INFO | n_train_batches: 104
+INFO | EARLY_STOP | epoch=38 best_epoch=28 patience=10
+INFO | 2026-02-22 10:01:26
+INFO | command: RunModelsSingleGLoss.py --dataset activity --normalization 1 --history 3000 --hid_dim 32 --te_dim 10 --node_dim 10 --nlayer 1 --tf_layer 1 --nhead 1 --batch_size 32 --lr 1e-3 --patience 10 --epoch 500 --seed 4 --gpu 0 --outlayer Linear --patch_size 300 --stride 300
+INFO | ExpID=18425 PID=405697 host=gpu-001 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MH_ACTIVITY_SS_GNorm_GLoss_PHD SLURM_JOB_ID=535156
+INFO | ckpt_path=experiments/experiment_18425.ckpt
+INFO | args=Namespace(state='def', n=100000000, dataset='activity', model='tPatchGNN', outlayer='Linear', hop=1, nhead=1, tf_layer=1, nlayer=1, hid_dim=32, te_dim=10, node_dim=10, epoch=500, patience=10, lr=0.001, w_decay=0.0, batch_size=32, seed=4, history=3000, patch_size=300.0, stride=300.0, normalization=1, logmode='a', save='experiments/', load=None, gpu='0', data_sanity_batches=3, quantization=0.0, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=10, device=device(type='cuda'), PID=405697)
+INFO | LOSS_MODE | TRAIN/VAL/TEST uses GLOBAL masked MSE: mean((pred-true)^2 over ALL masked points)
+INFO | METRICS | We report BOTH scaled (normalized) and real-unit (denormalized) MSE for val/test.
+INFO | data: input_dim=12 n_train_batches=104 n_val_batches=32 n_test_batches=34 quantization=0.0 history=3000 patch_size=300.0 stride=300.0 npatch=10
+INFO | DATA_SANITY | split=train sampled_batches=3 mask_ratio_mean=0.229798 mask_ratio_min=0.227273 mask_ratio_max=0.233665
+INFO | DATA_SANITY | split=val sampled_batches=3 mask_ratio_mean=0.222057 mask_ratio_min=0.210205 mask_ratio_max=0.232008
+INFO | DATA_SANITY | split=test sampled_batches=3 mask_ratio_mean=0.221275 mask_ratio_min=0.203598 mask_ratio_max=0.232718
+INFO | n_train_batches: 104
+INFO | EARLY_STOP | epoch=28 best_epoch=18 patience=10
+INFO | 2026-02-22 10:03:26
+INFO | command: RunModelsSingleGLoss.py --dataset activity --normalization 1 --history 3000 --hid_dim 32 --te_dim 10 --node_dim 10 --nlayer 1 --tf_layer 1 --nhead 1 --batch_size 32 --lr 1e-3 --patience 10 --epoch 500 --seed 5 --gpu 0 --outlayer Linear --patch_size 300 --stride 300
+INFO | ExpID=19965 PID=405730 host=gpu-001 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MH_ACTIVITY_SS_GNorm_GLoss_PHD SLURM_JOB_ID=535156
+INFO | ckpt_path=experiments/experiment_19965.ckpt
+INFO | args=Namespace(state='def', n=100000000, dataset='activity', model='tPatchGNN', outlayer='Linear', hop=1, nhead=1, tf_layer=1, nlayer=1, hid_dim=32, te_dim=10, node_dim=10, epoch=500, patience=10, lr=0.001, w_decay=0.0, batch_size=32, seed=5, history=3000, patch_size=300.0, stride=300.0, normalization=1, logmode='a', save='experiments/', load=None, gpu='0', data_sanity_batches=3, quantization=0.0, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=10, device=device(type='cuda'), PID=405730)
+INFO | LOSS_MODE | TRAIN/VAL/TEST uses GLOBAL masked MSE: mean((pred-true)^2 over ALL masked points)
+INFO | METRICS | We report BOTH scaled (normalized) and real-unit (denormalized) MSE for val/test.
+INFO | data: input_dim=12 n_train_batches=104 n_val_batches=32 n_test_batches=34 quantization=0.0 history=3000 patch_size=300.0 stride=300.0 npatch=10
+INFO | DATA_SANITY | split=train sampled_batches=3 mask_ratio_mean=0.230114 mask_ratio_min=0.228693 mask_ratio_max=0.231061
+INFO | DATA_SANITY | split=val sampled_batches=3 mask_ratio_mean=0.222057 mask_ratio_min=0.210205 mask_ratio_max=0.232008
+INFO | DATA_SANITY | split=test sampled_batches=3 mask_ratio_mean=0.221275 mask_ratio_min=0.203598 mask_ratio_max=0.232718
+INFO | n_train_batches: 104
+INFO | EARLY_STOP | epoch=27 best_epoch=17 patience=10

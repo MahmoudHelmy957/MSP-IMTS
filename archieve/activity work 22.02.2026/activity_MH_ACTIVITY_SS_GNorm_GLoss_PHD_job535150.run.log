@@ -1,0 +1,66 @@
+INFO | 2026-02-22 07:59:40
+INFO | command: RunModelsSingleGLoss.py --dataset activity --normalization 0 --history 3000 --hid_dim 64 --te_dim 10 --node_dim 10 --nlayer 1 --tf_layer 1 --nhead 4 --batch_size 64 --lr 1e-3 --patience 40 --epoch 300 --seed 1 --gpu 0 --outlayer Linear --patch_size 300 --stride 300
+INFO | ExpID=26626 PID=3548000 host=gpu-020 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MH_ACTIVITY_SS_GNorm_GLoss_PHD SLURM_JOB_ID=535150
+INFO | ckpt_path=experiments/experiment_26626.ckpt
+INFO | args=Namespace(state='def', n=100000000, dataset='activity', model='tPatchGNN', outlayer='Linear', hop=1, nhead=4, tf_layer=1, nlayer=1, hid_dim=64, te_dim=10, node_dim=10, epoch=300, patience=40, lr=0.001, w_decay=0.0, batch_size=64, seed=1, history=3000, patch_size=300.0, stride=300.0, normalization=0, logmode='a', save='experiments/', load=None, gpu='0', data_sanity_batches=3, quantization=0.0, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=10, device=device(type='cuda'), PID=3548000)
+INFO | LOSS_MODE | TRAIN uses GLOBAL masked MSE: mean((pred-true)^2 over ALL masked points)
+INFO | data: input_dim=12 n_train_batches=52 n_val_batches=16 n_test_batches=17 quantization=0.0 history=3000 patch_size=300.0 stride=300.0 npatch=10
+INFO | DATA_SANITY | split=train sampled_batches=3 mask_ratio_mean=0.229640 mask_ratio_min=0.228693 mask_ratio_max=0.230232
+INFO | DATA_SANITY | split=val sampled_batches=3 mask_ratio_mean=0.223801 mask_ratio_min=0.219815 mask_ratio_max=0.227983
+INFO | DATA_SANITY | split=test sampled_batches=3 mask_ratio_mean=0.222534 mask_ratio_min=0.218395 mask_ratio_max=0.230114
+INFO | n_train_batches: 52
+INFO | EARLY_STOP | epoch=170 best_epoch=130 patience=40
+INFO | 2026-02-22 08:09:35
+INFO | command: RunModelsSingleGLoss.py --dataset activity --normalization 0 --history 3000 --hid_dim 64 --te_dim 10 --node_dim 10 --nlayer 1 --tf_layer 1 --nhead 4 --batch_size 64 --lr 1e-3 --patience 40 --epoch 300 --seed 2 --gpu 0 --outlayer Linear --patch_size 300 --stride 300
+INFO | ExpID=82084 PID=3548193 host=gpu-020 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MH_ACTIVITY_SS_GNorm_GLoss_PHD SLURM_JOB_ID=535150
+INFO | ckpt_path=experiments/experiment_82084.ckpt
+INFO | args=Namespace(state='def', n=100000000, dataset='activity', model='tPatchGNN', outlayer='Linear', hop=1, nhead=4, tf_layer=1, nlayer=1, hid_dim=64, te_dim=10, node_dim=10, epoch=300, patience=40, lr=0.001, w_decay=0.0, batch_size=64, seed=2, history=3000, patch_size=300.0, stride=300.0, normalization=0, logmode='a', save='experiments/', load=None, gpu='0', data_sanity_batches=3, quantization=0.0, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=10, device=device(type='cuda'), PID=3548193)
+INFO | LOSS_MODE | TRAIN uses GLOBAL masked MSE: mean((pred-true)^2 over ALL masked points)
+INFO | data: input_dim=12 n_train_batches=52 n_val_batches=16 n_test_batches=17 quantization=0.0 history=3000 patch_size=300.0 stride=300.0 npatch=10
+INFO | DATA_SANITY | split=train sampled_batches=3 mask_ratio_mean=0.228812 mask_ratio_min=0.227983 mask_ratio_max=0.229403
+INFO | DATA_SANITY | split=val sampled_batches=3 mask_ratio_mean=0.223801 mask_ratio_min=0.219815 mask_ratio_max=0.227983
+INFO | DATA_SANITY | split=test sampled_batches=3 mask_ratio_mean=0.222534 mask_ratio_min=0.218395 mask_ratio_max=0.230114
+INFO | n_train_batches: 52
+INFO | EARLY_STOP | epoch=131 best_epoch=91 patience=40
+INFO | 2026-02-22 08:17:03
+INFO | command: RunModelsSingleGLoss.py --dataset activity --normalization 0 --history 3000 --hid_dim 64 --te_dim 10 --node_dim 10 --nlayer 1 --tf_layer 1 --nhead 4 --batch_size 64 --lr 1e-3 --patience 40 --epoch 300 --seed 3 --gpu 0 --outlayer Linear --patch_size 300 --stride 300
+INFO | ExpID=13401 PID=3548250 host=gpu-020 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MH_ACTIVITY_SS_GNorm_GLoss_PHD SLURM_JOB_ID=535150
+INFO | ckpt_path=experiments/experiment_13401.ckpt
+INFO | args=Namespace(state='def', n=100000000, dataset='activity', model='tPatchGNN', outlayer='Linear', hop=1, nhead=4, tf_layer=1, nlayer=1, hid_dim=64, te_dim=10, node_dim=10, epoch=300, patience=40, lr=0.001, w_decay=0.0, batch_size=64, seed=3, history=3000, patch_size=300.0, stride=300.0, normalization=0, logmode='a', save='experiments/', load=None, gpu='0', data_sanity_batches=3, quantization=0.0, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=10, device=device(type='cuda'), PID=3548250)
+INFO | LOSS_MODE | TRAIN uses GLOBAL masked MSE: mean((pred-true)^2 over ALL masked points)
+INFO | data: input_dim=12 n_train_batches=52 n_val_batches=16 n_test_batches=17 quantization=0.0 history=3000 patch_size=300.0 stride=300.0 npatch=10
+INFO | DATA_SANITY | split=train sampled_batches=3 mask_ratio_mean=0.228299 mask_ratio_min=0.227036 mask_ratio_max=0.229759
+INFO | DATA_SANITY | split=val sampled_batches=3 mask_ratio_mean=0.223801 mask_ratio_min=0.219815 mask_ratio_max=0.227983
+INFO | DATA_SANITY | split=test sampled_batches=3 mask_ratio_mean=0.222534 mask_ratio_min=0.218395 mask_ratio_max=0.230114
+INFO | n_train_batches: 52
+INFO | EARLY_STOP | epoch=124 best_epoch=84 patience=40
+INFO | 2026-02-22 08:24:26
+INFO | command: RunModelsSingleGLoss.py --dataset activity --normalization 0 --history 3000 --hid_dim 64 --te_dim 10 --node_dim 10 --nlayer 1 --tf_layer 1 --nhead 4 --batch_size 64 --lr 1e-3 --patience 40 --epoch 300 --seed 4 --gpu 0 --outlayer Linear --patch_size 300 --stride 300
+INFO | ExpID=29878 PID=3548364 host=gpu-020 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MH_ACTIVITY_SS_GNorm_GLoss_PHD SLURM_JOB_ID=535150
+INFO | ckpt_path=experiments/experiment_29878.ckpt
+INFO | args=Namespace(state='def', n=100000000, dataset='activity', model='tPatchGNN', outlayer='Linear', hop=1, nhead=4, tf_layer=1, nlayer=1, hid_dim=64, te_dim=10, node_dim=10, epoch=300, patience=40, lr=0.001, w_decay=0.0, batch_size=64, seed=4, history=3000, patch_size=300.0, stride=300.0, normalization=0, logmode='a', save='experiments/', load=None, gpu='0', data_sanity_batches=3, quantization=0.0, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=10, device=device(type='cuda'), PID=3548364)
+INFO | LOSS_MODE | GLOBAL masked MSE: mean((pred-true)^2 over ALL masked points)
+INFO | data: input_dim=12 n_train_batches=52 n_val_batches=16 n_test_batches=17 quantization=0.0 history=3000 patch_size=300.0 stride=300.0 npatch=10
+INFO | DATA_SANITY | split=train sampled_batches=3 mask_ratio_mean=0.228259 mask_ratio_min=0.224787 mask_ratio_max=0.231061
+INFO | DATA_SANITY | split=val sampled_batches=3 mask_ratio_mean=0.223801 mask_ratio_min=0.219815 mask_ratio_max=0.227983
+INFO | DATA_SANITY | split=test sampled_batches=3 mask_ratio_mean=0.222534 mask_ratio_min=0.218395 mask_ratio_max=0.230114
+INFO | n_train_batches: 52
+INFO | EARLY_STOP | epoch=280 best_epoch=240 patience=40
+INFO | 2026-02-22 08:40:05
+INFO | command: RunModelsSingleGLoss.py --dataset activity --normalization 0 --history 3000 --hid_dim 64 --te_dim 10 --node_dim 10 --nlayer 1 --tf_layer 1 --nhead 4 --batch_size 64 --lr 1e-3 --patience 40 --epoch 300 --seed 5 --gpu 0 --outlayer Linear --patch_size 300 --stride 300
+INFO | ExpID=64794 PID=3548545 host=gpu-020 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MH_ACTIVITY_SS_GNorm_GLoss_PHD SLURM_JOB_ID=535150
+INFO | ckpt_path=experiments/experiment_64794.ckpt
+INFO | args=Namespace(state='def', n=100000000, dataset='activity', model='tPatchGNN', outlayer='Linear', hop=1, nhead=4, tf_layer=1, nlayer=1, hid_dim=64, te_dim=10, node_dim=10, epoch=300, patience=40, lr=0.001, w_decay=0.0, batch_size=64, seed=5, history=3000, patch_size=300.0, stride=300.0, normalization=0, logmode='a', save='experiments/', load=None, gpu='0', data_sanity_batches=3, quantization=0.0, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=10, device=device(type='cuda'), PID=3548545)
+INFO | LOSS_MODE | TRAIN/VAL/TEST uses GLOBAL masked MSE: mean((pred-true)^2 over ALL masked points)
+INFO | METRICS | We report BOTH scaled (normalized) and real-unit (denormalized) MSE for val/test.
+INFO | data: input_dim=12 n_train_batches=52 n_val_batches=16 n_test_batches=17 quantization=0.0 history=3000 patch_size=300.0 stride=300.0 npatch=10
+INFO | DATA_SANITY | split=train sampled_batches=3 mask_ratio_mean=0.228456 mask_ratio_min=0.225497 mask_ratio_max=0.230232
+INFO | DATA_SANITY | split=val sampled_batches=3 mask_ratio_mean=0.223801 mask_ratio_min=0.219815 mask_ratio_max=0.227983
+INFO | DATA_SANITY | split=test sampled_batches=3 mask_ratio_mean=0.222534 mask_ratio_min=0.218395 mask_ratio_max=0.230114
+INFO | n_train_batches: 52
+INFO | EARLY_STOP | epoch=194 best_epoch=154 patience=40
