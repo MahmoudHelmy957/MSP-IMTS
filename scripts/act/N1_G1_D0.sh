@@ -22,7 +22,7 @@ HISTORY=3000
 
 for SEED in 1 2 3 4 5; do
   echo "=============================="
-  echo "Running N1_G1_D0 with SEED=${SEED}"
+  echo "Running with SEED=${SEED}"
   echo "=============================="
 
   python RunModelsSingle.py \

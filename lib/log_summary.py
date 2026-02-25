@@ -62,6 +62,38 @@ def extract_final_best_from_file(train_log_path: str) -> Optional[Dict[str, floa
 
     return best
 
+def print_seed_summary_for_file(train_log_path: str, scaled: bool = True) -> None:
+    seeds = extract_best_per_seed_from_file(train_log_path)
+
+    rel = os.path.relpath(train_log_path)
+    print(f"\n=== {rel} ===")
+    print(f"Valid seeds found: {len(seeds)}")
+
+    for s in seeds:
+        if scaled:
+            print(
+                f"seed={int(s['seed_idx']):02d} | "
+                f"MSE (×1e-3)={(s['mse']*1e3):.2f} | "
+                f"MAE (×1e-2)={(s['mae']*1e2):.2f} | "
+                f"best_epoch={int(s['best_epoch'])}"
+            )
+        else:
+            print(
+                f"seed={int(s['seed_idx']):02d} | "
+                f"mse={s['mse']:.6f} | mae={s['mae']:.6f} | rmse={s['rmse']:.6f} | "
+                f"loss={s['loss']:.6f} | best_epoch={int(s['best_epoch'])}"
+            )
+
+    summ = summarize_seeds(seeds)
+
+    if scaled:
+        print("\n--- Mean ± Std over seeds (paper scaling) ---")
+        print(f"MSE (×1e-3): {(summ['mse_mean']*1e3):.2f} ± {(summ['mse_std']*1e3):.2f}")
+        print(f"MAE (×1e-2): {(summ['mae_mean']*1e2):.2f} ± {(summ['mae_std']*1e2):.2f}")
+    else:
+        print("\n--- Mean ± Std over seeds (raw) ---")
+        print(f"MSE: {summ['mse_mean']:.6f} ± {summ['mse_std']:.6f}")
+        print(f"MAE: {summ['mae_mean']:.6f} ± {summ['mae_std']:.6f}")
 
 def print_per_file_results(files: List[str], scaled: bool = True) -> None:
     """
@@ -101,31 +133,108 @@ def print_per_file_results(files: List[str], scaled: bool = True) -> None:
                 f"{rel} | best_epoch={d['best_epoch']:4d} | "
                 f"mse={d['mse']:.6f} | rmse={d['rmse']:.6f} | mae={d['mae']:.6f} | loss={d['loss']:.6f}"
             )
-
-
 def main():
-    ap = argparse.ArgumentParser("Print final best metrics per .train.log file (no global averaging)")
+    ap = argparse.ArgumentParser("Summarize per-seed results inside .train.log files")
     ap.add_argument(
         "--glob",
         required=True,
-        help='Glob for logs, e.g. "**/*.train.log" or "analyzelogs/**/*.train.log"',
+        help='Glob for logs, e.g. "**/*.train.log"',
     )
     ap.add_argument(
         "--raw",
         action="store_true",
-        help="Print raw mse/mae/rmse/loss instead of scaled paper format.",
+        help="Print raw mse/mae instead of scaled paper format.",
+    )
+    ap.add_argument(
+        "--per_seed",
+        action="store_true",
+        help="Compute mean±std across seeds inside each file.",
     )
     args = ap.parse_args()
 
     matched = sorted(glob.glob(args.glob, recursive=True))
-
-    # hard filter: ONLY *.train.log
     files = [f for f in matched if f.endswith(".train.log")]
 
     if not files:
         raise ValueError(f"No .train.log files matched: {args.glob}")
 
-    print_per_file_results(files, scaled=(not args.raw))
+    for fp in files:
+        if args.per_seed:
+            print_seed_summary_for_file(fp, scaled=(not args.raw))
+        else:
+            print_per_file_results([fp], scaled=(not args.raw))
+
+def extract_best_per_seed_from_file(train_log_path: str) -> List[Dict[str, float]]:
+    """
+    Parse ONE .train.log that contains multiple seeds/runs.
+    Rule per seed:
+      - seed boundary detected when epoch == 0 (Epoch 000)
+      - only accept a test line when current_epoch == best_epoch
+      - keep overwriting *within the seed* -> last accepted is the seed's final best
+    Returns: list of dicts, one per seed (only seeds that have a valid accepted record).
+    """
+    lines = _read_lines(train_log_path)
+
+    seeds: List[Dict[str, float]] = []
+
+    current_seed_best: Optional[Dict[str, float]] = None
+    current_epoch: Optional[int] = None
+    seed_idx = -1
+
+    def finalize_seed():
+        nonlocal current_seed_best
+        if current_seed_best is not None:
+            seeds.append(current_seed_best)
+        current_seed_best = None
+
+    for line in lines:
+        m_epoch = EPOCH_LINE_RE.search(line)
+        if m_epoch:
+            ep = int(m_epoch.group("epoch"))
+
+            # new seed starts at Epoch 000
+            if ep == 0:
+                # finalize previous seed (if any)
+                if seed_idx >= 0:
+                    finalize_seed()
+                seed_idx += 1
+                current_epoch = 0
+            else:
+                current_epoch = ep
+
+        m_test = TEST_LINE_RE_RMSE.search(line)
+        if m_test:
+            best_epoch = int(m_test.group("best_epoch"))
+            if current_epoch is None or current_epoch != best_epoch:
+                continue
+
+            current_seed_best = {
+                "seed_idx": seed_idx,
+                "best_epoch": best_epoch,
+                "loss": float(m_test.group("loss")),
+                "mse": float(m_test.group("mse")),
+                "rmse": float(m_test.group("rmse")),
+                "mae": float(m_test.group("mae")),
+            }
+
+    # finalize last seed
+    finalize_seed()
+    return seeds
+
+def summarize_seeds(seeds: List[Dict[str, float]]) -> Dict[str, float]:
+    if not seeds:
+        raise ValueError("No valid per-seed results found (no accepted epoch==best_epoch test lines).")
+
+    mse = np.array([s["mse"] for s in seeds], dtype=float)
+    mae = np.array([s["mae"] for s in seeds], dtype=float)
+
+    return {
+        "n_seeds": float(len(seeds)),
+        "mse_mean": float(mse.mean()),
+        "mse_std": float(mse.std(ddof=0)),
+        "mae_mean": float(mae.mean()),
+        "mae_std": float(mae.std(ddof=0)),
+    }
 
 
 if __name__ == "__main__":

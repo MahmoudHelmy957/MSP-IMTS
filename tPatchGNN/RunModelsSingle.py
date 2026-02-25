@@ -23,23 +23,143 @@ from lib.cli_args import build_single_scale_parser
 from lib.parse_datasets import parse_datasets
 from model.tPatchGNN import *  # tPatchGNN + evaluation
 
-from lib.analyzelogs import (
-    setup_loggers,
-    safe_float,
-    compute_grad_norm,
-    cuda_mem_stats,
-    summarize_mask,
-    sample_data_sanity,
-    log_topk_errors,
-    log_topk_best,
-    count_right_points_tol,
-)
+from lib.analyzelogs import *
 
 from lib.ss_forecast import get_pred_ss, ensure_3d_B_Lp_N, move_like
 from lib.train_losses import masked_global_mse_loss
 from lib.exact_metrics import collect_topk_exact_examples
 
 # ------------------------- helpers -------------------------
+# ------------------------- EXTRA LOGGING (INSERT-ONLY) -------------------------
+def _collect_masked_points_for_logging(model, dataloader, device, data_min, data_max, denorm_flag, max_batches=2):
+    """
+    Collect masked per-element points from up to `max_batches` batches.
+    Returns dict with tensors on CPU:
+      - idx: (M, 3) integer indices [b, t, d]
+      - pred: (M,) float
+      - tgt: (M,) float
+      - diff: (M,) float (pred - tgt)
+      - abs_err: (M,) float
+    """
+    model.eval()
+    all_idx = []
+    all_pred = []
+    all_tgt = []
+
+    with torch.no_grad():
+        for _ in range(int(max_batches)):
+            bdict = utils.get_next_batch(dataloader)
+
+            pred = get_pred_ss(model, bdict, device)
+            tgt  = ensure_3d_B_Lp_N(bdict["data_to_predict"])
+            msk  = ensure_3d_B_Lp_N(bdict["mask_predicted_data"])
+
+            pred = ensure_3d_B_Lp_N(pred)
+
+            tgt = move_like(tgt, pred)
+            msk = move_like(msk, pred)
+
+            # Denorm ONLY for logging if requested (your run_logger message already states this behavior)
+            if denorm_flag:
+                pred_eval = denorm_minmax(pred, data_min, data_max)
+                tgt_eval  = denorm_minmax(tgt,  data_min, data_max)
+            else:
+                pred_eval = pred
+                tgt_eval  = tgt
+
+            mb = msk.bool() if msk.dtype == torch.bool else (msk > 0.5)
+            if mb.sum().item() == 0:
+                continue
+
+            nz = torch.nonzero(mb, as_tuple=False)  # (M, 3) with columns [B, Lp, D]
+            pv = pred_eval[mb].detach()
+            tv = tgt_eval[mb].detach()
+
+            all_idx.append(nz)
+            all_pred.append(pv)
+            all_tgt.append(tv)
+
+    if len(all_idx) == 0:
+        return None
+
+    idx = torch.cat(all_idx, dim=0)
+    pred_v = torch.cat(all_pred, dim=0)
+    tgt_v  = torch.cat(all_tgt, dim=0)
+
+    diff = pred_v - tgt_v
+    abs_err = diff.abs()
+
+    return {
+        "idx": idx.cpu(),
+        "pred": pred_v.cpu(),
+        "tgt": tgt_v.cpu(),
+        "diff": diff.cpu(),
+        "abs_err": abs_err.cpu(),
+    }
+
+
+def _log_points_summary(top_logger, tag, pack, k_random=15, k_best=5, k_worst=5, seed=1234):
+    """
+    Logs:
+      - random K points (true/pred/diff)
+      - top K worst abs errors
+      - top K best (closest / "correct") points
+    """
+    if pack is None:
+        top_logger.info(f"{tag} | No masked points found (empty mask).")
+        return
+
+    idx = pack["idx"]
+    pred = pack["pred"]
+    tgt  = pack["tgt"]
+    diff = pack["diff"]
+    abs_err = pack["abs_err"]
+
+    M = int(abs_err.shape[0])
+    if M <= 0:
+        top_logger.info(f"{tag} | No masked points found (M=0).")
+        return
+
+    # Random selection (deterministic per epoch/tag if you pass a changing seed)
+    g = torch.Generator()
+    g.manual_seed(int(seed) & 0x7FFFFFFF)
+
+    k_random = min(int(k_random), M)
+    perm = torch.randperm(M, generator=g)
+    ridx = perm[:k_random]
+
+    top_logger.info(f"{tag} | RANDOM {k_random} masked points (true, pred, diff, abs_err):")
+    for j in ridx.tolist():
+        b, t, d = idx[j].tolist()
+        top_logger.info(
+            f"{tag} | [B={b}, T={t}, D={d}] true={float(tgt[j]):.6f} pred={float(pred[j]):.6f} "
+            f"diff={float(diff[j]):+.6f} abs_err={float(abs_err[j]):.6f}"
+        )
+
+    # Worst / Best
+    k_worst = min(int(k_worst), M)
+    k_best  = min(int(k_best),  M)
+
+    order = torch.argsort(abs_err)  # ascending
+    best_idx = order[:k_best]
+    worst_idx = order[-k_worst:].flip(0)  # descending
+
+    top_logger.info(f"{tag} | TOP {k_worst} WORST masked points (largest abs_err):")
+    for j in worst_idx.tolist():
+        b, t, d = idx[j].tolist()
+        top_logger.info(
+            f"{tag} | [B={b}, T={t}, D={d}] true={float(tgt[j]):.6f} pred={float(pred[j]):.6f} "
+            f"diff={float(diff[j]):+.6f} abs_err={float(abs_err[j]):.6f}"
+        )
+
+    top_logger.info(f"{tag} | TOP {k_best} BEST/CORRECT masked points (smallest abs_err):")
+    for j in best_idx.tolist():
+        b, t, d = idx[j].tolist()
+        top_logger.info(
+            f"{tag} | [B={b}, T={t}, D={d}] true={float(tgt[j]):.6f} pred={float(pred[j]):.6f} "
+            f"diff={float(diff[j]):+.6f} abs_err={float(abs_err[j]):.6f}"
+        )
+
 def _masked_metrics(pred, tgt, msk):
     mb = msk.bool() if msk.dtype == torch.bool else (msk > 0.5)
     if mb.sum().item() == 0:
@@ -212,6 +332,15 @@ if __name__ == "__main__":
         f"quantization={args.quantization} history={args.history} patch_size={args.patch_size} "
         f"stride={args.stride} npatch={args.npatch}"
     )
+    # D: normalization mode (dataset preprocessing)
+    # D=0 -> per-dim stats, D=1 -> global stats
+    D_norm_mode = int(getattr(args, "normalization", 0))  # 0/1
+    use_global_loss = int(getattr(args, "global_loss", 1)) == 1  # G flag
+    use_denorm_eval = int(getattr(args, "denorm_test_pred", 0)) == 1  # N flag (denorm val/test metrics)
+
+    run_logger.info(f"FLAGS | D(normalization)={D_norm_mode} (0=per-dim,1=global) "
+                    f"G(global_loss)={int(use_global_loss)} "
+                    f"N(denorm_eval)={int(use_denorm_eval)}")
 
     # ------------------------- Model -------------------------
     try:
@@ -250,18 +379,14 @@ if __name__ == "__main__":
             tgt = move_like(tgt, pred)
             msk = move_like(msk, pred)
 
-            # ---- Apply denorm if activated ----
-            if use_denorm_test_pred:
-                pred = denorm_minmax(pred, data_min, data_max)
-                tgt  = denorm_minmax(tgt,  data_min, data_max)
+            # NOTE: DO NOT denormalize during training.
+            # Train must remain in the same scale as model outputs (normalized space).
 
             mb = msk.bool() if msk.dtype == torch.bool else (msk > 0.5)
-
             if mb.sum() == 0:
                 continue
 
             diff = (pred - tgt)[mb]
-
             mse = (diff ** 2).mean()
             mae = diff.abs().mean()
 
@@ -300,17 +425,15 @@ if __name__ == "__main__":
                         tgt = move_like(tgt, pred)
                         msk = move_like(msk, pred)
 
-                        # IMPORTANT: denorm flag only for logging/toperr typically,
-                        # but if you want VAL in real units, keep this.
-                        if use_denorm_test_pred:
-                            pred = denorm_minmax(pred, data_min, data_max)
-                            tgt  = denorm_minmax(tgt,  data_min, data_max)
+                        # ✅ Validation ALWAYS in normalized space (no denorm here)
+                        pred_eval = pred
+                        tgt_eval  = tgt
 
                         mb = msk.bool() if msk.dtype == torch.bool else (msk > 0.5)
                         if mb.sum().item() == 0:
                             continue
 
-                        diff = (pred - tgt)[mb]
+                        diff = (pred_eval - tgt_eval)[mb]
                         mse  = (diff ** 2).mean().item()
                         mae  = diff.abs().mean().item()
                         rmse = float(np.sqrt(mse))
@@ -327,11 +450,13 @@ if __name__ == "__main__":
                     val_res = evaluation(model, data_obj["val_dataloader"], int(data_obj["n_val_batches"]))
 
                 # -------------------- TESTING (only when VAL improves) --------------------
+                # -------------------- TESTING (only when VAL improves) --------------------
                 if np.isfinite(val_res.get("mse", np.nan)) and (val_res["mse"] < best_val_mse):
                     best_val_mse = float(val_res["mse"])
                     best_iter = itr
 
                     if use_global_loss:
+                        # --------- TEST (manual metrics path) ---------
                         test_logs = []
                         for _ in range(int(data_obj["n_test_batches"])):
                             b = utils.get_next_batch(data_obj["test_dataloader"])
@@ -347,16 +472,19 @@ if __name__ == "__main__":
                             tgt = move_like(tgt, pred)
                             msk = move_like(msk, pred)
 
-                            # same note as above: keep if you want test in real units
+                            # ---- Denorm ONLY for TEST metrics if activated ----
                             if use_denorm_test_pred:
-                                pred = denorm_minmax(pred, data_min, data_max)
-                                tgt  = denorm_minmax(tgt,  data_min, data_max)
+                                pred_eval = denorm_minmax(pred, data_min, data_max)
+                                tgt_eval  = denorm_minmax(tgt,  data_min, data_max)
+                            else:
+                                pred_eval = pred
+                                tgt_eval  = tgt
 
                             mb = msk.bool() if msk.dtype == torch.bool else (msk > 0.5)
                             if mb.sum().item() == 0:
                                 continue
 
-                            diff = (pred - tgt)[mb]
+                            diff = (pred_eval - tgt_eval)[mb]
                             mse  = (diff ** 2).mean().item()
                             mae  = diff.abs().mean().item()
                             rmse = float(np.sqrt(mse))
@@ -369,8 +497,47 @@ if __name__ == "__main__":
                             test_res = {"loss": np.nan, "mse": np.nan, "rmse": np.nan, "mae": np.nan, "mape": np.nan}
 
                     else:
+                        # --------- TEST (repo evaluation path) ---------
+                        # Always compute the repo metric (normalized space)
                         test_res = evaluation(model, data_obj["test_dataloader"], int(data_obj["n_test_batches"]))
 
+                        # If denorm flag is ON, also compute real-unit metrics manually and overwrite test_res
+                        # so denorm works even when using evaluation()
+                        if use_denorm_test_pred:
+                            test_logs = []
+                            for _ in range(int(data_obj["n_test_batches"])):
+                                b = utils.get_next_batch(data_obj["test_dataloader"])
+
+                                pred = get_pred_ss(model, b, args.device)
+                                tgt  = b["data_to_predict"]
+                                msk  = b["mask_predicted_data"]
+
+                                pred = ensure_3d_B_Lp_N(pred)
+                                tgt  = ensure_3d_B_Lp_N(tgt)
+                                msk  = ensure_3d_B_Lp_N(msk)
+
+                                tgt = move_like(tgt, pred)
+                                msk = move_like(msk, pred)
+
+                                # denorm for real-unit metrics
+                                pred_eval = denorm_minmax(pred, data_min, data_max)
+                                tgt_eval  = denorm_minmax(tgt,  data_min, data_max)
+
+                                mb = msk.bool() if msk.dtype == torch.bool else (msk > 0.5)
+                                if mb.sum().item() == 0:
+                                    continue
+
+                                diff = (pred_eval - tgt_eval)[mb]
+                                mse  = (diff ** 2).mean().item()
+                                mae  = diff.abs().mean().item()
+                                rmse = float(np.sqrt(mse))
+
+                                test_logs.append({"loss": mse, "mse": mse, "rmse": rmse, "mae": mae, "mape": 0.0})
+
+                            if len(test_logs) > 0:
+                                test_res = {k: float(np.mean([d[k] for d in test_logs])) for k in test_logs[0].keys()}
+                            else:
+                                test_res = {"loss": np.nan, "mse": np.nan, "rmse": np.nan, "mae": np.nan, "mape": np.nan}
         except Exception:
             err_logger.error(f"EXCEPTION | eval | epoch={itr}")
             err_logger.error(traceback.format_exc())
@@ -396,6 +563,32 @@ if __name__ == "__main__":
             )
 
         train_logger.info("Time spent: {:.2f}s".format(time.time() - st))
+
+        # -------------------- EXTRA TOPERR LOGS (every 10 epochs) --------------------
+        if ((itr + 1) % 10) == 0:
+            try:
+                # Use TEST dataloader (your request), log in (denorm_test_pred ? denorm : scaled)
+                pack = _collect_masked_points_for_logging(
+                    model=model,
+                    dataloader=data_obj["test_dataloader"],
+                    device=args.device,
+                    data_min=data_min,
+                    data_max=data_max,
+                    denorm_flag=use_denorm_test_pred,
+                    max_batches=2,  # increase if you want a wider pool
+                )
+                _log_points_summary(
+                    top_logger=top_logger,
+                    tag=f"EPOCH_{itr:03d}",
+                    pack=pack,
+                    k_random=15,
+                    k_best=5,
+                    k_worst=5,
+                    seed=args.seed + itr,
+                )
+            except Exception:
+                err_logger.error(f"EXCEPTION | TOPERR_LOGGING | epoch={itr}")
+                err_logger.error(traceback.format_exc())
 
         # flush to avoid empty train.log
         for h in train_logger.handlers:

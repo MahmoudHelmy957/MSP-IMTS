@@ -18,6 +18,121 @@ from sklearn import model_selection
 
 
 #####################################################################################################
+import torch
+
+def _masked_min_max_per_dim(vals: torch.Tensor, mask: torch.Tensor):
+    """
+    vals: (T, D)
+    mask: (T, D) with 1 for observed, 0 for missing
+    Returns:
+      vmin, vmax: (D,) where missing-only dims get +inf / -inf (so they won't affect global reducers)
+    """
+    assert vals.dim() == 2 and mask.dim() == 2, "vals/mask must be (T, D)"
+    assert vals.shape == mask.shape, "vals and mask must have same shape"
+
+    D = vals.size(1)
+    inf = torch.tensor(float("inf"), device=vals.device, dtype=vals.dtype)
+    ninf = torch.tensor(float("-inf"), device=vals.device, dtype=vals.dtype)
+
+    vmin = torch.full((D,), inf, device=vals.device, dtype=vals.dtype)
+    vmax = torch.full((D,), ninf, device=vals.device, dtype=vals.dtype)
+
+    # Loop over dims (D is usually small); behaves exactly like the original repo.
+    for i in range(D):
+        obs = mask[:, i] > 0.5
+        if obs.any():
+            xi = vals[:, i][obs]
+            vmin[i] = xi.min()
+            vmax[i] = xi.max()
+
+    return vmin, vmax
+
+
+def get_channel_stats_masked(dataset, input_dim: int, device: torch.device):
+    """
+    Mask-aware per-dim stats over a dataset of samples shaped like:
+      (record_id, tt, vals, mask) where vals/mask are (T, D)
+
+    Returns:
+      data_min: (D,)
+      data_max: (D,)
+      time_max: scalar tensor
+    """
+    inf = torch.tensor(float("inf"), device=device)
+    ninf = torch.tensor(float("-inf"), device=device)
+
+    data_min = torch.full((input_dim,), inf, device=device)
+    data_max = torch.full((input_dim,), ninf, device=device)
+    time_max = ninf.clone()
+
+    seen_any = torch.zeros((input_dim,), dtype=torch.bool, device=device)
+
+    for _, tt, vals, mask in dataset:
+        if vals.device != device: vals = vals.to(device)
+        if mask.device != device: mask = mask.to(device)
+        if tt.device != device:   tt = tt.to(device)
+
+        vmin, vmax = _masked_min_max_per_dim(vals, mask)
+
+        # Update only where this sample had any observed values for that dim
+        has_obs = torch.isfinite(vmin) & torch.isfinite(vmax)  # dims with observations in this record
+        if has_obs.any():
+            data_min[has_obs] = torch.minimum(data_min[has_obs], vmin[has_obs])
+            data_max[has_obs] = torch.maximum(data_max[has_obs], vmax[has_obs])
+            seen_any |= has_obs
+
+        time_max = torch.maximum(time_max, tt.max())
+
+    # If some dims never observed at all, decide how you want to handle:
+    if (~seen_any).any():
+        missing_dims = torch.where(~seen_any)[0].tolist()
+        raise ValueError(
+            f"[ACTIVITY][STATS] Some dimensions have no observed values in stats_source. dims={missing_dims}"
+        )
+
+    if not torch.isfinite(data_min).all() or not torch.isfinite(data_max).all() or not torch.isfinite(time_max):
+        raise ValueError("[ACTIVITY][STATS] Non-finite min/max/time_max computed. Check data/mask.")
+
+    return data_min, data_max, time_max
+
+
+def get_global_stats_masked(dataset, device: torch.device):
+    """
+    Mask-aware GLOBAL scalar stats over observed entries only.
+    Returns:
+      gmin, gmax, time_max: scalar tensors
+    """
+    inf = torch.tensor(float("inf"), device=device)
+    ninf = torch.tensor(float("-inf"), device=device)
+
+    gmin = inf.clone()
+    gmax = ninf.clone()
+    time_max = ninf.clone()
+
+    saw_any = False
+
+    for _, tt, vals, mask in dataset:
+        if vals.device != device: vals = vals.to(device)
+        if mask.device != device: mask = mask.to(device)
+        if tt.device != device:   tt = tt.to(device)
+
+        obs = mask > 0.5
+        if obs.any():
+            v = vals[obs]
+            gmin = torch.minimum(gmin, v.min())
+            gmax = torch.maximum(gmax, v.max())
+            saw_any = True
+
+        time_max = torch.maximum(time_max, tt.max())
+
+    if not saw_any:
+        raise ValueError("[ACTIVITY][STATS] No observed values found at all (mask is empty everywhere).")
+
+    if not torch.isfinite(gmin) or not torch.isfinite(gmax) or not torch.isfinite(time_max):
+        raise ValueError("[ACTIVITY][STATS] Non-finite global min/max/time_max computed. Check data/mask.")
+
+    return gmin, gmax, time_max
+
 def parse_datasets(args, patch_ts=False, length_stat=False):
 
     device = args.device
@@ -445,54 +560,55 @@ def parse_datasets(args, patch_ts=False, length_stat=False):
             return f"{float(x.detach().cpu().item()):.6f}"
 
         # ---- PER-DIM stats (vector min/max) ----
-        def get_channel_stats(dataset, input_dim: int, device: torch.device):
-            dmin = torch.full((input_dim,), float("inf"), device=device)
-            dmax = torch.full((input_dim,), float("-inf"), device=device)
-            tmax = torch.tensor(float("-inf"), device=device)
+        # def get_channel_stats(dataset, input_dim: int, device: torch.device):
+        #     dmin = torch.full((input_dim,), float("inf"), device=device)
+        #     dmax = torch.full((input_dim,), float("-inf"), device=device)
+        #     tmax = torch.tensor(float("-inf"), device=device)
 
-            for _, tt, vals, _ in dataset:
-                if vals.device != device:
-                    vals = vals.to(device)
-                if tt.device != device:
-                    tt = tt.to(device)
+        #     for _, tt, vals, _ in dataset:
+        #         if vals.device != device:
+        #             vals = vals.to(device)
+        #         if tt.device != device:
+        #             tt = tt.to(device)
 
-                vmin = vals.min(dim=0).values
-                vmax = vals.max(dim=0).values
+        #         vmin = vals.min(dim=0).values
+        #         vmax = vals.max(dim=0).values
 
-                dmin = torch.minimum(dmin, vmin)
-                dmax = torch.maximum(dmax, vmax)
-                tmax = torch.maximum(tmax, tt.max())
+        #         dmin = torch.minimum(dmin, vmin)
+        #         dmax = torch.maximum(dmax, vmax)
+        #         tmax = torch.maximum(tmax, tt.max())
 
-            if not torch.isfinite(dmin).all() or not torch.isfinite(dmax).all() or not torch.isfinite(tmax).all():
-                raise ValueError("[ACTIVITY][STATS] Non-finite min/max/time_max computed. Check chunking/data.")
-            return dmin, dmax, tmax
+        #     if not torch.isfinite(dmin).all() or not torch.isfinite(dmax).all() or not torch.isfinite(tmax).all():
+        #         raise ValueError("[ACTIVITY][STATS] Non-finite min/max/time_max computed. Check chunking/data.")
+        #     return dmin, dmax, tmax
 
         # ---- GLOBAL stats (scalar min/max) ----
-        def get_global_stats(dataset, device: torch.device):
-            gmin = torch.tensor(float("inf"), device=device)
-            gmax = torch.tensor(float("-inf"), device=device)
-            tmax = torch.tensor(float("-inf"), device=device)
+        # def get_global_stats(dataset, device: torch.device):
+        #     gmin = torch.tensor(float("inf"), device=device)
+        #     gmax = torch.tensor(float("-inf"), device=device)
+        #     tmax = torch.tensor(float("-inf"), device=device)
 
-            for _, tt, vals, _ in dataset:
-                if vals.device != device:
-                    vals = vals.to(device)
-                if tt.device != device:
-                    tt = tt.to(device)
+        #     for _, tt, vals, _ in dataset:
+        #         if vals.device != device:
+        #             vals = vals.to(device)
+        #         if tt.device != device:
+        #             tt = tt.to(device)
 
-                gmin = torch.minimum(gmin, vals.min())
-                gmax = torch.maximum(gmax, vals.max())
-                tmax = torch.maximum(tmax, tt.max())
+        #         gmin = torch.minimum(gmin, vals.min())
+        #         gmax = torch.maximum(gmax, vals.max())
+        #         tmax = torch.maximum(tmax, tt.max())
 
-            if not torch.isfinite(gmin) or not torch.isfinite(gmax) or not torch.isfinite(tmax):
-                raise ValueError("[ACTIVITY][STATS] Non-finite global min/max/time_max computed. Check chunking/data.")
-            return gmin, gmax, tmax
+        #     if not torch.isfinite(gmin) or not torch.isfinite(gmax) or not torch.isfinite(tmax):
+        #         raise ValueError("[ACTIVITY][STATS] Non-finite global min/max/time_max computed. Check chunking/data.")
+        #     return gmin, gmax, tmax
 
         # Compute on Train+Val only (avoid test leakage)
         stats_source = train_data + val_data
 
         if int(args.normalization) == 1:
             # GLOBAL normalization -> scalar min/max, then broadcast to (D,)
-            gmin, gmax, time_max = get_global_stats(stats_source, device)
+            # gmin, gmax, time_max = get_global_stats(stats_source, device) # 24.02.2024: fix function bug
+            gmin, gmax, time_max = get_global_stats_masked(stats_source, device)
             data_min = gmin.repeat(input_dim)   # shape (D,)
             data_max = gmax.repeat(input_dim)   # shape (D,)
 
@@ -504,7 +620,7 @@ def parse_datasets(args, patch_ts=False, length_stat=False):
             print("[ACTIVITY][STATS][DATA_MAX_VEC] " + _fmt_tensor_stats_1d(data_max))
         else:
             # PER-DIM normalization -> vector min/max
-            data_min, data_max, time_max = get_channel_stats(stats_source, input_dim, device)
+            data_min, data_max, time_max = get_channel_stats_masked(stats_source, input_dim, device)
 
             print("[ACTIVITY][STATS] normalization=PER_DIM (per-channel)")
             print("[ACTIVITY][STATS] " f"input_dim={input_dim} | time_max={float(time_max):.6f}")
