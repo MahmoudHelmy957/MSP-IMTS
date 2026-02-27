@@ -72,3 +72,154 @@ def build_single_scale_parser():
                         help="Relative tolerance for EXACT points.")
 
     return parser
+
+
+# lib/cli_args.py
+
+import argparse
+
+
+def build_multi_scale_parser():
+    """
+    CLI parser for MULTI-SCALE forecasting experiments.
+
+    Intended for scripts that use:
+      - --multi_scales / --multi_strides / --fusion
+      - and still need all the usual dataset/model/training/time-series/logging args.
+
+    Note:
+      - Keep --history/--patch_size/--stride: these can still be used as defaults/fallbacks
+        (some code paths compute args.npatch from them).
+      - multi_scales/multi_strides are comma-separated hour values, e.g. "2,8,24".
+    """
+    parser = argparse.ArgumentParser("IMTS Forecasting (Multi-Scale)")
+
+    # ---------------- Multi-scale ----------------
+    parser.add_argument(
+        "--use_ms",
+        type=int,
+        default=0,
+        help="1 = enable multi-scale model, 0 = single-scale",
+    )
+    parser.add_argument(
+        "--multi_scales",
+        type=str,
+        default="",
+        help='Comma list of patch sizes in hours, e.g. "2,8,24". Empty = single-scale.',
+    )
+    parser.add_argument(
+        "--multi_strides",
+        type=str,
+        default="",
+        help="Comma list of strides in hours. Empty = same as multi_scales.",
+    )
+    parser.add_argument(
+        "--fusion",
+        type=str,
+        default="concat",
+        choices=["concat", "scale_attn"],
+        help="Fusion method for multi-scale.",
+    )
+
+    # ---------------- Dataset / Model ----------------
+    parser.add_argument("--state", type=str, default="def")
+    parser.add_argument("-n", type=int, default=int(1e8), help="Size of the dataset")
+    parser.add_argument("--dataset", type=str, default="physionet", help="Dataset to load.")
+    parser.add_argument("--model", type=str, default="tPatchGNN", help="Model name")
+    parser.add_argument("--outlayer", type=str, default="Linear", help="Output layer name")
+
+    # ---------------- Architecture ----------------
+    parser.add_argument("--hop", type=int, default=1, help="hops in GNN")
+    parser.add_argument("--nhead", type=int, default=1, help="heads in Transformer")
+    parser.add_argument("--tf_layer", type=int, default=1, help="# of layer in Transformer")
+    parser.add_argument("--nlayer", type=int, default=1, help="# of layer in TSmodel")
+
+    parser.add_argument("-hd", "--hid_dim", type=int, default=64, help="Hidden dim")
+    parser.add_argument("-td", "--te_dim", type=int, default=10, help="Time enc dim")
+    parser.add_argument("-nd", "--node_dim", type=int, default=10, help="Node dim")
+
+    # ---------------- Training ----------------
+    parser.add_argument("--epoch", type=int, default=1000, help="training epochs")
+    parser.add_argument("--patience", type=int, default=10, help="patience for early stop")
+    parser.add_argument("--lr", type=float, default=1e-3, help="Starting learning rate.")
+    parser.add_argument("--w_decay", type=float, default=0.0, help="weight decay.")
+    parser.add_argument("-b", "--batch_size", type=int, default=32)
+    parser.add_argument("--seed", type=int, default=1, help="Random seed")
+
+    # ---------------- Time-Series ----------------
+    # Still included because some scripts compute args.npatch from these defaults.
+    parser.add_argument("--history", type=int, default=24, help="historical window")
+    parser.add_argument("-ps", "--patch_size", type=float, default=24, help="window size for a patch")
+    parser.add_argument("--stride", type=float, default=24, help="period stride for patch sliding")
+    parser.add_argument(
+        "--normalization",
+        type=int,
+        default=0,
+        help="0 = per-channel, 1 = global scalar normalization",
+    )
+
+    # ---------------- Optional supervision control ----------------
+    parser.add_argument(
+        "--target_channel",
+        type=int,
+        default=-1,
+        help="If >=0, compute loss/metrics ONLY on this channel index. -1 = all channels.",
+    )
+
+    # ---------------- Postprocessing ----------------
+    parser.add_argument(
+        "--denorm_test_pred",
+        type=int,
+        default=0,
+        help="Denormalize test targets and predictions. 1 = True, 0 = False",
+    )
+
+    # ---------------- Loss Type ----------------
+    parser.add_argument(
+        "--global_loss",
+        type=int,
+        default=1,
+        help="Loss computation type: 1 = global loss, 0 = per-dimension loss",
+    )
+
+    # ---------------- Logging ----------------
+    parser.add_argument("--logmode", type=str, default="a", help="File mode of logging (a/w).")
+    parser.add_argument("--save", type=str, default="experiments/", help="Path for save checkpoints")
+    parser.add_argument("--load", type=str, default=None, help="Experiment ID to load; if None, create new.")
+    parser.add_argument("--gpu", type=str, default="0", help="which gpu to use.")
+    parser.add_argument(
+        "--data_sanity_batches",
+        type=int,
+        default=3,
+        help="batches to sample per split for sanity logs.",
+    )
+
+    # ---------------- Quantization ----------------
+    parser.add_argument(
+        "--quantization",
+        type=float,
+        default=0.0,
+        help="Quantization on the physionet dataset.",
+    )
+
+    # ---------------- Error / EXACT ----------------
+    parser.add_argument(
+        "--topk_err",
+        type=int,
+        default=10,
+        help="Top-K largest abs errors to log on TEST.",
+    )
+    parser.add_argument(
+        "--exact_abs_tol",
+        type=float,
+        default=1e-5,
+        help="Absolute tolerance for EXACT points.",
+    )
+    parser.add_argument(
+        "--exact_rel_tol",
+        type=float,
+        default=0.05,
+        help="Relative tolerance for EXACT points.",
+    )
+
+    return parser

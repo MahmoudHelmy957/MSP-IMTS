@@ -1,0 +1,85 @@
+INFO | TARGET_CHANNEL | target_channel=-1 (-1 means all channels)
+INFO | DATA_STATS | dataset=mimic
+INFO | DATA_STATS | data_min: {'shape': (96,), 'min': 0.0, 'max': 100.0, 'mean': 4.605417251586914}
+INFO | DATA_STATS | data_max: {'shape': (96,), 'min': 1.0800000429153442, 'max': 36400.0, 'mean': 1157.1973876953125}
+INFO | DATA_STATS | time_max: {'shape': (), 'min': 47.98333740234375, 'max': 47.98333740234375, 'mean': 47.98333740234375}
+INFO | DATA_STATS | first_10_dims data_min=[2.0, 5.0, 3.0999999046325684, 39.0, 0.0, 0.0, 0.20000000298023224, 0.0, 1.5, 74.0] data_max=[56.0, 50.0, 27.399999618530273, 155.0, 27.799999237060547, 2340.0, 37.5, 32.5, 15.600000381469727, 182.0]
+INFO | [MS] use_ms=True fusion=concat scales=2,8 strides=2,8 npatches_per_scale=[12, 3]
+INFO | [MS_INIT] forced forward done. decoder_is_none=False
+INFO | 2026-02-26 06:03:07
+INFO | command: RunModelsMultiGLoss.py --dataset mimic --history 24 --quantization 1.0 --hid_dim 32 --te_dim 10 --node_dim 10 --nlayer 1 --tf_layer 1 --nhead 1 --batch_size 64 --lr 1e-3 --patience 30 --epoch 300 --seed 1 --gpu 0 --multi_scales 2,8 --multi_strides 2,8 --fusion concat
+INFO | ExpID=57928 PID=2629185 host=gpu-200 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MIMIC_MS_64 SLURM_JOB_ID=536487
+INFO | ckpt_path=experiments/experiment_57928.ckpt
+INFO | args=Namespace(multi_scales='2,8', multi_strides='2,8', fusion='concat', state='def', n=100000000, dataset='mimic', model='tPatchGNN', outlayer='Linear', hop=1, nhead=1, tf_layer=1, nlayer=1, hid_dim=32, te_dim=10, node_dim=10, epoch=300, patience=30, lr=0.001, w_decay=0.0, batch_size=64, seed=1, history=24, patch_size=24, stride=24, normalization=0, target_channel=-1, denorm_test_pred=0, global_loss=1, logmode='a', save='experiments/', load=None, gpu='0', data_sanity_batches=3, quantization=1.0, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=1, device=device(type='cuda'), PID=2629185, ndim=96)
+INFO | data: input_dim=96 n_train_batches=220 n_val_batches=74 n_test_batches=74 quantization=1.0 history=24 patch_size=24 stride=24 npatch=1
+INFO | [OPT_CHECK] decoder_params=6 in_optimizer=6 missing=0
+INFO | EARLY_STOP | epoch=76 best_epoch=46 patience=30
+INFO | TARGET_CHANNEL | target_channel=-1 (-1 means all channels)
+INFO | DATA_STATS | dataset=mimic
+INFO | DATA_STATS | data_min: {'shape': (96,), 'min': 0.0, 'max': 100.0, 'mean': 4.605417251586914}
+INFO | DATA_STATS | data_max: {'shape': (96,), 'min': 1.0800000429153442, 'max': 36400.0, 'mean': 1157.1973876953125}
+INFO | DATA_STATS | time_max: {'shape': (), 'min': 47.98333740234375, 'max': 47.98333740234375, 'mean': 47.98333740234375}
+INFO | DATA_STATS | first_10_dims data_min=[2.0, 5.0, 3.0999999046325684, 39.0, 0.0, 0.0, 0.20000000298023224, 0.0, 1.5, 74.0] data_max=[56.0, 50.0, 27.399999618530273, 155.0, 27.799999237060547, 2340.0, 37.5, 32.5, 15.600000381469727, 182.0]
+INFO | [MS] use_ms=True fusion=concat scales=2,8 strides=2,8 npatches_per_scale=[12, 3]
+INFO | [MS_INIT] forced forward done. decoder_is_none=False
+INFO | 2026-02-26 07:32:05
+INFO | command: RunModelsMultiGLoss.py --dataset mimic --history 24 --quantization 1.0 --hid_dim 32 --te_dim 10 --node_dim 10 --nlayer 1 --tf_layer 1 --nhead 1 --batch_size 64 --lr 1e-3 --patience 30 --epoch 300 --seed 2 --gpu 0 --multi_scales 2,8 --multi_strides 2,8 --fusion concat
+INFO | ExpID=89509 PID=2763531 host=gpu-200 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MIMIC_MS_64 SLURM_JOB_ID=536487
+INFO | ckpt_path=experiments/experiment_89509.ckpt
+INFO | args=Namespace(use_ms=0, multi_scales='2,8', multi_strides='2,8', fusion='concat', state='def', n=100000000, dataset='mimic', model='tPatchGNN', outlayer='Linear', hop=1, nhead=1, tf_layer=1, nlayer=1, hid_dim=32, te_dim=10, node_dim=10, epoch=300, patience=30, lr=0.001, w_decay=0.0, batch_size=64, seed=2, history=24, patch_size=24, stride=24, normalization=0, target_channel=-1, denorm_test_pred=0, global_loss=1, logmode='a', save='experiments/', load=None, gpu='0', data_sanity_batches=3, quantization=1.0, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=1, device=device(type='cuda'), PID=2763531, ndim=96)
+INFO | data: input_dim=96 n_train_batches=220 n_val_batches=74 n_test_batches=74 quantization=1.0 history=24 patch_size=24 stride=24 npatch=1
+INFO | [OPT_CHECK] decoder_params=6 in_optimizer=6 missing=0
+INFO | EARLY_STOP | epoch=93 best_epoch=63 patience=30
+INFO | TARGET_CHANNEL | target_channel=-1 (-1 means all channels)
+INFO | DATA_STATS | dataset=mimic
+INFO | DATA_STATS | data_min: {'shape': (96,), 'min': 0.0, 'max': 100.0, 'mean': 4.605417251586914}
+INFO | DATA_STATS | data_max: {'shape': (96,), 'min': 1.0800000429153442, 'max': 36400.0, 'mean': 1157.1973876953125}
+INFO | DATA_STATS | time_max: {'shape': (), 'min': 47.98333740234375, 'max': 47.98333740234375, 'mean': 47.98333740234375}
+INFO | DATA_STATS | first_10_dims data_min=[2.0, 5.0, 3.0999999046325684, 39.0, 0.0, 0.0, 0.20000000298023224, 0.0, 1.5, 74.0] data_max=[56.0, 50.0, 27.399999618530273, 155.0, 27.799999237060547, 2340.0, 37.5, 32.5, 15.600000381469727, 182.0]
+INFO | [MS] use_ms=True fusion=concat scales=2,8 strides=2,8 npatches_per_scale=[12, 3]
+INFO | [MS_INIT] forced forward done. decoder_is_none=False
+INFO | 2026-02-26 09:19:57
+INFO | command: RunModelsMultiGLoss.py --dataset mimic --history 24 --quantization 1.0 --hid_dim 32 --te_dim 10 --node_dim 10 --nlayer 1 --tf_layer 1 --nhead 1 --batch_size 64 --lr 1e-3 --patience 30 --epoch 300 --seed 3 --gpu 0 --multi_scales 2,8 --multi_strides 2,8 --fusion concat
+INFO | ExpID=48469 PID=2924300 host=gpu-200 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MIMIC_MS_64 SLURM_JOB_ID=536487
+INFO | ckpt_path=experiments/experiment_48469.ckpt
+INFO | args=Namespace(use_ms=0, multi_scales='2,8', multi_strides='2,8', fusion='concat', state='def', n=100000000, dataset='mimic', model='tPatchGNN', outlayer='Linear', hop=1, nhead=1, tf_layer=1, nlayer=1, hid_dim=32, te_dim=10, node_dim=10, epoch=300, patience=30, lr=0.001, w_decay=0.0, batch_size=64, seed=3, history=24, patch_size=24, stride=24, normalization=0, target_channel=-1, denorm_test_pred=0, global_loss=1, logmode='a', save='experiments/', load=None, gpu='0', data_sanity_batches=3, quantization=1.0, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=1, device=device(type='cuda'), PID=2924300, ndim=96)
+INFO | data: input_dim=96 n_train_batches=220 n_val_batches=74 n_test_batches=74 quantization=1.0 history=24 patch_size=24 stride=24 npatch=1
+INFO | [OPT_CHECK] decoder_params=6 in_optimizer=6 missing=0
+INFO | EARLY_STOP | epoch=83 best_epoch=53 patience=30
+INFO | TARGET_CHANNEL | target_channel=-1 (-1 means all channels)
+INFO | DATA_STATS | dataset=mimic
+INFO | DATA_STATS | data_min: {'shape': (96,), 'min': 0.0, 'max': 100.0, 'mean': 4.605417251586914}
+INFO | DATA_STATS | data_max: {'shape': (96,), 'min': 1.0800000429153442, 'max': 36400.0, 'mean': 1157.1973876953125}
+INFO | DATA_STATS | time_max: {'shape': (), 'min': 47.98333740234375, 'max': 47.98333740234375, 'mean': 47.98333740234375}
+INFO | DATA_STATS | first_10_dims data_min=[2.0, 5.0, 3.0999999046325684, 39.0, 0.0, 0.0, 0.20000000298023224, 0.0, 1.5, 74.0] data_max=[56.0, 50.0, 27.399999618530273, 155.0, 27.799999237060547, 2340.0, 37.5, 32.5, 15.600000381469727, 182.0]
+INFO | [MS] use_ms=True fusion=concat scales=2,8 strides=2,8 npatches_per_scale=[12, 3]
+INFO | [MS_INIT] forced forward done. decoder_is_none=False
+INFO | 2026-02-26 10:56:57
+INFO | command: RunModelsMultiGLoss.py --dataset mimic --history 24 --quantization 1.0 --hid_dim 32 --te_dim 10 --node_dim 10 --nlayer 1 --tf_layer 1 --nhead 1 --batch_size 64 --lr 1e-3 --patience 30 --epoch 300 --seed 4 --gpu 0 --multi_scales 2,8 --multi_strides 2,8 --fusion concat
+INFO | ExpID=43287 PID=3067569 host=gpu-200 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MIMIC_MS_64 SLURM_JOB_ID=536487
+INFO | ckpt_path=experiments/experiment_43287.ckpt
+INFO | args=Namespace(use_ms=0, multi_scales='2,8', multi_strides='2,8', fusion='concat', state='def', n=100000000, dataset='mimic', model='tPatchGNN', outlayer='Linear', hop=1, nhead=1, tf_layer=1, nlayer=1, hid_dim=32, te_dim=10, node_dim=10, epoch=300, patience=30, lr=0.001, w_decay=0.0, batch_size=64, seed=4, history=24, patch_size=24, stride=24, normalization=0, target_channel=-1, denorm_test_pred=0, global_loss=1, logmode='a', save='experiments/', load=None, gpu='0', data_sanity_batches=3, quantization=1.0, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=1, device=device(type='cuda'), PID=3067569, ndim=96)
+INFO | data: input_dim=96 n_train_batches=220 n_val_batches=74 n_test_batches=74 quantization=1.0 history=24 patch_size=24 stride=24 npatch=1
+INFO | [OPT_CHECK] decoder_params=6 in_optimizer=6 missing=0
+INFO | EARLY_STOP | epoch=63 best_epoch=33 patience=30
+INFO | TARGET_CHANNEL | target_channel=-1 (-1 means all channels)
+INFO | DATA_STATS | dataset=mimic
+INFO | DATA_STATS | data_min: {'shape': (96,), 'min': 0.0, 'max': 100.0, 'mean': 4.605417251586914}
+INFO | DATA_STATS | data_max: {'shape': (96,), 'min': 1.0800000429153442, 'max': 36400.0, 'mean': 1157.1973876953125}
+INFO | DATA_STATS | time_max: {'shape': (), 'min': 47.98333740234375, 'max': 47.98333740234375, 'mean': 47.98333740234375}
+INFO | DATA_STATS | first_10_dims data_min=[2.0, 5.0, 3.0999999046325684, 39.0, 0.0, 0.0, 0.20000000298023224, 0.0, 1.5, 74.0] data_max=[56.0, 50.0, 27.399999618530273, 155.0, 27.799999237060547, 2340.0, 37.5, 32.5, 15.600000381469727, 182.0]
+INFO | [MS] use_ms=True fusion=concat scales=2,8 strides=2,8 npatches_per_scale=[12, 3]
+INFO | [MS_INIT] forced forward done. decoder_is_none=False
+INFO | 2026-02-26 12:11:06
+INFO | command: RunModelsMultiGLoss.py --dataset mimic --history 24 --quantization 1.0 --hid_dim 32 --te_dim 10 --node_dim 10 --nlayer 1 --tf_layer 1 --nhead 1 --batch_size 64 --lr 1e-3 --patience 30 --epoch 300 --seed 5 --gpu 0 --multi_scales 2,8 --multi_strides 2,8 --fusion concat
+INFO | ExpID=88629 PID=3175333 host=gpu-200 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=MIMIC_MS_64 SLURM_JOB_ID=536487
+INFO | ckpt_path=experiments/experiment_88629.ckpt
+INFO | args=Namespace(use_ms=0, multi_scales='2,8', multi_strides='2,8', fusion='concat', state='def', n=100000000, dataset='mimic', model='tPatchGNN', outlayer='Linear', hop=1, nhead=1, tf_layer=1, nlayer=1, hid_dim=32, te_dim=10, node_dim=10, epoch=300, patience=30, lr=0.001, w_decay=0.0, batch_size=64, seed=5, history=24, patch_size=24, stride=24, normalization=0, target_channel=-1, denorm_test_pred=0, global_loss=1, logmode='a', save='experiments/', load=None, gpu='0', data_sanity_batches=3, quantization=1.0, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=1, device=device(type='cuda'), PID=3175333, ndim=96)
+INFO | data: input_dim=96 n_train_batches=220 n_val_batches=74 n_test_batches=74 quantization=1.0 history=24 patch_size=24 stride=24 npatch=1
+INFO | [OPT_CHECK] decoder_params=6 in_optimizer=6 missing=0
+INFO | EARLY_STOP | epoch=82 best_epoch=52 patience=30

@@ -15,7 +15,8 @@ source /home/helmy/miniconda3/etc/profile.d/conda.sh
 conda activate condaworld310
 cd /home/helmy/MSP-IMTS/tPatchGNN
 
-
+# Seed from array task id (fallback to 1 if not running as an array)
+SEED=${SLURM_ARRAY_TASK_ID:-1}
 
 GPU=0
 EPOCHS=300

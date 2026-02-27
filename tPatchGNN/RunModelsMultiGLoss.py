@@ -1,136 +1,25 @@
-# RunModelsLogs.py
-# Fixed version + LAZY INIT FIX (MultiScaleTPatchGNN) + CHANNEL INFLUENCE (per-channel TEST error ranking)
-# + OPTIONAL: train/eval only on ONE target channel (e.g., USHCN temperature ch=0)
-#
-# Key additions:
-#  - --target_channel (int, default=-1): if >=0, loss/metrics computed ONLY on that channel
-#    (model still outputs all channels; we just slice pred/tgt/mask for supervision).
-#  - _masked_metrics_per_channel + _aggregate_per_channel
-#  - TEST per-channel ranking logged to top_logger + worst channel summary logged to train_logger
-
 import os
 import sys
 
-sys.path.append("..")
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+if PROJECT_ROOT not in sys.path:
+    sys.path.append(PROJECT_ROOT)
 
 import time
 import datetime
-import argparse
 import numpy as np
 from random import SystemRandom
 import socket
 import traceback
 import logging
-
 import torch
 import torch.optim as optim
-
+from copy import deepcopy
 import lib.utils as utils
 from lib.parse_datasets import parse_datasets
 from model.tPatchGNN import tPatchGNN
 from lib.analyzelogs import *
-
-
-parser = argparse.ArgumentParser("IMTS Forecasting")
-
-############################# multi scale ########################
-parser.add_argument(
-    "--multi_scales",
-    type=str,
-    default="",
-    help='Comma list of patch sizes in hours, e.g. "2,8,24". Empty = single-scale.',
-)
-parser.add_argument(
-    "--multi_strides",
-    type=str,
-    default="",
-    help="Comma list of strides in hours. Empty = same as multi_scales.",
-)
-parser.add_argument(
-    "--fusion",
-    type=str,
-    default="concat",
-    choices=["concat", "scale_attn"],
-    help="Fusion method for multi-scale.",
-)
-################################################
-
-parser.add_argument("--state", type=str, default="def")
-parser.add_argument("-n", type=int, default=int(1e8), help="Size of the dataset")
-parser.add_argument("--hop", type=int, default=1, help="hops in GNN")
-parser.add_argument("--nhead", type=int, default=1, help="heads in Transformer")
-parser.add_argument("--tf_layer", type=int, default=1, help="# of layer in Transformer")
-parser.add_argument("--nlayer", type=int, default=1, help="# of layer in TSmodel")
-parser.add_argument("--epoch", type=int, default=1000, help="training epochs")
-parser.add_argument("--patience", type=int, default=10, help="patience for early stop")
-parser.add_argument(
-    "--history",
-    type=int,
-    default=24,
-    help="number of hours (months for ushcn and ms for activity) as historical window",
-)
-parser.add_argument("-ps", "--patch_size", type=float, default=24, help="window size for a patch")
-parser.add_argument("--stride", type=float, default=24, help="period stride for patch sliding")
-parser.add_argument("--logmode", type=str, default="a", help="File mode of logging.")
-
-parser.add_argument("--lr", type=float, default=1e-3, help="Starting learning rate.")
-parser.add_argument("--w_decay", type=float, default=0.0, help="weight decay.")
-parser.add_argument("-b", "--batch_size", type=int, default=32)
-parser.add_argument("--normalization",type=int,default=0, help="0 = per-channel (default), 1 = global scalar normalization (Activity only).")
-
-parser.add_argument("--save", type=str, default="experiments/", help="Path for save checkpoints")
-parser.add_argument(
-    "--load",
-    type=str,
-    default=None,
-    help="ID of the experiment to load for evaluation. If None, run a new experiment.",
-)
-parser.add_argument("--seed", type=int, default=1, help="Random seed")
-parser.add_argument(
-    "--dataset", type=str, default="physionet", help="Dataset to load. Available: physionet, mimic, ushcn"
-)
-
-# value 0 means using original time granularity, Value 1 means quantization by 1 hour,
-# value 0.1 means quantization by 0.1 hour = 6 min, value 0.016 means quantization by 0.016 hour = 1 min
-parser.add_argument("--quantization", type=float, default=0.0, help="Quantization on the physionet dataset.")
-parser.add_argument("--model", type=str, default="tPatchGNN", help="Model name")
-parser.add_argument("--outlayer", type=str, default="Linear", help="Output layer name")
-parser.add_argument("-hd", "--hid_dim", type=int, default=64, help="Number of units per hidden layer")
-parser.add_argument("-td", "--te_dim", type=int, default=10, help="Number of units for time encoding")
-parser.add_argument("-nd", "--node_dim", type=int, default=10, help="Number of units for node vectors")
-parser.add_argument("--gpu", type=str, default="0", help="which gpu to use.")
-
-# top error logging
-parser.add_argument("--topk_err", type=int, default=10, help="Top-K largest TEST forecast errors to log.")
-
-# data sanity
-parser.add_argument(
-    "--data_sanity_batches",
-    type=int,
-    default=3,
-    help="How many batches to sample per split for data sanity logs.",
-)
-
-# OPTIONAL: supervise only one target channel (e.g. USHCN temperature channel=0)
-parser.add_argument(
-    "--target_channel",
-    type=int,
-    default=-1,
-    help="If >=0, compute loss/metrics ONLY on this channel index (e.g. 0 for temperature).",
-)
-
-args = parser.parse_args()
-args.npatch = int(np.ceil((args.history - args.patch_size) / args.stride)) + 1
-
-os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
-args.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-args.PID = os.getpid()
-print("PID, device:", args.PID, args.device)
-
-# SLURM identifiers (for log naming)
-slurm_job_id = os.environ.get("SLURM_JOB_ID", str(args.PID))
-slurm_job_name = os.environ.get("SLURM_JOB_NAME", "local")
-
+from lib.cli_args import build_multi_scale_parser
 
 # ------------------------- helpers: channel slicing -------------------------
 def _slice_target_channel(pred, tgt, msk, ch: int):
@@ -142,196 +31,6 @@ def _slice_target_channel(pred, tgt, msk, ch: int):
     if ch is None or ch < 0:
         return pred, tgt, msk
     return pred[..., ch : ch + 1], tgt[..., ch : ch + 1], msk[..., ch : ch + 1]
-
-
-# ------------------------- helpers: collect exact matches -------------------------
-def _collect_correct_examples_exact(pred, tgt, msk, tp_to_predict=None, max_k: int = 3):
-    """
-    Collect up to max_k examples where pred == tgt exactly (after masking).
-    NOTE: exact float equality is rare; this is mostly for debugging.
-    Returns list of dicts: {b,t,var_idx,tp,y_true,y_pred}
-    """
-    if pred is None or tgt is None or msk is None:
-        return []
-
-    with torch.no_grad():
-        mb = msk.bool() if msk.dtype == torch.bool else (msk > 0.5)
-        if mb.sum().item() == 0:
-            return []
-
-        eq = (pred == tgt) & mb
-        idxs = eq.nonzero(as_tuple=False)
-        if idxs.numel() == 0:
-            return []
-
-        out = []
-        take = min(max_k, idxs.shape[0])
-        for i in range(take):
-            b, t, v = [int(x.item()) for x in idxs[i]]
-            y_pred = safe_float(pred[b, t, v])
-            y_true = safe_float(tgt[b, t, v])
-            ts = try_get_timestamp(tp_to_predict, b, t) if tp_to_predict is not None else None
-            out.append(dict(b=b, t=t, var_idx=v, tp=ts, y_true=y_true, y_pred=y_pred))
-        return out
-
-
-# ------------------------- data sanity -------------------------
-def _sample_data_sanity_main(run_logger, data_obj, split_name: str, dl_key: str, n_key: str, max_batches: int):
-    if dl_key not in data_obj or n_key not in data_obj:
-        run_logger.warning(f"DATA_SANITY | split={split_name} missing {dl_key}/{n_key}")
-        return
-
-    n_batches = int(data_obj[n_key])
-    k = min(max_batches, n_batches)
-    if k <= 0:
-        run_logger.warning(f"DATA_SANITY | split={split_name} has 0 batches")
-        return
-
-    mask_ratios = []
-    for _ in range(k):
-        b = utils.get_next_batch(data_obj[dl_key])
-        if "mask_predicted_data" in b:
-            ms = summarize_mask(b["mask_predicted_data"])
-            mask_ratios.append(ms["mask_ratio"])
-
-    if len(mask_ratios) > 0:
-        run_logger.info(
-            f"DATA_SANITY | split={split_name} sampled_batches={k} "
-            f"mask_ratio_mean={float(np.mean(mask_ratios)):.6f} "
-            f"mask_ratio_min={float(np.min(mask_ratios)):.6f} "
-            f"mask_ratio_max={float(np.max(mask_ratios)):.6f}"
-        )
-    else:
-        run_logger.info(f"DATA_SANITY | split={split_name} sampled_batches={k} (no mask_predicted_data found)")
-
-
-def _debug_value_ranges(run_logger, data_obj, split_name: str, dl_key: str, n_batches: int = 1):
-    for bi in range(n_batches):
-        b = utils.get_next_batch(data_obj[dl_key])
-
-        if "X_list" in b:
-            # Multi-scale
-            for k, x in enumerate(b["X_list"]):
-                run_logger.info(
-                    f"[VAL_DEBUG] split={split_name} batch={bi} X_list[{k}] "
-                    f"min={float(x.min()):.6f} max={float(x.max()):.6f} mean={float(x.mean()):.6f}"
-                )
-            y = b["data_to_predict"]
-            run_logger.info(
-                f"[VAL_DEBUG] split={split_name} batch={bi} data_to_predict "
-                f"min={float(y.min()):.6f} max={float(y.max()):.6f} mean={float(y.mean()):.6f}"
-            )
-        else:
-            # Single-scale
-            x = b["observed_data"]
-            y = b["data_to_predict"]
-            run_logger.info(
-                f"[VAL_DEBUG] split={split_name} batch={bi} observed_data "
-                f"min={float(x.min()):.6f} max={float(x.max()):.6f} mean={float(x.mean()):.6f}"
-            )
-            run_logger.info(
-                f"[VAL_DEBUG] split={split_name} batch={bi} data_to_predict "
-                f"min={float(y.min()):.6f} max={float(y.max()):.6f} mean={float(y.mean()):.6f}"
-            )
-
-
-# ------------------------- time/scale debug -------------------------
-def _debug_time_scale_consistency(run_logger, data_obj, split_name: str, dl_key: str, n_batches: int = 2):
-    """
-    Expected (after the MS time-fix):
-      - tt_list values are normalized to [0,1] over the HISTORY window -> max should be near 1.0
-      - tp_to_predict used for decoding can be:
-           * history-normalized => future often > 1.0
-           * time_max-normalized (0..1) => future <= 1.0
-    We flag cases that look like double-normalization:
-      - tt_list max extremely small (e.g. 0.02)
-    """
-
-    def _parse_list(s):
-        import re
-
-        if s in (None, "", []):
-            return []
-        return [float(x) for x in re.split(r"[,\s]+", str(s).strip()) if x]
-
-    scales = _parse_list(getattr(args, "multi_scales", ""))
-    strides = _parse_list(getattr(args, "multi_strides", "")) or scales
-    history = float(getattr(args, "history", 0.0))
-
-    run_logger.info(
-        f"[TS_DEBUG] split={split_name} use_ms={bool(scales)} "
-        f"history={history} scales={scales} strides={strides} time_max={safe_float(data_obj.get('time_max', np.nan))}"
-    )
-
-    for bi in range(n_batches):
-        b = utils.get_next_batch(data_obj[dl_key])
-
-        # ---- Multi-scale path ----
-        if "X_list" in b:
-            tt_list = b.get("tt_list", None)
-            tp = b.get("tp_to_predict", None)
-
-            run_logger.info(f"[TS_DEBUG] split={split_name} batch={bi} MS keys={list(b.keys())}")
-            run_logger.info(
-                f"[TS_DEBUG] split={split_name} batch={bi} "
-                f"#scales={len(b['X_list'])} X_shapes={[tuple(x.shape) for x in b['X_list']]}"
-            )
-
-            if tt_list is not None:
-                tt_ranges = [(float(t.min().item()), float(t.max().item())) for t in tt_list]
-                run_logger.info(f"[TS_DEBUG] split={split_name} batch={bi} tt_list_minmax={tt_ranges}")
-
-                tt0_max = float(tt_list[0].max().item())
-                if tt0_max < 0.2:
-                    run_logger.warning(
-                        f"[TS_DEBUG][WARNING] tt_list[0]_max≈{tt0_max:.4f} is very small. "
-                        f"Likely time got normalized by time_max and then treated as history-normalized again. "
-                        f"Expected tt_list max near 1.0."
-                    )
-
-            if tp is not None:
-                run_logger.info(
-                    f"[TS_DEBUG] split={split_name} batch={bi} "
-                    f"tp_to_predict_minmax=({float(tp.min().item()):.6f},{float(tp.max().item()):.6f}) "
-                    f"tp_shape={tuple(tp.shape)}"
-                )
-
-                tp_max = float(tp.max().item())
-                if tp_max <= 1.05:
-                    run_logger.warning(
-                        f"[TS_DEBUG][NOTE] tp_to_predict_max≈{tp_max:.4f} is not > 1. "
-                        f"If you intended history-normalized tp_to_predict, this is suspicious. "
-                        f"If you intentionally keep tp normalized by time_max, ignore this."
-                    )
-
-            if "mask_predicted_data" in b:
-                m = b["mask_predicted_data"]
-                run_logger.info(
-                    f"[TS_DEBUG] split={split_name} batch={bi} "
-                    f"mask_sum={float(m.sum().item())} mask_ratio={summarize_mask(m)['mask_ratio']:.6f} "
-                    f"mask_dtype={m.dtype} mask_shape={tuple(m.shape)}"
-                )
-
-        # ---- Single-scale path ----
-        else:
-            run_logger.info(f"[TS_DEBUG] split={split_name} batch={bi} SS keys={list(b.keys())}")
-
-            for k in ["observed_tp", "tp_to_predict"]:
-                if k in b:
-                    t = b[k]
-                    run_logger.info(
-                        f"[TS_DEBUG] split={split_name} batch={bi} {k}_minmax="
-                        f"({float(t.min().item()):.6f},{float(t.max().item()):.6f}) shape={tuple(t.shape)}"
-                    )
-
-            if "mask_predicted_data" in b:
-                m = b["mask_predicted_data"]
-                run_logger.info(
-                    f"[TS_DEBUG] split={split_name} batch={bi} "
-                    f"mask_sum={float(m.sum().item())} mask_ratio={summarize_mask(m)['mask_ratio']:.6f} "
-                    f"mask_dtype={m.dtype} mask_shape={tuple(m.shape)}"
-                )
-
 
 # ------------------------- per-channel influence helpers -------------------------
 def _masked_metrics(pred, tgt, msk):
@@ -409,9 +108,34 @@ def _aggregate_per_channel(per_batch_list):
     return out
 
 
+def _rebuild_command_without_load(argv):
+    argv = list(argv)
+    idx = [i for i in range(len(argv)) if argv[i] == "--load"]
+    if len(idx) == 1:
+        i = idx[0]
+        argv = argv[:i] + argv[i + 2:]
+    return " ".join(argv)
+
 # ------------------------- main -------------------------
 if __name__ == "__main__":
+
+    parser = build_multi_scale_parser()
+    args = parser.parse_args()
+
     utils.setup_seed(args.seed)
+
+    # compute npatch for single-scale fallback (kept; does not change algorithm)
+    args.npatch = int(np.ceil((args.history - args.patch_size) / args.stride)) + 1
+
+    # device + pid (kept; your script uses args.device / args.PID later)
+    os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
+    args.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    args.PID = os.getpid()
+    print("PID, device:", args.PID, args.device)
+
+    # SLURM identifiers (for log naming)
+    slurm_job_id = os.environ.get("SLURM_JOB_ID", str(args.PID))
+    slurm_job_name = os.environ.get("SLURM_JOB_NAME", "local")
 
     experimentID = args.load
     if experimentID is None:
@@ -420,12 +144,7 @@ if __name__ == "__main__":
     ckpt_path = os.path.join(args.save, f"experiment_{experimentID}.ckpt")
 
     # rebuild command string without --load <id>
-    input_command = sys.argv[:]
-    ind = [i for i in range(len(input_command)) if input_command[i] == "--load"]
-    if len(ind) == 1:
-        i = ind[0]
-        input_command = input_command[:i] + input_command[i + 2 :]
-    input_command = " ".join(input_command)
+    input_command = _rebuild_command_without_load(sys.argv)
 
     LOG_DIR = ensure_dir("analyzelogs")
 
@@ -435,8 +154,9 @@ if __name__ == "__main__":
     run_logger = build_file_logger("run_logger", base + ".run.log", mode=args.logmode, level=logging.INFO)
     train_logger = build_file_logger("train_logger", base + ".train.log", mode=args.logmode, level=logging.INFO)
     sys_logger = build_file_logger("sys_logger", base + ".system.log", mode=args.logmode, level=logging.INFO)
-    top_logger = build_file_logger("top_logger", base + ".toperr.log", mode=args.logmode, level=logging.INFO)
     err_logger = build_file_logger("err_logger", base + ".error.log", mode=args.logmode, level=logging.INFO)
+
+    # NOTE: removed top_logger + TOP error logging + data sanity checks (algorithm unchanged)
 
     add_stdout_handler(run_logger, level=logging.INFO)
     add_stdout_handler(train_logger, level=logging.INFO)
@@ -491,8 +211,6 @@ if __name__ == "__main__":
     args.ndim = input_dim
 
     # ------------------------- model setup -------------------------
-    from copy import deepcopy
-
     use_ms = args.multi_scales not in (None, "", [])
 
     try:
@@ -542,13 +260,6 @@ if __name__ == "__main__":
         err_logger.error(traceback.format_exc())
         raise
 
-    # ------------------------- TS_DEBUG (after model construction) -------------------------
-    _debug_time_scale_consistency(run_logger, data_obj, "train", "train_dataloader", n_batches=2)
-    _debug_time_scale_consistency(run_logger, data_obj, "val", "val_dataloader", n_batches=2)
-    _debug_time_scale_consistency(run_logger, data_obj, "test", "test_dataloader", n_batches=2)
-    _debug_value_ranges(run_logger, data_obj, "train", "train_dataloader", n_batches=1)
-    _debug_value_ranges(run_logger, data_obj, "val", "val_dataloader", n_batches=1)
-    _debug_value_ranges(run_logger, data_obj, "test", "test_dataloader", n_batches=1)
 
     # ------------------------- RUN header logs -------------------------
     host = socket.gethostname()
@@ -567,15 +278,6 @@ if __name__ == "__main__":
         f"n_val_batches={data_obj.get('n_val_batches')} "
         f"n_test_batches={data_obj.get('n_test_batches')} "
         f"quantization={args.quantization} history={args.history} patch_size={args.patch_size} stride={args.stride} npatch={args.npatch}"
-    )
-
-    # data sanity
-    _sample_data_sanity_main(
-        run_logger, data_obj, "train", "train_dataloader", "n_train_batches", args.data_sanity_batches
-    )
-    _sample_data_sanity_main(run_logger, data_obj, "val", "val_dataloader", "n_val_batches", args.data_sanity_batches)
-    _sample_data_sanity_main(
-        run_logger, data_obj, "test", "test_dataloader", "n_test_batches", args.data_sanity_batches
     )
 
     # ------------------------- optimizer + scheduler -------------------------
@@ -642,7 +344,6 @@ if __name__ == "__main__":
                     tgt = batch_dict["data_to_predict"]
                     msk = batch_dict["mask_predicted_data"]
 
-                    # OPTIONAL: supervise only one channel (e.g., temperature ch=0)
                     pred_s, tgt_s, msk_s = _slice_target_channel(pred, tgt, msk, args.target_channel)
 
                     mb = msk_s.bool() if msk_s.dtype == torch.bool else (msk_s > 0.5)
@@ -674,8 +375,6 @@ if __name__ == "__main__":
                 else:
                     from lib.utils import compute_all_losses  # adjust if needed
 
-                    # NOTE: single-scale path: if you need target_channel here too, you must modify compute_all_losses
-                    # to slice pred/tgt/mask internally. For now we keep SS as-is.
                     train_res = compute_all_losses(model, batch_dict)
                     loss = train_res["loss"]
 
@@ -705,7 +404,6 @@ if __name__ == "__main__":
         try:
             with torch.no_grad():
                 if use_ms:
-                    # VAL aggregate
                     val_logs = []
                     for _ in range(int(data_obj["n_val_batches"])):
                         b = utils.get_next_batch(data_obj["val_dataloader"])
@@ -723,19 +421,15 @@ if __name__ == "__main__":
                         else dict(loss=np.nan, mse=np.nan, rmse=np.nan, mae=np.nan, mape=np.nan)
                     )
 
-                    # TEST when improved
                     if np.isfinite(val_res["mse"]) and val_res["mse"] < best_val_mse:
                         improved = True
                         best_val_mse = val_res["mse"]
                         best_iter = itr
 
                         test_logs = []
-                        test_ch_logs = []  # for channel influence
-                        best_test_batch_for_top = None
-
+                        test_ch_logs = []
                         test_total_points = 0
                         test_correct_points = 0
-                        correct_examples = []
 
                         for _ in range(int(data_obj["n_test_batches"])):
                             b = utils.get_next_batch(data_obj["test_dataloader"])
@@ -744,30 +438,16 @@ if __name__ == "__main__":
                             tgt = b["data_to_predict"]
                             msk = b["mask_predicted_data"]
 
-                            # keep full tensors for influence ranking (unless you force single-channel)
                             pred_s, tgt_s, msk_s = _slice_target_channel(pred, tgt, msk, args.target_channel)
 
-                            if best_test_batch_for_top is None:
-                                best_test_batch_for_top = (pred_s, tgt_s, msk_s, b.get("tp_to_predict", None))
-
-                            tot, cor = count_right_points_tol(pred_s, tgt_s, msk_s, abs_tol=1e-5, rel_tol=0.05)
+                            tot, cor = count_right_points_tol(
+                                pred_s, tgt_s, msk_s, abs_tol=args.exact_abs_tol, rel_tol=args.exact_rel_tol
+                            )
                             test_total_points += tot
                             test_correct_points += cor
 
-                            if len(correct_examples) < 3:
-                                correct_examples.extend(
-                                    _collect_correct_examples_exact(
-                                        pred=pred_s,
-                                        tgt=tgt_s,
-                                        msk=msk_s,
-                                        tp_to_predict=b.get("tp_to_predict", None),
-                                        max_k=(3 - len(correct_examples)),
-                                    )
-                                )
-
                             test_logs.append(_masked_metrics(pred_s, tgt_s, msk_s))
 
-                            # channel influence only makes sense when NOT forcing a single channel
                             if args.target_channel < 0:
                                 test_ch_logs.append(_masked_metrics_per_channel(pred, tgt, msk))
 
@@ -781,31 +461,8 @@ if __name__ == "__main__":
                         last_test_correct_points = test_correct_points
                         last_test_right_rate = test_correct_points / max(test_total_points, 1)
 
-                        # log top errors on TEST only (on supervised tensor)
-                        if best_test_batch_for_top is not None:
-                            p, t, m, tp = best_test_batch_for_top
-                            log_topk_errors(top_logger, "test", itr, p, t, m, tp_to_predict=tp, topk=args.topk_err)
-                            log_topk_best(top_logger, "test", itr, p, t, m, tp_to_predict=tp, topk=3)
+                        # NOTE: removed TOP error logs + exact-match example logs only (algorithm unchanged)
 
-                        # log top 3 exact matches
-                        if len(correct_examples) == 0:
-                            top_logger.info(f"TOP_OK | split=test epoch={itr} none_found (no exact matches)")
-                        else:
-                            for rank, ex in enumerate(correct_examples, start=1):
-                                if ex["tp"] is None:
-                                    top_logger.info(
-                                        f"TOP_OK | split=test epoch={itr} rank={rank}/3 "
-                                        f"b={ex['b']} t={ex['t']} var_idx={ex['var_idx']} "
-                                        f"y_true={ex['y_true']:.6f} y_pred={ex['y_pred']:.6f}"
-                                    )
-                                else:
-                                    top_logger.info(
-                                        f"TOP_OK | split=test epoch={itr} rank={rank}/3 "
-                                        f"b={ex['b']} t={ex['t']} var_idx={ex['var_idx']} tp={ex['tp']:.6f} "
-                                        f"y_true={ex['y_true']:.6f} y_pred={ex['y_pred']:.6f}"
-                                    )
-
-                        # -------- Channel influence (which channel contributes most to error) --------
                         if args.target_channel < 0 and len(test_ch_logs) > 0:
                             per_ch = _aggregate_per_channel(test_ch_logs)
                             if per_ch is not None:
@@ -814,14 +471,6 @@ if __name__ == "__main__":
                                     key=lambda z: z["mae"],
                                     reverse=True,
                                 )
-                                top_logger.info(
-                                    f"[CH_INFLUENCE] TEST per-channel masked error ranked by MAE (epoch={itr})"
-                                )
-                                for r, x in enumerate(per_ch_sorted, start=1):
-                                    top_logger.info(
-                                        f"[CH_INFLUENCE] rank={r}/{len(per_ch_sorted)} ch={x['ch']} "
-                                        f"n={x['n']} mae={x['mae']:.6f} rmse={x['rmse']:.6f} mse={x['mse']:.6f}"
-                                    )
                                 worst = per_ch_sorted[0] if len(per_ch_sorted) else None
                                 if worst is not None:
                                     train_logger.info(
@@ -857,7 +506,6 @@ if __name__ == "__main__":
 
         train_logger.info(f"- Epoch {itr:03d}, ExpID {experimentID} best_epoch={best_iter} improved={int(improved)}")
         train_logger.info(f"Train - Loss (last batch): {train_loss_val:.5f}")
-
         train_logger.info(
             "Val - Loss, MSE, MAE: {:.5f}, {:.5f}, {:.5f}".format(
                 float(val_res["loss"]), float(val_res["mse"]), float(val_res["mae"])
@@ -874,14 +522,6 @@ if __name__ == "__main__":
                 f"Test - Points (EXACT): total_masked={last_test_total_points} correct={last_test_correct_points} "
                 f"right_rate={last_test_right_rate*100:.4f}%"
             )
-
-        # ---- LOGGING: system/perf category file ----
-        alloc, reserved, max_alloc = cuda_mem_stats()
-        sys_logger.info(
-            f"SYSTEM | epoch={itr} time={epoch_time:.2f}s lr={lr_now:.6g} grad_norm={grad_norm:.6f} "
-            f"mask_ratio_lastbatch={last_mask_ratio if np.isfinite(last_mask_ratio) else np.nan:.6f} "
-            f"cuda_mem_alloc_mb={alloc:.2f} cuda_mem_reserved_mb={reserved:.2f} cuda_mem_max_alloc_mb={max_alloc:.2f}"
-        )
 
         # ---- LOGGING: errors/anomalies category file ----
         if nan_loss_flag or nan_pred_flag or nan_grad_flag:
