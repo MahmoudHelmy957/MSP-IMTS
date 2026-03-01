@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
-#SBATCH --job-name=MH_PHYSIO_MS_GLOSS
-#SBATCH --partition=STUD
-#SBATCH --gres=gpu:1
-#SBATCH --array=1
+#SBATCH --job-name=MD_14
+#SBATCH --partition=NGPU
 #SBATCH --output=/dev/null
 #SBATCH --error=/dev/null
 #SBATCH --chdir=/home/helmy/MSP-IMTS/analyzelogs
@@ -23,30 +21,35 @@ BATCH=32
 LR=1e-4  #best 1e-4
 HISTORY=24
 QUANT=1.0
-SCALES="2,8"
-STRIDES="2,8" #was 2,8  #best 1,4
-SEED=4
+SCALES="1,4"
+STRIDES="1,4" #was 2,8  #best 1,4
 
 
-python RunModelsMultiGLoss.py \
-  --dataset physionet \
-  --history $HISTORY \
-  --quantization $QUANT \
-  --hid_dim 64 \
-  --te_dim 32 \
-  --node_dim 16 \
-  --nlayer 2 \
-  --tf_layer 2 \
-  --nhead 4 \
-  --batch_size $BATCH \
-  --lr $LR \
-  --patience $PATIENCE \
-  --epoch $EPOCHS \
-  --seed $SEED \
-  --gpu $GPU \
-  --multi_scales "$SCALES" \
-  --multi_strides "$STRIDES" \
-  --fusion concat
+
+for SEED in 1 2 3 4 5; do
+  echo "=============================="
+  echo "Running with SEED=${SEED}"
+  echo "=============================="
+
+  python RunModelsMultiDLoss.py \
+    --dataset physionet \
+    --history $HISTORY \
+    --quantization $QUANT \
+    --hid_dim 64 \
+    --te_dim 32 \
+    --node_dim 16 \
+    --nlayer 2 \
+    --tf_layer 2 \
+    --nhead 4 \
+    --batch_size $BATCH \
+    --lr $LR \
+    --patience $PATIENCE \
+    --epoch $EPOCHS \
+    --seed $SEED \
+    --gpu $GPU \
+    --multi_scales "$SCALES" \
+    --multi_strides "$STRIDES" \
+    --fusion concat
 
 
 

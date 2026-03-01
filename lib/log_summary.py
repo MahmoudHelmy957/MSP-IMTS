@@ -28,6 +28,41 @@ def _read_lines(path: str) -> List[str]:
         return f.read().splitlines()
 
 
+# -------------------------------
+# NEW: dataset-aware scaling
+# -------------------------------
+def _get_scaling_from_filename(path: str) -> Tuple[float, float, str, str]:
+    """
+    Decide scaling factors based on filename/path substring match (case-insensitive).
+
+    Returns:
+      (mse_factor, mae_factor, mse_label, mae_label)
+
+    Labels are formatted like: "MSE (×1e-3)" for printing.
+    """
+    p = path.lower()
+
+    if "mimic" in p:
+        mse_factor = 1e2   # show as ×1e-2 => multiply by 1e2
+        mae_factor = 1e2   # show as ×1e-2 => multiply by 1e2
+        return mse_factor, mae_factor, "MSE (×1e-2)", "MAE (×1e-2)"
+
+    if "physionet" in p:
+        mse_factor = 1e3   # show as ×1e-3 => multiply by 1e3
+        mae_factor = 1e2   # show as ×1e-2 => multiply by 1e2
+        return mse_factor, mae_factor, "MSE (×1e-3)", "MAE (×1e-2)"
+
+    if "ushcn" in p:
+        mse_factor = 1e1   # show as ×1e-1 => multiply by 1e1
+        mae_factor = 1e1   # show as ×1e-1 => multiply by 1e1
+        return mse_factor, mae_factor, "MSE (×1e-1)", "MAE (×1e-1)"
+
+    # default (your current "paper scaling")
+    mse_factor = 1e3
+    mae_factor = 1e2
+    return mse_factor, mae_factor, "MSE (×1e-3)", "MAE (×1e-2)"
+
+
 def extract_final_best_from_file(train_log_path: str) -> Optional[Dict[str, float]]:
     """
     Returns the final best metrics for ONE file using rule:
@@ -53,7 +88,6 @@ def extract_final_best_from_file(train_log_path: str) -> Optional[Dict[str, floa
             # update best (overwrite old)
             best = {
                 "best_epoch": best_epoch,
-
                 "loss": float(m_test.group("loss")),
                 "mse": float(m_test.group("mse")),
                 "rmse": float(m_test.group("rmse")),
@@ -62,6 +96,7 @@ def extract_final_best_from_file(train_log_path: str) -> Optional[Dict[str, floa
 
     return best
 
+
 def print_seed_summary_for_file(train_log_path: str, scaled: bool = True) -> None:
     seeds = extract_best_per_seed_from_file(train_log_path)
 
@@ -69,12 +104,14 @@ def print_seed_summary_for_file(train_log_path: str, scaled: bool = True) -> Non
     print(f"\n=== {rel} ===")
     print(f"Valid seeds found: {len(seeds)}")
 
+    mse_factor, mae_factor, mse_label, mae_label = _get_scaling_from_filename(train_log_path)
+
     for s in seeds:
         if scaled:
             print(
                 f"seed={int(s['seed_idx']):02d} | "
-                f"MSE (×1e-3)={(s['mse']*1e3):.2f} | "
-                f"MAE (×1e-2)={(s['mae']*1e2):.2f} | "
+                f"{mse_label}={(s['mse']*mse_factor):.2f} | "
+                f"{mae_label}={(s['mae']*mae_factor):.2f} | "
                 f"best_epoch={int(s['best_epoch'])}"
             )
         else:
@@ -87,20 +124,19 @@ def print_seed_summary_for_file(train_log_path: str, scaled: bool = True) -> Non
     summ = summarize_seeds(seeds)
 
     if scaled:
-        print("\n--- Mean ± Std over seeds (paper scaling) ---")
-        print(f"MSE (×1e-3): {(summ['mse_mean']*1e3):.2f} ± {(summ['mse_std']*1e3):.2f}")
-        print(f"MAE (×1e-2): {(summ['mae_mean']*1e2):.2f} ± {(summ['mae_std']*1e2):.2f}")
+        print("\n--- Mean ± Std over seeds (dataset-aware scaling) ---")
+        print(f"{mse_label}: {(summ['mse_mean']*mse_factor):.2f} ± {(summ['mse_std']*mse_factor):.2f}")
+        print(f"{mae_label}: {(summ['mae_mean']*mae_factor):.2f} ± {(summ['mae_std']*mae_factor):.2f}")
     else:
         print("\n--- Mean ± Std over seeds (raw) ---")
         print(f"MSE: {summ['mse_mean']:.6f} ± {summ['mse_std']:.6f}")
         print(f"MAE: {summ['mae_mean']:.6f} ± {summ['mae_std']:.6f}")
 
+
 def print_per_file_results(files: List[str], scaled: bool = True) -> None:
     """
     Print one final result per file.
-    If scaled=True prints paper format:
-      - MSE (×1e-3)
-      - MAE (×1e-2)
+    If scaled=True prints dataset-aware paper-like format.
     """
     results = []
     missing = []
@@ -122,17 +158,17 @@ def print_per_file_results(files: List[str], scaled: bool = True) -> None:
         rel = os.path.relpath(fp)
 
         if scaled:
-            mse_s = d["mse"] * 1e3
-            mae_s = d["mae"] * 1e2
-            print(
-                f"{rel} | "
-                f"MSE (×1e-3)={mse_s:.3f} | MAE (×1e-2)={mae_s:.3f}"
-            )
+            mse_factor, mae_factor, mse_label, mae_label = _get_scaling_from_filename(fp)
+            mse_s = d["mse"] * mse_factor
+            mae_s = d["mae"] * mae_factor
+            print(f"{rel} | {mse_label}={mse_s:.3f} | {mae_label}={mae_s:.3f}")
         else:
             print(
                 f"{rel} | best_epoch={d['best_epoch']:4d} | "
                 f"mse={d['mse']:.6f} | rmse={d['rmse']:.6f} | mae={d['mae']:.6f} | loss={d['loss']:.6f}"
             )
+
+
 def main():
     ap = argparse.ArgumentParser("Summarize per-seed results inside .train.log files")
     ap.add_argument(
@@ -143,7 +179,7 @@ def main():
     ap.add_argument(
         "--raw",
         action="store_true",
-        help="Print raw mse/mae instead of scaled paper format.",
+        help="Print raw mse/mae instead of scaled format.",
     )
     ap.add_argument(
         "--per_seed",
@@ -163,6 +199,7 @@ def main():
             print_seed_summary_for_file(fp, scaled=(not args.raw))
         else:
             print_per_file_results([fp], scaled=(not args.raw))
+
 
 def extract_best_per_seed_from_file(train_log_path: str) -> List[Dict[str, float]]:
     """
@@ -220,6 +257,7 @@ def extract_best_per_seed_from_file(train_log_path: str) -> List[Dict[str, float
     # finalize last seed
     finalize_seed()
     return seeds
+
 
 def summarize_seeds(seeds: List[Dict[str, float]]) -> Dict[str, float]:
     if not seeds:

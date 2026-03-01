@@ -208,3 +208,15 @@ class MultiScaleTPatchGNN(nn.Module):
         self._dbg("ms_outputs_1BLpN", out)
 
         return out
+    def forecasting(self, time_steps_to_predict, X, truth_time_steps, mask=None):
+    
+    #Multi-scale forecasting entry point — mirrors the single-scale signature
+    #so that compute_all_losses can call model.forecasting() transparently.
+
+    #time_steps_to_predict : (B, Lp)
+    #X                     : list of K tensors, each (B, M_k, L, N)
+    #truth_time_steps      : list of K tensors, each (B, M_k, L, N)
+    #mask                  : list of K tensors, each (B, M_k, L, N)
+    #returns outputs       : (1, B, Lp, N)
+    
+        return self.forward(X, truth_time_steps, mask, time_steps_to_predict)

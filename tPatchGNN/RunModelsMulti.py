@@ -21,92 +21,8 @@ from lib.parse_datasets import parse_datasets
 from model.tPatchGNN import tPatchGNN
 from lib.analyzelogs import *
 from lib.cli_args import build_multi_scale_parser
+from lib.evaluation import compute_all_losses, evaluation  
 
-# ------------------------- helpers: channel slicing -------------------------
-def _slice_target_channel(pred, tgt, msk, ch: int):
-    """
-    Slice pred/tgt/msk to a single channel.
-    Input shapes expected: (B, L, C).
-    Returns (pred1, tgt1, msk1) with shape (B, L, 1).
-    """
-    if ch is None or ch < 0:
-        return pred, tgt, msk
-    return pred[..., ch : ch + 1], tgt[..., ch : ch + 1], msk[..., ch : ch + 1]
-
-# ------------------------- per-channel influence helpers -------------------------
-def _masked_metrics(pred, tgt, msk):
-    mb = msk.bool() if msk.dtype == torch.bool else (msk > 0.5)
-    diff = (pred - tgt)[mb]
-    if diff.numel() == 0:
-        return dict(loss=np.nan, mse=np.nan, rmse=np.nan, mae=np.nan, mape=np.nan)
-    mse = (diff**2).mean().item()
-    mae = diff.abs().mean().item()
-    rmse = float(np.sqrt(mse))
-    tgt_safe = tgt[mb].abs()
-    mape = float(torch.mean((diff.abs() / torch.clamp(tgt_safe, min=1e-8))).item())
-    return dict(loss=mse, mse=mse, rmse=rmse, mae=mae, mape=mape)
-
-
-def _masked_metrics_per_channel(pred, tgt, msk):
-    """
-    pred,tgt,msk: (B, L, C)
-    Returns: dict(overall={mse,mae}, per_ch=[{ch,n,mse,mae,rmse}...])
-    """
-    mb = msk.bool() if msk.dtype == torch.bool else (msk > 0.5)
-    if mb.sum().item() == 0:
-        return dict(overall=dict(mse=np.nan, mae=np.nan), per_ch=[])
-
-    diff = pred - tgt
-
-    d_all = diff[mb]
-    overall_mse = (d_all**2).mean().item()
-    overall_mae = d_all.abs().mean().item()
-
-    C = pred.shape[-1]
-    per = []
-    for c in range(C):
-        mb_c = mb[..., c]
-        if mb_c.sum().item() == 0:
-            per.append(dict(ch=c, n=0, mse=np.nan, mae=np.nan, rmse=np.nan))
-            continue
-        d = diff[..., c][mb_c]
-        mse = (d**2).mean().item()
-        mae = d.abs().mean().item()
-        rmse = float(np.sqrt(mse))
-        per.append(dict(ch=c, n=int(mb_c.sum().item()), mse=mse, mae=mae, rmse=rmse))
-
-    return dict(overall=dict(mse=overall_mse, mae=overall_mae), per_ch=per)
-
-
-def _aggregate_per_channel(per_batch_list):
-    """
-    Weighted average by n (masked points) per channel.
-    """
-    if len(per_batch_list) == 0:
-        return None
-    C = len(per_batch_list[0]["per_ch"])
-    acc = [{"n": 0, "mse_sum": 0.0, "mae_sum": 0.0} for _ in range(C)]
-
-    for d in per_batch_list:
-        for ci in d["per_ch"]:
-            c = ci["ch"]
-            n = ci["n"]
-            if n <= 0:
-                continue
-            acc[c]["n"] += n
-            acc[c]["mse_sum"] += ci["mse"] * n
-            acc[c]["mae_sum"] += ci["mae"] * n
-
-    out = []
-    for c in range(C):
-        n = acc[c]["n"]
-        if n == 0:
-            out.append(dict(ch=c, n=0, mse=np.nan, mae=np.nan, rmse=np.nan))
-        else:
-            mse = acc[c]["mse_sum"] / n
-            mae = acc[c]["mae_sum"] / n
-            out.append(dict(ch=c, n=n, mse=float(mse), mae=float(mae), rmse=float(np.sqrt(mse))))
-    return out
 
 
 def _rebuild_command_without_load(argv):
@@ -117,112 +33,6 @@ def _rebuild_command_without_load(argv):
         argv = argv[:i] + argv[i + 2:]
     return " ".join(argv)
 
-def _collect_masked_points_for_logging(model, dataloader, device, data_min, data_max, denorm_flag, max_batches=2):
-    model.eval()
-    all_idx = []
-    all_pred = []
-    all_tgt = []
-
-    with torch.no_grad():
-        for _ in range(int(max_batches)):
-            bdict = utils.get_next_batch(dataloader)
-
-            out = model(bdict["X_list"], bdict["tt_list"], bdict["mk_list"], bdict["tp_to_predict"])
-            pred = out[0]
-
-            tgt = bdict["data_to_predict"]
-            msk = bdict["mask_predicted_data"]
-
-            # slice to target channel
-            pred_s, tgt_s, msk_s = _slice_target_channel(pred, tgt, msk, args.target_channel)
-
-            if denorm_flag and data_min is not None and data_max is not None:
-                dmin = data_min.view(1, 1, -1).to(device=pred_s.device, dtype=pred_s.dtype)
-                dmax = data_max.view(1, 1, -1).to(device=pred_s.device, dtype=pred_s.dtype)
-                if args.target_channel >= 0:
-                    dmin = dmin[..., args.target_channel : args.target_channel + 1]
-                    dmax = dmax[..., args.target_channel : args.target_channel + 1]
-                pred_eval = pred_s * (dmax - dmin) + dmin
-                tgt_eval  = tgt_s  * (dmax - dmin) + dmin
-            else:
-                pred_eval = pred_s
-                tgt_eval  = tgt_s
-
-            mb = msk_s.bool() if msk_s.dtype == torch.bool else (msk_s > 0.5)
-            if mb.sum().item() == 0:
-                continue
-
-            nz = torch.nonzero(mb, as_tuple=False)
-            pv = pred_eval[mb].detach()
-            tv = tgt_eval[mb].detach()
-
-            all_idx.append(nz)
-            all_pred.append(pv)
-            all_tgt.append(tv)
-
-    if len(all_idx) == 0:
-        return None
-
-    idx   = torch.cat(all_idx,  dim=0)
-    pred_v = torch.cat(all_pred, dim=0)
-    tgt_v  = torch.cat(all_tgt,  dim=0)
-    diff   = pred_v - tgt_v
-
-    return {"idx": idx.cpu(), "pred": pred_v.cpu(), "tgt": tgt_v.cpu(),
-            "diff": diff.cpu(), "abs_err": diff.abs().cpu()}
-
-
-def _log_points_summary(top_logger, tag, pack, k_random=15, k_best=5, k_worst=5, seed=1234):
-    if pack is None:
-        top_logger.info(f"{tag} | No masked points found (empty mask).")
-        return
-
-    idx     = pack["idx"]
-    pred    = pack["pred"]
-    tgt     = pack["tgt"]
-    diff    = pack["diff"]
-    abs_err = pack["abs_err"]
-
-    M = int(abs_err.shape[0])
-    if M <= 0:
-        top_logger.info(f"{tag} | No masked points found (M=0).")
-        return
-
-    g = torch.Generator()
-    g.manual_seed(int(seed) & 0x7FFFFFFF)
-    k_random = min(int(k_random), M)
-    perm = torch.randperm(M, generator=g)
-    ridx = perm[:k_random]
-
-    top_logger.info(f"{tag} | RANDOM {k_random} masked points (true, pred, diff, abs_err):")
-    for j in ridx.tolist():
-        b, t, d = idx[j].tolist()
-        top_logger.info(
-            f"{tag} | [B={b}, T={t}, D={d}] true={float(tgt[j]):.6f} pred={float(pred[j]):.6f} "
-            f"diff={float(diff[j]):+.6f} abs_err={float(abs_err[j]):.6f}"
-        )
-
-    k_worst = min(int(k_worst), M)
-    k_best  = min(int(k_best),  M)
-    order   = torch.argsort(abs_err)
-    best_idx  = order[:k_best]
-    worst_idx = order[-k_worst:].flip(0)
-
-    top_logger.info(f"{tag} | TOP {k_worst} WORST masked points (largest abs_err):")
-    for j in worst_idx.tolist():
-        b, t, d = idx[j].tolist()
-        top_logger.info(
-            f"{tag} | [B={b}, T={t}, D={d}] true={float(tgt[j]):.6f} pred={float(pred[j]):.6f} "
-            f"diff={float(diff[j]):+.6f} abs_err={float(abs_err[j]):.6f}"
-        )
-
-    top_logger.info(f"{tag} | TOP {k_best} BEST/CORRECT masked points (smallest abs_err):")
-    for j in best_idx.tolist():
-        b, t, d = idx[j].tolist()
-        top_logger.info(
-            f"{tag} | [B={b}, T={t}, D={d}] true={float(tgt[j]):.6f} pred={float(pred[j]):.6f} "
-            f"diff={float(diff[j]):+.6f} abs_err={float(abs_err[j]):.6f}"
-        )
 # ------------------------- main -------------------------
 if __name__ == "__main__":
 
@@ -433,24 +243,13 @@ if __name__ == "__main__":
             batch_dict = utils.get_next_batch(data_obj["train_dataloader"])
 
             try:
-                out = model(
-                    batch_dict["X_list"],
-                    batch_dict["tt_list"],
-                    batch_dict["mk_list"],
-                    batch_dict["tp_to_predict"],
-                )
-                pred = out[0]  # (B, Lp, C)
-                tgt = batch_dict["data_to_predict"]
-                msk = batch_dict["mask_predicted_data"]
+                # ------------------------------------------------------------------
+                # Use compute_all_losses (from lib/likelihood_eval.py) which calls
+                # model.forecasting() internally and returns mse/rmse/mae + loss.
+                # ------------------------------------------------------------------
+                train_res = compute_all_losses(model, batch_dict)
+                loss = train_res["loss"]
 
-                pred_s, tgt_s, msk_s = _slice_target_channel(pred, tgt, msk, args.target_channel)
-
-                mb = msk_s.bool() if msk_s.dtype == torch.bool else (msk_s > 0.5)
-                if mb.sum().item() == 0:
-                    err_logger.warning(f"MASK_EMPTY | train | epoch={itr} (skipping loss update for this batch)")
-                    continue
-
-                loss = ((pred_s - tgt_s)[mb] ** 2).mean()
                 if not torch.isfinite(loss):
                     nan_loss_flag = True
                     err_logger.error(f"LOSS_NAN_INF | train | epoch={itr} loss={safe_float(loss)}")
@@ -465,50 +264,57 @@ if __name__ == "__main__":
 
                 optimizer.step()
                 last_train_loss = loss.detach()
-                last_mask_ratio = summarize_mask(msk_s)["mask_ratio"]
 
-                if not torch.isfinite(pred_s).all():
-                    nan_pred_flag = True
-                    err_logger.warning(f"PRED_NAN_INF | train | epoch={itr}")
+                # mask_ratio and pred NaN checks kept for diagnostics;
+                # we re-run a cheap forward only if needed for logging flags.
+                # pred NaN check: inspect model output on the same batch
+                with torch.no_grad():
+                    out = model(
+                        batch_dict["X_list"],
+                        batch_dict["tt_list"],
+                        batch_dict["mk_list"],
+                        batch_dict["tp_to_predict"],
+                    )
+                    pred = out[0]
+                    msk_s = batch_dict["mask_predicted_data"]
+                    last_mask_ratio = summarize_mask(msk_s)["mask_ratio"]
+
+                    if not torch.isfinite(pred).all():
+                        nan_pred_flag = True
+                        err_logger.warning(f"PRED_NAN_INF | train | epoch={itr}")
 
             except Exception:
                 err_logger.error(f"EXCEPTION | train | epoch={itr}")
                 err_logger.error(traceback.format_exc())
                 raise
 
-        # ---- VAL / TEST ----
+        # ---- VAL ----
+        # Use evaluation() which iterates the full dataloader for n_val_batches
+        # and returns aggregated mse/rmse/mae/mape.
         model.eval()
         improved = False
 
         try:
             with torch.no_grad():
-                val_logs = []
-                for _ in range(int(data_obj["n_val_batches"])):
-                    b = utils.get_next_batch(data_obj["val_dataloader"])
-                    out = model(b["X_list"], b["tt_list"], b["mk_list"], b["tp_to_predict"])
-                    pred = out[0]
-                    tgt = b["data_to_predict"]
-                    msk = b["mask_predicted_data"]
+                val_res = evaluation(model, data_obj["val_dataloader"], data_obj["n_val_batches"])
 
-                    pred_s, tgt_s, msk_s = _slice_target_channel(pred, tgt, msk, args.target_channel)
-                    val_logs.append(_masked_metrics(pred_s, tgt_s, msk_s))
+            if np.isfinite(val_res["mse"]) and val_res["mse"] < best_val_mse:
+                improved = True
+                best_val_mse = val_res["mse"]
+                best_iter = itr
 
-                val_res = (
-                    {k: float(np.mean([d[k] for d in val_logs])) for k in val_logs[0].keys()}
-                    if len(val_logs) > 0
-                    else dict(loss=np.nan, mse=np.nan, rmse=np.nan, mae=np.nan, mape=np.nan)
-                )
+                # ---- TEST ----
+                # Also use evaluation() for test set.
+                with torch.no_grad():
+                    test_res = evaluation(model, data_obj["test_dataloader"], data_obj["n_test_batches"])
 
-                if np.isfinite(val_res["mse"]) and val_res["mse"] < best_val_mse:
-                    improved = True
-                    best_val_mse = val_res["mse"]
-                    best_iter = itr
+                # Per-channel and exact-point stats still require the raw forward pass;
+                # keep that secondary loop unchanged in logic but now separate from
+                # the primary metric computation above.
+                test_total_points = 0
+                test_correct_points = 0
 
-                    test_logs = []
-                    test_ch_logs = []
-                    test_total_points = 0
-                    test_correct_points = 0
-
+                with torch.no_grad():
                     for _ in range(int(data_obj["n_test_batches"])):
                         b = utils.get_next_batch(data_obj["test_dataloader"])
                         out = model(b["X_list"], b["tt_list"], b["mk_list"], b["tp_to_predict"])
@@ -516,42 +322,15 @@ if __name__ == "__main__":
                         tgt = b["data_to_predict"]
                         msk = b["mask_predicted_data"]
 
-                        pred_s, tgt_s, msk_s = _slice_target_channel(pred, tgt, msk, args.target_channel)
-
                         tot, cor = count_right_points_tol(
-                            pred_s, tgt_s, msk_s, abs_tol=args.exact_abs_tol, rel_tol=args.exact_rel_tol
+                            pred, tgt, msk, abs_tol=args.exact_abs_tol, rel_tol=args.exact_rel_tol
                         )
                         test_total_points += tot
                         test_correct_points += cor
 
-                        test_logs.append(_masked_metrics(pred_s, tgt_s, msk_s))
-
-                        if args.target_channel < 0:
-                            test_ch_logs.append(_masked_metrics_per_channel(pred, tgt, msk))
-
-                    test_res = (
-                        {k: float(np.mean([d[k] for d in test_logs])) for k in test_logs[0].keys()}
-                        if len(test_logs) > 0
-                        else None
-                    )
-
-                    last_test_total_points = test_total_points
-                    last_test_correct_points = test_correct_points
-                    last_test_right_rate = test_correct_points / max(test_total_points, 1)
-
-                    if args.target_channel < 0 and len(test_ch_logs) > 0:
-                        per_ch = _aggregate_per_channel(test_ch_logs)
-                        if per_ch is not None:
-                            per_ch_sorted = sorted(
-                                [x for x in per_ch if np.isfinite(x["mae"])],
-                                key=lambda z: z["mae"],
-                                reverse=True,
-                            )
-                            worst = per_ch_sorted[0] if len(per_ch_sorted) else None
-                            if worst is not None:
-                                train_logger.info(
-                                    f"Test - WorstChannelByMAE: ch={worst['ch']} mae={worst['mae']:.6f} (n={worst['n']})"
-                                )
+                last_test_total_points = test_total_points
+                last_test_correct_points = test_correct_points
+                last_test_right_rate = test_correct_points / max(test_total_points, 1)
 
         except Exception:
             err_logger.error(f"EXCEPTION | eval | epoch={itr}")
@@ -574,7 +353,6 @@ if __name__ == "__main__":
 
         train_logger.info(
             "Train - Loss (one batch): {:.5f}".format(train_loss_val))
-        
 
         train_logger.info(
             "Val - Loss, MSE, RMSE, MAE: {:.5f}, {:.5f}, {:.5f}, {:.5f}"
@@ -599,30 +377,6 @@ if __name__ == "__main__":
             err_logger.warning(
                 f"ANOMALY_FLAGS | epoch={itr} loss_nan={int(nan_loss_flag)} pred_nan={int(nan_pred_flag)} grad_nan={int(nan_grad_flag)}"
             )
-
-        if ((itr + 1) % 10) == 0:
-            try:
-                pack = _collect_masked_points_for_logging(
-                    model=model,
-                    dataloader=data_obj["test_dataloader"],
-                    device=args.device,
-                    data_min=dmin if "dmin" in dir() else None,
-                    data_max=dmax if "dmax" in dir() else None,
-                    denorm_flag=False,   # set True if you want real-unit values
-                    max_batches=2,
-                )
-                _log_points_summary(
-                    top_logger=top_logger,
-                    tag=f"EPOCH_{itr:03d}",
-                    pack=pack,
-                    k_random=15,
-                    k_best=5,
-                    k_worst=5,
-                    seed=args.seed + itr,
-                )
-            except Exception:
-                err_logger.error(f"EXCEPTION | TOPERR_LOGGING | epoch={itr}")
-                err_logger.error(traceback.format_exc())
 
         if (itr - best_iter) >= args.patience:
             run_logger.info(f"EARLY_STOP | epoch={itr} best_epoch={best_iter} patience={args.patience}")

@@ -1,0 +1,60 @@
+INFO | 2026-02-27 06:25:09
+INFO | command: RunModelsSingle.py --dataset ushcn --state def --history 24 --normalization 0 --denorm_test_pred 0 --global_loss 1 --patience 10 --batch_size 192 --lr 1e-3 --patch_size 2 --stride 2 --nhead 1 --tf_layer 1 --nlayer 1 --te_dim 10 --node_dim 10 --hid_dim 32 --outlayer Linear --seed 1 --gpu 0
+INFO | ExpID=96650 PID=1088256 host=gpu-020 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=SS_Global SLURM_JOB_ID=536940
+INFO | ckpt_path=experiments/experiment_96650.ckpt
+INFO | args=Namespace(state='def', n=100000000, dataset='ushcn', model='tPatchGNN', outlayer='Linear', hop=1, nhead=1, tf_layer=1, nlayer=1, hid_dim=32, te_dim=10, node_dim=10, epoch=1000, patience=10, lr=0.001, w_decay=0.0, batch_size=192, seed=1, history=24, patch_size=2.0, stride=2.0, normalization=0, denorm_test_pred=0, global_loss=1, logmode='a', save='experiments/', load=None, gpu='0', data_sanity_batches=3, quantization=0.0, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=12, device=device(type='cuda'), PID=1088256)
+INFO | FLAGS | global_loss=1 (1=global masked MSE train/val, 0=repo MSE + evaluation()) | denorm_test_pred=0 (1=denorm for TOPERR/EXACT)
+INFO | EVAL_MODE | VAL uses: _masked_metrics() if global_loss=1 else evaluation().
+INFO | TOPERR/EXACT | computed on (denorm_test_pred? denorm : scaled) values.
+INFO | data: input_dim=5 n_train_batches=84 n_val_batches=28 n_test_batches=28 quantization=0.0 history=24 patch_size=2.0 stride=2.0 npatch=12
+INFO | FLAGS | D(normalization)=0 (0=per-dim,1=global) G(global_loss)=1 N(denorm_eval)=0
+INFO | n_train_batches: 84
+INFO | 2026-02-27 09:40:40
+INFO | command: RunModelsSingle.py --dataset ushcn --state def --history 24 --normalization 0 --denorm_test_pred 0 --global_loss 1 --patience 10 --batch_size 192 --lr 1e-3 --patch_size 2 --stride 2 --nhead 1 --tf_layer 1 --nlayer 1 --te_dim 10 --node_dim 10 --hid_dim 32 --outlayer Linear --seed 2 --gpu 0
+INFO | ExpID=20865 PID=1089452 host=gpu-020 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=SS_Global SLURM_JOB_ID=536940
+INFO | ckpt_path=experiments/experiment_20865.ckpt
+INFO | args=Namespace(state='def', n=100000000, dataset='ushcn', model='tPatchGNN', outlayer='Linear', hop=1, nhead=1, tf_layer=1, nlayer=1, hid_dim=32, te_dim=10, node_dim=10, epoch=1000, patience=10, lr=0.001, w_decay=0.0, batch_size=192, seed=2, history=24, patch_size=2.0, stride=2.0, normalization=0, denorm_test_pred=0, global_loss=1, logmode='a', save='experiments/', load=None, gpu='0', data_sanity_batches=3, quantization=0.0, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=12, device=device(type='cuda'), PID=1089452)
+INFO | FLAGS | global_loss=1 (1=global masked MSE train/val, 0=repo MSE + evaluation()) | denorm_test_pred=0 (1=denorm for TOPERR/EXACT)
+INFO | EVAL_MODE | VAL uses: _masked_metrics() if global_loss=1 else evaluation().
+INFO | TOPERR/EXACT | computed on (denorm_test_pred? denorm : scaled) values.
+INFO | data: input_dim=5 n_train_batches=84 n_val_batches=28 n_test_batches=28 quantization=0.0 history=24 patch_size=2.0 stride=2.0 npatch=12
+INFO | FLAGS | D(normalization)=0 (0=per-dim,1=global) G(global_loss)=1 N(denorm_eval)=0
+INFO | n_train_batches: 84
+INFO | 2026-02-27 12:45:58
+INFO | command: RunModelsSingle.py --dataset ushcn --state def --history 24 --normalization 0 --denorm_test_pred 0 --global_loss 1 --patience 10 --batch_size 192 --lr 1e-3 --patch_size 2 --stride 2 --nhead 1 --tf_layer 1 --nlayer 1 --te_dim 10 --node_dim 10 --hid_dim 32 --outlayer Linear --seed 3 --gpu 0
+INFO | ExpID=55278 PID=1090599 host=gpu-020 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=SS_Global SLURM_JOB_ID=536940
+INFO | ckpt_path=experiments/experiment_55278.ckpt
+INFO | args=Namespace(state='def', n=100000000, dataset='ushcn', model='tPatchGNN', outlayer='Linear', hop=1, nhead=1, tf_layer=1, nlayer=1, hid_dim=32, te_dim=10, node_dim=10, epoch=1000, patience=10, lr=0.001, w_decay=0.0, batch_size=192, seed=3, history=24, patch_size=2.0, stride=2.0, normalization=0, denorm_test_pred=0, global_loss=1, logmode='a', save='experiments/', load=None, gpu='0', data_sanity_batches=3, quantization=0.0, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=12, device=device(type='cuda'), PID=1090599)
+INFO | FLAGS | global_loss=1 (1=global masked MSE train/val, 0=repo MSE + evaluation()) | denorm_test_pred=0 (1=denorm for TOPERR/EXACT)
+INFO | EVAL_MODE | VAL uses: _masked_metrics() if global_loss=1 else evaluation().
+INFO | TOPERR/EXACT | computed on (denorm_test_pred? denorm : scaled) values.
+INFO | data: input_dim=5 n_train_batches=84 n_val_batches=28 n_test_batches=28 quantization=0.0 history=24 patch_size=2.0 stride=2.0 npatch=12
+INFO | FLAGS | D(normalization)=0 (0=per-dim,1=global) G(global_loss)=1 N(denorm_eval)=0
+INFO | n_train_batches: 84
+INFO | 2026-02-27 15:52:58
+INFO | command: RunModelsSingle.py --dataset ushcn --state def --history 24 --normalization 0 --denorm_test_pred 0 --global_loss 1 --patience 10 --batch_size 192 --lr 1e-3 --patch_size 2 --stride 2 --nhead 1 --tf_layer 1 --nlayer 1 --te_dim 10 --node_dim 10 --hid_dim 32 --outlayer Linear --seed 4 --gpu 0
+INFO | ExpID=17504 PID=1091802 host=gpu-020 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=SS_Global SLURM_JOB_ID=536940
+INFO | ckpt_path=experiments/experiment_17504.ckpt
+INFO | args=Namespace(state='def', n=100000000, dataset='ushcn', model='tPatchGNN', outlayer='Linear', hop=1, nhead=1, tf_layer=1, nlayer=1, hid_dim=32, te_dim=10, node_dim=10, epoch=1000, patience=10, lr=0.001, w_decay=0.0, batch_size=192, seed=4, history=24, patch_size=2.0, stride=2.0, normalization=0, denorm_test_pred=0, global_loss=1, logmode='a', save='experiments/', load=None, gpu='0', data_sanity_batches=3, quantization=0.0, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=12, device=device(type='cuda'), PID=1091802)
+INFO | FLAGS | global_loss=1 (1=global masked MSE train/val, 0=repo MSE + evaluation()) | denorm_test_pred=0 (1=denorm for TOPERR/EXACT)
+INFO | EVAL_MODE | VAL uses: _masked_metrics() if global_loss=1 else evaluation().
+INFO | TOPERR/EXACT | computed on (denorm_test_pred? denorm : scaled) values.
+INFO | data: input_dim=5 n_train_batches=84 n_val_batches=28 n_test_batches=28 quantization=0.0 history=24 patch_size=2.0 stride=2.0 npatch=12
+INFO | FLAGS | D(normalization)=0 (0=per-dim,1=global) G(global_loss)=1 N(denorm_eval)=0
+INFO | n_train_batches: 84
+INFO | 2026-02-27 19:04:28
+INFO | command: RunModelsSingle.py --dataset ushcn --state def --history 24 --normalization 0 --denorm_test_pred 0 --global_loss 1 --patience 10 --batch_size 192 --lr 1e-3 --patch_size 2 --stride 2 --nhead 1 --tf_layer 1 --nlayer 1 --te_dim 10 --node_dim 10 --hid_dim 32 --outlayer Linear --seed 5 --gpu 0
+INFO | ExpID=82877 PID=1092956 host=gpu-020 device=cuda CUDA_VISIBLE_DEVICES=0
+INFO | SLURM_JOB_NAME=SS_Global SLURM_JOB_ID=536940
+INFO | ckpt_path=experiments/experiment_82877.ckpt
+INFO | args=Namespace(state='def', n=100000000, dataset='ushcn', model='tPatchGNN', outlayer='Linear', hop=1, nhead=1, tf_layer=1, nlayer=1, hid_dim=32, te_dim=10, node_dim=10, epoch=1000, patience=10, lr=0.001, w_decay=0.0, batch_size=192, seed=5, history=24, patch_size=2.0, stride=2.0, normalization=0, denorm_test_pred=0, global_loss=1, logmode='a', save='experiments/', load=None, gpu='0', data_sanity_batches=3, quantization=0.0, topk_err=10, exact_abs_tol=1e-05, exact_rel_tol=0.05, npatch=12, device=device(type='cuda'), PID=1092956)
+INFO | FLAGS | global_loss=1 (1=global masked MSE train/val, 0=repo MSE + evaluation()) | denorm_test_pred=0 (1=denorm for TOPERR/EXACT)
+INFO | EVAL_MODE | VAL uses: _masked_metrics() if global_loss=1 else evaluation().
+INFO | TOPERR/EXACT | computed on (denorm_test_pred? denorm : scaled) values.
+INFO | data: input_dim=5 n_train_batches=84 n_val_batches=28 n_test_batches=28 quantization=0.0 history=24 patch_size=2.0 stride=2.0 npatch=12
+INFO | FLAGS | D(normalization)=0 (0=per-dim,1=global) G(global_loss)=1 N(denorm_eval)=0
+INFO | n_train_batches: 84

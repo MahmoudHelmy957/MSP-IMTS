@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-#SBATCH --job-name=MH_USHCN_MS_DLOSS
-#SBATCH --partition=STUD
-#SBATCH --gres=gpu:1
-#SBATCH --array=1
+#SBATCH --job-name=MD_014
+#SBATCH --partition=NGPU
+#SBATCH --nodelist=gpu-102
 #SBATCH --output=/dev/null
 #SBATCH --error=/dev/null
 #SBATCH --chdir=/home/helmy/MSP-IMTS/analyzelogs
@@ -14,18 +13,17 @@ source /home/helmy/miniconda3/etc/profile.d/conda.sh
 
 # conda activation hooks sometimes reference unset vars (breaks with -u)
 conda activate condaworld310
-
 cd /home/helmy/MSP-IMTS/tPatchGNN
 
 GPU=0
 EPOCHS=300            # okay to go higher; early stop handles it
-PATIENCE=50           # paper
+PATIENCE=30           # paper
 BATCH=192             # paper
 LR=1e-3
 HISTORY=24            # paper
 # HID=32                # paper
-SCALES="4,12"
-STRIDES="4,12"
+SCALES="1,4"
+STRIDES="1,4"
 
 
 

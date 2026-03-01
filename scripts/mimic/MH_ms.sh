@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-#SBATCH --job-name=MIMIC_MS_same
+#SBATCH --job-name=MIMIC_MS_Global
 #SBATCH --partition=NGPU
 #SBATCH --gres=gpu:1
-#SBATCH --array=1
 #SBATCH --output=/dev/null
 #SBATCH --error=/dev/null
 #SBATCH --chdir=/home/helmy/MSP-IMTS/analyzelogs
