@@ -14,7 +14,7 @@ import re
 import torch
 import torch.nn as nn
 import torch.optim as optim
-
+from lib.evaluation import compute_error, compute_all_losses, evaluation
 import lib.utils as utils
 from lib.parse_datasets import parse_datasets
 from model.tPatchGNN import *
@@ -24,7 +24,16 @@ parser = argparse.ArgumentParser('IMTS Forecasting')
 ############################# multi scale ########################
 parser.add_argument('--multi_scales', type=str, default='', help='Comma list of patch sizes in hours, e.g. "2,8,24". Empty = single-scale.')
 parser.add_argument('--multi_strides', type=str, default='', help='Comma list of strides in hours. Empty = same as multi_scales.')
-parser.add_argument('--fusion', type=str, default='concat', choices=['concat','scale_attn'], help='Fusion method for multi-scale.')
+#parser.add_argument('--fusion', type=str, default='concat', choices=['concat','scale_attn'], help='Fusion method for multi-scale.')
+
+parser.add_argument(
+    '--fusion',
+    type=str,
+    default='concat',
+    choices=['concat', 'attn', 'gated', 'gated_feat', 'gated_feat_wconcat'],
+    help='Fusion method for multi-scale.'
+)
+
 ################################################
 
 parser.add_argument('--state', type=str, default='def')
@@ -58,6 +67,11 @@ parser.add_argument('-hd', '--hid_dim', type=int, default=64, help="Number of un
 parser.add_argument('-td', '--te_dim', type=int, default=10, help="Number of units for time encoding")
 parser.add_argument('-nd', '--node_dim', type=int, default=10, help="Number of units for node vectors")
 parser.add_argument('--gpu', type=str, default='0', help='which gpu to use.')
+
+parser.add_argument('--metric', type=str, default='per_dim',
+                    choices=['per_dim', 'global'],
+                    help='Metric/loss reduction: per-dim mean (original) or global masked mean.')
+
 
 
 args = parser.parse_args()
@@ -198,18 +212,118 @@ if __name__ == '__main__':
 	# 		print("Exp has been early stopped!")
 	# 		sys.exit(0)
 
+	# --- IMPORTANT: force lazy layers to be created before optimizer ---
+	if use_ms:
+		with torch.no_grad():
+			_ = model(
+				first_batch["X_list"],
+				first_batch["tt_list"],
+				first_batch["mk_list"],
+				first_batch["tp_to_predict"]
+			)
+
 	optimizer = optim.Adam(model.parameters(), lr=args.lr)
+
+	# ---- DEBUG: verify lazy params are in optimizer ----
+	if use_ms:
+		print("decoder exists:", model.decoder is not None)
+		print("fuse_proj exists:", model.fuse_proj is not None)
+		print("attn_V exists:", getattr(model, "attn_V", None) is not None)
+		print("attn_u exists:", getattr(model, "attn_u", None) is not None)
+		print("gate_mlp exists:", getattr(model, "gate_mlp", None) is not None)
+
+		opt_params = set()
+		for g in optimizer.param_groups:
+			for p in g["params"]:
+				opt_params.add(id(p))
+
+		missing = []
+		for n, p in model.named_parameters():
+			if p.requires_grad and id(p) not in opt_params:
+				missing.append(n)
+
+		print("Missing trainable params in optimizer:", missing[:30])
+		print("Missing count:", len(missing))
+	# -----------------------------------------------
+
 	num_batches = data_obj["n_train_batches"]
 	print("n_train_batches:", num_batches)
 
-	def _masked_metrics(pred, tgt, msk):
-		diff = (pred - tgt)[msk.bool()]
-		mse = (diff ** 2).mean().item()
-		mae = diff.abs().mean().item()
-		rmse = np.sqrt(mse)
-		tgt_safe = tgt[msk.bool()].abs()
-		mape = float(torch.mean((diff.abs() / torch.clamp(tgt_safe, min=1e-8))).item())
-		return dict(loss=mse, mse=mse, rmse=rmse, mae=mae, mape=mape)
+
+	def evaluation_ms(model, dataloader, n_batches, metric_mode="per_dim"):
+		total_results = {"loss": 0, "mse": 0, "mae": 0, "rmse": 0, "mape": 0}
+		n_eval_samples = 0
+		n_eval_samples_mape = 0
+
+		for _ in range(n_batches):
+			b = utils.get_next_batch(dataloader)
+
+			# Multi-scale forward returns (1, B, Lp, N)
+			pred_y = model(b["X_list"], b["tt_list"], b["mk_list"], b["tp_to_predict"])
+
+			# Per-dim sums + counts
+			se_var_sum, mask_count = compute_error(
+				b["data_to_predict"], pred_y,
+				mask=b["mask_predicted_data"], func="MSE", reduce="sum"
+			)
+			ae_var_sum, _ = compute_error(
+				b["data_to_predict"], pred_y,
+				mask=b["mask_predicted_data"], func="MAE", reduce="sum"
+			)
+			ape_var_sum, mask_count_mape = compute_error(
+				b["data_to_predict"], pred_y,
+				mask=b["mask_predicted_data"], func="MAPE", reduce="sum"
+			)
+
+			total_results["loss"] += se_var_sum
+			total_results["mse"]  += se_var_sum
+			total_results["mae"]  += ae_var_sum
+			total_results["mape"] += ape_var_sum
+			n_eval_samples += mask_count
+			n_eval_samples_mape += mask_count_mape
+
+		# -------- reduction (per_dim vs global) --------
+		if metric_mode == "per_dim":
+			n_avai_var = torch.count_nonzero(n_eval_samples)
+			n_avai_var_mape = torch.count_nonzero(n_eval_samples_mape)
+
+			total_results["loss"] = (total_results["loss"] / (n_eval_samples + 1e-8)).sum() / n_avai_var
+			total_results["mse"]  = (total_results["mse"]  / (n_eval_samples + 1e-8)).sum() / n_avai_var
+			total_results["mae"]  = (total_results["mae"]  / (n_eval_samples + 1e-8)).sum() / n_avai_var
+			total_results["rmse"] = torch.sqrt(total_results["mse"])
+			total_results["mape"] = (total_results["mape"] / (n_eval_samples_mape + 1e-8)).sum() / n_avai_var_mape
+
+		elif metric_mode == "global":
+			mse  = total_results["mse"].sum()  / (n_eval_samples.sum() + 1e-8)
+			mae  = total_results["mae"].sum()  / (n_eval_samples.sum() + 1e-8)
+			mape = total_results["mape"].sum() / (n_eval_samples_mape.sum() + 1e-8)
+
+			total_results["mse"]  = mse
+			total_results["mae"]  = mae
+			total_results["loss"] = mse
+			total_results["rmse"] = torch.sqrt(mse)
+			total_results["mape"] = mape
+
+		else:
+			raise ValueError(f"Unknown metric_mode: {metric_mode}")
+
+		# convert tensors -> floats
+		for k, v in total_results.items():
+			total_results[k] = v.item() if isinstance(v, torch.Tensor) else float(v)
+
+		return total_results
+
+
+
+
+	# def _masked_metrics(pred, tgt, msk):
+	# 	diff = (pred - tgt)[msk.bool()]
+	# 	mse = (diff ** 2).mean().item()
+	# 	mae = diff.abs().mean().item()
+	# 	rmse = np.sqrt(mse)
+	# 	tgt_safe = tgt[msk.bool()].abs()
+	# 	mape = float(torch.mean((diff.abs() / torch.clamp(tgt_safe, min=1e-8))).item())
+	# 	return dict(loss=mse, mse=mse, rmse=rmse, mae=mae, mape=mape)
 
 	best_val_mse = np.inf
 	test_res = None
@@ -218,49 +332,102 @@ if __name__ == '__main__':
 	for itr in range(args.epoch):
 		st = time.time()
 		model.train()
+
+		if use_ms:
+			dw_list = []
+
 		for _ in range(num_batches):
 			optimizer.zero_grad()
 			batch_dict = utils.get_next_batch(data_obj["train_dataloader"])
+
 			if use_ms:
-				out = model(batch_dict["X_list"], batch_dict["tt_list"], batch_dict["mk_list"], batch_dict["tp_to_predict"])
-				pred = out[0]  # (B, Lp, N)
-				tgt  = batch_dict["data_to_predict"]
-				msk  = batch_dict["mask_predicted_data"]
-				loss = ((pred - tgt)[msk.bool()] ** 2).mean()
+				pred_y = model(
+					batch_dict["X_list"],
+					batch_dict["tt_list"],
+					batch_dict["mk_list"],
+					batch_dict["tp_to_predict"]
+				)
+
+				if args.metric == "per_dim":
+					mse = compute_error(
+						batch_dict["data_to_predict"],
+						pred_y,
+						mask=batch_dict["mask_predicted_data"],
+						func="MSE",
+						reduce="mean"
+					)
+				else:  #global
+					se_var_sum, mask_count = compute_error(
+						batch_dict["data_to_predict"],
+						pred_y,
+						mask=batch_dict["mask_predicted_data"],
+						func="MSE",
+						reduce="sum"
+					)
+					mse = se_var_sum.sum() / (mask_count.sum() + 1e-8)
+
+				loss = mse
+
+				w0 = model.decoder[0].weight.detach().clone()
+
 				loss.backward()
 				optimizer.step()
+
+				dw = (model.decoder[0].weight.detach() - w0).abs().mean().item()
+				dw_list.append(dw)
+
 				train_res = {"loss": loss.detach()}
 			else:
-				train_res = compute_all_losses(model, batch_dict)   # original path
+				train_res = compute_all_losses(model, batch_dict, metric_mode=args.metric)
 				train_res["loss"].backward()
 				optimizer.step()
+
+		if use_ms and len(dw_list) > 0:
+			print(f"Epoch {itr}: avg decoder weight change = {sum(dw_list)/len(dw_list):.8f}")
 
 		model.eval()
 		with torch.no_grad():
 			if use_ms:
 				# VAL
-				val_logs = []
-				for _ in range(data_obj["n_val_batches"]):
-					b = utils.get_next_batch(data_obj["val_dataloader"])
-					out = model(b["X_list"], b["tt_list"], b["mk_list"], b["tp_to_predict"])
-					pred = out[0]; tgt = b["data_to_predict"]; msk = b["mask_predicted_data"]
-					val_logs.append(_masked_metrics(pred, tgt, msk))
-				val_res = {k: float(np.mean([d[k] for d in val_logs])) for k in val_logs[0].keys()}
+				val_res = evaluation_ms(
+					model,
+					data_obj["val_dataloader"],
+					data_obj["n_val_batches"],
+					metric_mode=args.metric
+				)
 
 				if val_res["mse"] < best_val_mse:
-					best_val_mse = val_res["mse"]; best_iter = itr
-					test_logs = []
-					for _ in range(data_obj["n_test_batches"]):
-						b = utils.get_next_batch(data_obj["test_dataloader"])
-						out = model(b["X_list"], b["tt_list"], b["mk_list"], b["tp_to_predict"])
-						pred = out[0]; tgt = b["data_to_predict"]; msk = b["mask_predicted_data"]
-						test_logs.append(_masked_metrics(pred, tgt, msk))
-					test_res = {k: float(np.mean([d[k] for d in test_logs])) for k in test_logs[0].keys()}
+					best_val_mse = val_res["mse"]
+					best_iter = itr
+					test_res = evaluation_ms(
+						model,
+						data_obj["test_dataloader"],
+						data_obj["n_test_batches"],
+						metric_mode=args.metric
+					)
+
+				# val_logs = []
+				# for _ in range(data_obj["n_val_batches"]):
+				# 	b = utils.get_next_batch(data_obj["val_dataloader"])
+				# 	out = model(b["X_list"], b["tt_list"], b["mk_list"], b["tp_to_predict"])
+				# 	pred = out[0]; tgt = b["data_to_predict"]; msk = b["mask_predicted_data"]
+				# 	val_logs.append(_masked_metrics(pred, tgt, msk))
+				# val_res = {k: float(np.mean([d[k] for d in val_logs])) for k in val_logs[0].keys()}
+
+				# if val_res["mse"] < best_val_mse:
+				# 	best_val_mse = val_res["mse"]; best_iter = itr
+				# 	test_logs = []
+				# 	for _ in range(data_obj["n_test_batches"]):
+				# 		b = utils.get_next_batch(data_obj["test_dataloader"])
+				# 		out = model(b["X_list"], b["tt_list"], b["mk_list"], b["tp_to_predict"])
+				# 		pred = out[0]; tgt = b["data_to_predict"]; msk = b["mask_predicted_data"]
+				# 		test_logs.append(_masked_metrics(pred, tgt, msk))
+				# 	test_res = {k: float(np.mean([d[k] for d in test_logs])) for k in test_logs[0].keys()}
 			else:
-				val_res  = evaluation(model, data_obj["val_dataloader"],  data_obj["n_val_batches"])
+				val_res  = evaluation(model, data_obj["val_dataloader"],  data_obj["n_val_batches"],  metric_mode=args.metric)
 				if val_res["mse"] < best_val_mse:
 					best_val_mse = val_res["mse"]; best_iter = itr
-					test_res = evaluation(model, data_obj["test_dataloader"], data_obj["n_test_batches"])
+					test_res = evaluation(model, data_obj["test_dataloader"], data_obj["n_test_batches"], metric_mode=args.metric)
 
 			logger.info('- Epoch {:03d}, ExpID {}'.format(itr, experimentID))
 			logger.info("Train - Loss (one batch): {:.5f}".format(

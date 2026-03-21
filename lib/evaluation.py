@@ -1,3 +1,4 @@
+#lib/evaluation.py
 import gc
 import numpy as np
 import sklearn as sk
@@ -303,8 +304,12 @@ def compute_error(truth, pred_y, mask, func, reduce, norm_dict=None):
 	else:
 		raise Exception("Reduce argument not specified!")
 
+def _reduce_global(var_sum, mask_count):
+	# var_sum, mask_count: (n_dim,)
+	return var_sum.sum() / (mask_count.sum() + 1e-8)
 
-def compute_all_losses(model, batch_dict):
+
+def compute_all_losses(model, batch_dict, metric_mode="per_dim"):
 	# Condition on subsampled points
 	# Make predictions for all the points
 	# shape of pred --- [n_traj_samples=1, n_batch, n_tp, n_dim]
@@ -314,13 +319,46 @@ def compute_all_losses(model, batch_dict):
 		batch_dict["observed_mask"]) 
 	# print("pred:", pred_y.shape, batch_dict["mask_predicted_data"].shape)
 
-	# Compute avg error of each variable first, then compute avg error of all variables
-	mse = compute_error(batch_dict["data_to_predict"], pred_y, mask = batch_dict["mask_predicted_data"], func="MSE", reduce="mean") # a scalar
-	rmse = torch.sqrt(mse)
-	# print(mse, rmse)
-	mae = compute_error(batch_dict["data_to_predict"], pred_y, mask = batch_dict["mask_predicted_data"], func="MAE", reduce="mean") # a scalar
+	# # Compute avg error of each variable first, then compute avg error of all variables
+	# mse = compute_error(batch_dict["data_to_predict"], pred_y, mask = batch_dict["mask_predicted_data"], func="MSE", reduce="mean") # a scalar
+	# rmse = torch.sqrt(mse)
+	# # print(mse, rmse)
+	# mae = compute_error(batch_dict["data_to_predict"], pred_y, mask = batch_dict["mask_predicted_data"], func="MAE", reduce="mean") # a scalar
 
-	################################
+	# ################################
+	# # mse loss
+	# loss = mse
+
+	# get per-dim sums (vector) so we can reduce either way
+	se_var_sum, mask_count = compute_error(
+		batch_dict["data_to_predict"], pred_y,
+		mask=batch_dict["mask_predicted_data"],
+		func="MSE", reduce="sum"
+	)
+	ae_var_sum, _ = compute_error(
+		batch_dict["data_to_predict"], pred_y,
+		mask=batch_dict["mask_predicted_data"],
+		func="MAE", reduce="sum"
+	)
+
+	if metric_mode == "per_dim":
+		# original behaviour: avg per variable, then avg across variables
+		mse_dim = se_var_sum / (mask_count + 1e-8)
+		mae_dim = ae_var_sum / (mask_count + 1e-8)
+		n_avai = torch.count_nonzero(mask_count)
+		mse = mse_dim.sum() / n_avai
+		mae = mae_dim.sum() / n_avai
+
+	elif metric_mode == "global":
+		# global masked mean: sum over all dims and all points / total points
+		mse = _reduce_global(se_var_sum, mask_count)
+		mae = _reduce_global(ae_var_sum, mask_count)
+
+	else:
+		raise ValueError(f"Unknown metric_mode: {metric_mode}")
+
+	rmse = torch.sqrt(mse)
+
 	# mse loss
 	loss = mse
 
@@ -332,7 +370,7 @@ def compute_all_losses(model, batch_dict):
 
 	return results
 
-def evaluation(model, dataloader, n_batches):
+def evaluation(model, dataloader, n_batches, metric_mode="per_dim"):
 
 	n_eval_samples = 0
 	n_eval_samples_mape = 0
@@ -368,16 +406,40 @@ def evaluation(model, dataloader, n_batches):
 		n_eval_samples += mask_count
 		n_eval_samples_mape += mask_count_mape
 
-	n_avai_var = torch.count_nonzero(n_eval_samples)
-	n_avai_var_mape = torch.count_nonzero(n_eval_samples_mape)
+	# n_avai_var = torch.count_nonzero(n_eval_samples)
+	# n_avai_var_mape = torch.count_nonzero(n_eval_samples_mape)
 	
 	### 1. Compute avg error of each variable first
 	### 2. Compute avg error along the variables 
-	total_results["loss"] = (total_results["loss"] / (n_eval_samples + 1e-8)).sum() / n_avai_var
-	total_results["mse"] = (total_results["mse"] / (n_eval_samples + 1e-8)).sum() / n_avai_var
-	total_results["mae"] = (total_results["mae"] / (n_eval_samples + 1e-8)).sum() / n_avai_var
-	total_results["rmse"] = torch.sqrt(total_results["mse"])
-	total_results["mape"] = (total_results["mape"] / (n_eval_samples_mape + 1e-8)).sum() / n_avai_var_mape
+	# total_results["loss"] = (total_results["loss"] / (n_eval_samples + 1e-8)).sum() / n_avai_var
+	# total_results["mse"] = (total_results["mse"] / (n_eval_samples + 1e-8)).sum() / n_avai_var
+	# total_results["mae"] = (total_results["mae"] / (n_eval_samples + 1e-8)).sum() / n_avai_var
+	# total_results["rmse"] = torch.sqrt(total_results["mse"])
+	# total_results["mape"] = (total_results["mape"] / (n_eval_samples_mape + 1e-8)).sum() / n_avai_var_mape
+
+	if metric_mode == "per_dim":
+		n_avai_var = torch.count_nonzero(n_eval_samples)
+		n_avai_var_mape = torch.count_nonzero(n_eval_samples_mape)
+
+		total_results["loss"] = (total_results["loss"] / (n_eval_samples + 1e-8)).sum() / n_avai_var
+		total_results["mse"]  = (total_results["mse"]  / (n_eval_samples + 1e-8)).sum() / n_avai_var
+		total_results["mae"]  = (total_results["mae"]  / (n_eval_samples + 1e-8)).sum() / n_avai_var
+		total_results["rmse"] = torch.sqrt(total_results["mse"])
+		total_results["mape"] = (total_results["mape"] / (n_eval_samples_mape + 1e-8)).sum() / n_avai_var_mape
+
+	elif metric_mode == "global":
+		mse  = total_results["mse"].sum()  / (n_eval_samples.sum() + 1e-8)
+		mae  = total_results["mae"].sum()  / (n_eval_samples.sum() + 1e-8)
+		mape = total_results["mape"].sum() / (n_eval_samples_mape.sum() + 1e-8)
+
+		total_results["mse"]  = mse
+		total_results["mae"]  = mae
+		total_results["loss"] = mse
+		total_results["rmse"] = torch.sqrt(mse)
+		total_results["mape"] = mape
+
+	else:
+		raise ValueError(f"Unknown metric_mode: {metric_mode}")
 
 	for key, var in total_results.items(): 
 		if isinstance(var, torch.Tensor):

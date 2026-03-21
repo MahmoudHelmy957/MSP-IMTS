@@ -2,11 +2,11 @@
 #SBATCH --job-name=act_repro_ss_24ms
 #SBATCH --partition=TEST
 #SBATCH --gres=gpu:1
-#SBATCH --cpus-per-task=4
+#SBATCH --cpus-per-task=8
 #SBATCH --mem=30G
 #SBATCH --output=%x_%j.out
 #SBATCH --error=%x_%j.err
-#SBATCH --chdir=/home/ouass/Test/MSP-IMTS/act
+#SBATCH --chdir=/home/ouass/Test/MSP-IMTS/logs
 
 set -euo pipefail
 
@@ -22,7 +22,7 @@ cd /home/ouass/Test/MSP-IMTS/tPatchGNN
 SEED=1
 GPU=0
 EPOCHS=300
-PATIENCE=40
+PATIENCE=10
 BATCH=64
 LR=1e-3
 
@@ -50,5 +50,4 @@ python run_models.py \
   --patience $PATIENCE \
   --epoch $EPOCHS \
   --seed $SEED \
-  --gpu $GPU \
-  --fusion concat 
+  --gpu $GPU

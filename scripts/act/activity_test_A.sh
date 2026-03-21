@@ -3,7 +3,7 @@
 #SBATCH --partition=STUD
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=8
-#SBATCH --mem=32G
+#SBATCH --mem=30G
 #SBATCH --output=%x_%j.out
 #SBATCH --error=%x_%j.err
 #SBATCH --chdir=/home/ouass/Test/MSP-IMTS/act

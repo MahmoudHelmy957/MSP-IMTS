@@ -1,3 +1,4 @@
+#physionet.py
 import os
 import re
 
@@ -447,8 +448,8 @@ def patch_variable_time_collate_fn_ms(
         )
 
     # Normalize time to [0,1] by time_max
-    observed_tt  = utils.normalize_masked_tp(observed_tt,  att_min=0, att_max=time_max)
-    predicted_tp = utils.normalize_masked_tp(predicted_tp, att_min=0, att_max=time_max)
+    # observed_tt  = utils.normalize_masked_tp(observed_tt,  att_min=0, att_max=time_max)
+    # predicted_tp = utils.normalize_masked_tp(predicted_tp, att_min=0, att_max=time_max)
 
     # Build the "single" dict expected by split_and_patch_batch
     single = {
@@ -469,7 +470,7 @@ def patch_variable_time_collate_fn_ms(
     return {
         "X_list": ms["X_list"], "tt_list": ms["tt_list"], "mk_list": ms["mk_list"],
         "npatches": ms["npatches"],
-        "tp_to_predict": single["tp_to_predict"],
+        "tp_to_predict": ms["tp_to_predict"],
         "data_to_predict": single["data_to_predict"],
         "mask_predicted_data": single["mask_predicted_data"],
     }

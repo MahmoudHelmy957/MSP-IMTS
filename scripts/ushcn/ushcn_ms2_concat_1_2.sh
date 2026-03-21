@@ -1,24 +1,22 @@
 #!/usr/bin/env bash
-#SBATCH --job-name=ushcn_ms_2scale
-#SBATCH --partition=STUD
+#SBATCH --job-name=ushcn_ms_2scale_attn
+#SBATCH --partition=TEST
 #SBATCH --gres=gpu:1
-#SBATCH --cpus-per-task=8
-#SBATCH --mem=30G
+
 #SBATCH --output=%x_%j.out
 #SBATCH --error=%x_%j.err
-#SBATCH --chdir=/home/ouass/Test/MSP-IMTS/logs/ushcn
+#SBATCH --chdir=/home/ouass/Test/MSP-IMTS/pres/ushcn
 
 set -euo pipefail
 source "$HOME/venv310/bin/activate"
-export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
-export MKL_NUM_THREADS=$SLURM_CPUS_PER_TASK
+
 export PYTHONPATH="/home/ouass/Test/MSP-IMTS:/home/ouass/Test/MSP-IMTS/tPatchGNN:${PYTHONPATH-}"
 
 cd /home/ouass/Test/MSP-IMTS/tPatchGNN
 
 GPU=0
-EPOCHS=400            # okay to go higher; early stop handles it
-PATIENCE=20           # paper
+EPOCHS=400            
+PATIENCE=10           # paper
 BATCH=192             # paper
 LR=1e-3
 HISTORY=24            # paper
@@ -44,7 +42,7 @@ for SEED in 1 2 3 4 5; do
     --te_dim 10 --node_dim 10 --hid_dim $HID \
     --outlayer Linear \
     --seed $SEED --gpu $GPU \
-    --multi_scales "$SCALES" \
-    --multi_strides "$STRIDES" \
+    --multi_scales 1,2 \
+    --multi_strides 1,2 \
     --fusion concat
 done

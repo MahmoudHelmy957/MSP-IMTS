@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-#SBATCH --job-name=ushcn_BASE_allseeds
-#SBATCH --partition=TEST
+#SBATCH --job-name=ushcn_ss_per_dim
+#SBATCH --partition=NGPU
+#SBATCH --nodelist=gpu-200
 #SBATCH --gres=gpu:1
-#SBATCH --mem=30G
 #SBATCH --output=%x_%j.out
 #SBATCH --error=%x_%j.err
-#SBATCH --chdir=/home/ouass/Test/MSP-IMTS/logs/ushcn
+#SBATCH --chdir=/home/ouass/Test/MSP-IMTS/abc
 
 set -euo pipefail
 source /home/ouass/venv310/bin/activate
@@ -43,6 +43,7 @@ for seed in {1..5}; do
     --hid_dim 32 \
     --outlayer Linear \
     --seed "$seed" \
+    --metric per_dim \
     --gpu 0
 
 done

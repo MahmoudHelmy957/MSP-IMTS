@@ -1,0 +1,650 @@
+=== Seed 1 ===
+PID, device: 1958457 cuda
+Total records: 12000
+Dataset n_samples: 12000 7200 2400 2400
+overlap train∩val: 0 train∩test: 0 val∩test: 0
+Test record ids (first 20): ['141908', '143709', '142213', '162190', '138704', '160585', '150290', '156241', '137485', '150340', '135674', '141404', '135171', '133764', '146552', '154493', '136155', '146314', '136706', '134994']
+Test record ids (last 20): ['143505', '138293', '144879', '147553', '139211', '150556', '133287', '162637', '147110', '157654', '143326', '137795', '143915', '151353', '151772', '139738', '162735', '143245', '139112', '143576']
+data_max: tensor([9.0000e+01, 1.0000e+00, 4.6230e+02, 4.0000e+00, 4.7200e+02, 5.0000e+00,
+        4.1060e+03, 1.6920e+04, 2.3950e+04, 8.2800e+01, 2.0900e+02, 3.4200e+02,
+        2.2000e+01, 2.7200e+02, 1.0000e+00, 1.5000e+01, 1.5910e+03, 5.2000e+01,
+        6.1800e+01, 2.1150e+02, 2.2900e+01, 2.9300e+01, 2.2400e+01, 2.9800e+02,
+        1.0000e+00, 1.8000e+02, 1.8000e+02, 2.1500e+02, 2.6133e+02, 1.0000e+02,
+        5.0000e+02, 7.3500e+02, 2.2920e+03, 1.0000e+02, 1.0000e+02, 2.8500e+02,
+        4.2200e+01, 4.9600e+01, 2.9910e+01, 1.1000e+04, 5.2800e+02],
+       device='cuda:0')
+data_min: tensor([ 1.5000e+01, -1.0000e+00, -1.0000e+00,  1.0000e+00, -1.0000e+00,
+         1.0000e+00,  8.0000e+00,  1.0000e+00,  4.0000e+00,  0.0000e+00,
+         0.0000e+00,  3.5000e+01,  1.0000e-01, -1.0000e+00,  2.1000e-01,
+         3.0000e+00,  8.0000e+00,  5.0000e+00,  5.5000e+00,  0.0000e+00,
+         1.8000e+00,  3.0000e-01,  4.0000e-01,  0.0000e+00,  1.0000e+00,
+         9.8000e+01, -1.0000e+00,  0.0000e+00,  0.0000e+00,  0.0000e+00,
+         0.0000e+00,  0.0000e+00,  5.0000e+00,  0.0000e+00,  0.0000e+00,
+         0.0000e+00, -1.7800e+01,  3.0000e-01,  1.0000e-02,  0.0000e+00,
+         0.0000e+00], device='cuda:0')
+time_max: tensor(48., device='cuda:0')
+[MS] batch keys: ['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+[MS] #scales: 3
+[MS] per-scale shapes: [(32, 6, 4, 41), (32, 3, 8, 41), (32, 2, 12, 41)]
+[MS] data_to_predict: (32, 25, 41)
+[MS] mask_predicted_data sum: 5409.0
+[MS] tt_list mins/maxes: [(0.0, 0.9583333730697632), (0.0, 0.9583333730697632), (0.0, 0.9583333730697632)]
+[MS] tp_to_predict min/max: 0.0 2.0
+[MS] use_ms=True fusion=attn scales=4,8,12 strides=4,8,12 npatches_per_scale=[6, 3, 2]
+decoder exists: True
+fuse_proj exists: False
+attn_V exists: True
+attn_u exists: True
+gate_mlp exists: False
+Missing trainable params in optimizer: []
+Missing count: 0
+n_train_batches: 225
+Epoch 0: avg decoder weight change = 0.00008058
+Epoch 1: avg decoder weight change = 0.00005630
+Epoch 2: avg decoder weight change = 0.00005207
+Epoch 3: avg decoder weight change = 0.00006010
+Epoch 4: avg decoder weight change = 0.00005656
+Epoch 5: avg decoder weight change = 0.00005765
+Epoch 6: avg decoder weight change = 0.00005910
+Epoch 7: avg decoder weight change = 0.00006019
+Epoch 8: avg decoder weight change = 0.00006967
+Epoch 9: avg decoder weight change = 0.00006160
+Epoch 10: avg decoder weight change = 0.00006569
+Epoch 11: avg decoder weight change = 0.00006078
+Epoch 12: avg decoder weight change = 0.00005991
+Epoch 13: avg decoder weight change = 0.00005897
+Epoch 14: avg decoder weight change = 0.00006470
+Epoch 15: avg decoder weight change = 0.00009724
+Epoch 16: avg decoder weight change = 0.00006436
+Epoch 17: avg decoder weight change = 0.00006350
+Epoch 18: avg decoder weight change = 0.00007120
+Epoch 19: avg decoder weight change = 0.00006992
+Epoch 20: avg decoder weight change = 0.00006096
+Epoch 21: avg decoder weight change = 0.00006033
+Epoch 22: avg decoder weight change = 0.00006210
+Epoch 23: avg decoder weight change = 0.00005720
+Epoch 24: avg decoder weight change = 0.00006549
+Epoch 25: avg decoder weight change = 0.00007872
+Epoch 26: avg decoder weight change = 0.00007900
+Epoch 27: avg decoder weight change = 0.00008255
+Epoch 28: avg decoder weight change = 0.00006040
+Epoch 29: avg decoder weight change = 0.00005780
+Epoch 30: avg decoder weight change = 0.00006346
+Epoch 31: avg decoder weight change = 0.00006677
+Epoch 32: avg decoder weight change = 0.00006672
+Epoch 33: avg decoder weight change = 0.00007192
+Epoch 34: avg decoder weight change = 0.00005519
+Epoch 35: avg decoder weight change = 0.00005453
+Epoch 36: avg decoder weight change = 0.00005143
+Epoch 37: avg decoder weight change = 0.00005702
+Epoch 38: avg decoder weight change = 0.00006145
+Epoch 39: avg decoder weight change = 0.00006526
+Epoch 40: avg decoder weight change = 0.00007637
+Epoch 41: avg decoder weight change = 0.00006685
+Epoch 42: avg decoder weight change = 0.00005917
+Epoch 43: avg decoder weight change = 0.00007936
+Epoch 44: avg decoder weight change = 0.00007412
+Epoch 45: avg decoder weight change = 0.00007170
+Epoch 46: avg decoder weight change = 0.00006531
+Epoch 47: avg decoder weight change = 0.00006388
+Epoch 48: avg decoder weight change = 0.00005767
+Epoch 49: avg decoder weight change = 0.00006070
+Epoch 50: avg decoder weight change = 0.00005234
+Epoch 51: avg decoder weight change = 0.00005926
+Epoch 52: avg decoder weight change = 0.00006787
+Epoch 53: avg decoder weight change = 0.00006424
+Epoch 54: avg decoder weight change = 0.00006078
+Epoch 55: avg decoder weight change = 0.00005307
+Epoch 56: avg decoder weight change = 0.00006288
+Epoch 57: avg decoder weight change = 0.00006164
+Epoch 58: avg decoder weight change = 0.00006269
+Epoch 59: avg decoder weight change = 0.00007052
+Epoch 60: avg decoder weight change = 0.00005350
+Epoch 61: avg decoder weight change = 0.00007236
+Epoch 62: avg decoder weight change = 0.00005374
+Epoch 63: avg decoder weight change = 0.00004837
+Epoch 64: avg decoder weight change = 0.00006144
+Epoch 65: avg decoder weight change = 0.00007528
+Epoch 66: avg decoder weight change = 0.00006970
+Epoch 67: avg decoder weight change = 0.00005740
+Epoch 68: avg decoder weight change = 0.00005735
+Epoch 69: avg decoder weight change = 0.00006799
+Epoch 70: avg decoder weight change = 0.00006209
+Epoch 71: avg decoder weight change = 0.00005585
+Epoch 72: avg decoder weight change = 0.00007140
+Epoch 73: avg decoder weight change = 0.00007427
+Epoch 74: avg decoder weight change = 0.00007152
+Epoch 75: avg decoder weight change = 0.00005713
+Epoch 76: avg decoder weight change = 0.00006102
+Epoch 77: avg decoder weight change = 0.00005871
+Epoch 78: avg decoder weight change = 0.00006624
+Epoch 79: avg decoder weight change = 0.00006242
+Epoch 80: avg decoder weight change = 0.00006111
+Epoch 81: avg decoder weight change = 0.00010666
+Epoch 82: avg decoder weight change = 0.00007186
+Epoch 83: avg decoder weight change = 0.00005107
+Epoch 84: avg decoder weight change = 0.00005027
+Epoch 85: avg decoder weight change = 0.00007084
+Epoch 86: avg decoder weight change = 0.00005025
+Epoch 87: avg decoder weight change = 0.00005296
+Epoch 88: avg decoder weight change = 0.00007543
+Epoch 89: avg decoder weight change = 0.00005614
+Epoch 90: avg decoder weight change = 0.00006090
+Epoch 91: avg decoder weight change = 0.00007383
+Epoch 92: avg decoder weight change = 0.00005384
+Epoch 93: avg decoder weight change = 0.00005323
+Epoch 94: avg decoder weight change = 0.00007487
+Epoch 95: avg decoder weight change = 0.00009438
+Epoch 96: avg decoder weight change = 0.00007406
+Epoch 97: avg decoder weight change = 0.00006384
+Epoch 98: avg decoder weight change = 0.00006136
+Epoch 99: avg decoder weight change = 0.00006597
+Epoch 100: avg decoder weight change = 0.00006511
+Epoch 101: avg decoder weight change = 0.00005963
+Epoch 102: avg decoder weight change = 0.00005570
+Epoch 103: avg decoder weight change = 0.00005773
+Epoch 104: avg decoder weight change = 0.00009454
+Epoch 105: avg decoder weight change = 0.00007742
+Epoch 106: avg decoder weight change = 0.00006909
+Epoch 107: avg decoder weight change = 0.00008720
+Epoch 108: avg decoder weight change = 0.00008231
+Epoch 109: avg decoder weight change = 0.00007392
+Epoch 110: avg decoder weight change = 0.00007363
+Epoch 111: avg decoder weight change = 0.00007293
+Epoch 112: avg decoder weight change = 0.00006375
+Epoch 113: avg decoder weight change = 0.00007073
+Epoch 114: avg decoder weight change = 0.00008412
+Epoch 115: avg decoder weight change = 0.00006160
+Epoch 116: avg decoder weight change = 0.00007470
+Epoch 117: avg decoder weight change = 0.00014492
+Epoch 118: avg decoder weight change = 0.00008371
+Epoch 119: avg decoder weight change = 0.00006059
+Exp has been early stopped!
+=== Seed 2 ===
+PID, device: 1958723 cuda
+Total records: 12000
+Dataset n_samples: 12000 7200 2400 2400
+overlap train∩val: 0 train∩test: 0 val∩test: 0
+Test record ids (first 20): ['141908', '143709', '142213', '162190', '138704', '160585', '150290', '156241', '137485', '150340', '135674', '141404', '135171', '133764', '146552', '154493', '136155', '146314', '136706', '134994']
+Test record ids (last 20): ['143505', '138293', '144879', '147553', '139211', '150556', '133287', '162637', '147110', '157654', '143326', '137795', '143915', '151353', '151772', '139738', '162735', '143245', '139112', '143576']
+data_max: tensor([9.0000e+01, 1.0000e+00, 4.6230e+02, 4.0000e+00, 4.7200e+02, 5.0000e+00,
+        4.1060e+03, 1.6920e+04, 2.3950e+04, 8.2800e+01, 2.0900e+02, 3.4200e+02,
+        2.2000e+01, 2.7200e+02, 1.0000e+00, 1.5000e+01, 1.5910e+03, 5.2000e+01,
+        6.1800e+01, 2.1150e+02, 2.2900e+01, 2.9300e+01, 2.2400e+01, 2.9800e+02,
+        1.0000e+00, 1.8000e+02, 1.8000e+02, 2.1500e+02, 2.6133e+02, 1.0000e+02,
+        5.0000e+02, 7.3500e+02, 2.2920e+03, 1.0000e+02, 1.0000e+02, 2.8500e+02,
+        4.2200e+01, 4.9600e+01, 2.9910e+01, 1.1000e+04, 5.2800e+02],
+       device='cuda:0')
+data_min: tensor([ 1.5000e+01, -1.0000e+00, -1.0000e+00,  1.0000e+00, -1.0000e+00,
+         1.0000e+00,  8.0000e+00,  1.0000e+00,  4.0000e+00,  0.0000e+00,
+         0.0000e+00,  3.5000e+01,  1.0000e-01, -1.0000e+00,  2.1000e-01,
+         3.0000e+00,  8.0000e+00,  5.0000e+00,  5.5000e+00,  0.0000e+00,
+         1.8000e+00,  3.0000e-01,  4.0000e-01,  0.0000e+00,  1.0000e+00,
+         9.8000e+01, -1.0000e+00,  0.0000e+00,  0.0000e+00,  0.0000e+00,
+         0.0000e+00,  0.0000e+00,  5.0000e+00,  0.0000e+00,  0.0000e+00,
+         0.0000e+00, -1.7800e+01,  3.0000e-01,  1.0000e-02,  0.0000e+00,
+         0.0000e+00], device='cuda:0')
+time_max: tensor(48., device='cuda:0')
+[MS] batch keys: ['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+[MS] #scales: 3
+[MS] per-scale shapes: [(32, 6, 4, 41), (32, 3, 8, 41), (32, 2, 12, 41)]
+[MS] data_to_predict: (32, 25, 41)
+[MS] mask_predicted_data sum: 5409.0
+[MS] tt_list mins/maxes: [(0.0, 0.9583333730697632), (0.0, 0.9583333730697632), (0.0, 0.9583333730697632)]
+[MS] tp_to_predict min/max: 0.0 2.0
+[MS] use_ms=True fusion=attn scales=4,8,12 strides=4,8,12 npatches_per_scale=[6, 3, 2]
+decoder exists: True
+fuse_proj exists: False
+attn_V exists: True
+attn_u exists: True
+gate_mlp exists: False
+Missing trainable params in optimizer: []
+Missing count: 0
+n_train_batches: 225
+Epoch 0: avg decoder weight change = 0.00006279
+Epoch 1: avg decoder weight change = 0.00004906
+Epoch 2: avg decoder weight change = 0.00005031
+Epoch 3: avg decoder weight change = 0.00004797
+Epoch 4: avg decoder weight change = 0.00005123
+Epoch 5: avg decoder weight change = 0.00005351
+Epoch 6: avg decoder weight change = 0.00005655
+Epoch 7: avg decoder weight change = 0.00005567
+Epoch 8: avg decoder weight change = 0.00006145
+Epoch 9: avg decoder weight change = 0.00006327
+Epoch 10: avg decoder weight change = 0.00007246
+Epoch 11: avg decoder weight change = 0.00007862
+Epoch 12: avg decoder weight change = 0.00007152
+Epoch 13: avg decoder weight change = 0.00006885
+Epoch 14: avg decoder weight change = 0.00007079
+Epoch 15: avg decoder weight change = 0.00007346
+Epoch 16: avg decoder weight change = 0.00007717
+Epoch 17: avg decoder weight change = 0.00007713
+Epoch 18: avg decoder weight change = 0.00007706
+Epoch 19: avg decoder weight change = 0.00007384
+Epoch 20: avg decoder weight change = 0.00007807
+Epoch 21: avg decoder weight change = 0.00007541
+Epoch 22: avg decoder weight change = 0.00007379
+Epoch 23: avg decoder weight change = 0.00007197
+Epoch 24: avg decoder weight change = 0.00008099
+Epoch 25: avg decoder weight change = 0.00007564
+Epoch 26: avg decoder weight change = 0.00008144
+Epoch 27: avg decoder weight change = 0.00008324
+Epoch 28: avg decoder weight change = 0.00008856
+Epoch 29: avg decoder weight change = 0.00008830
+Epoch 30: avg decoder weight change = 0.00007933
+Epoch 31: avg decoder weight change = 0.00009479
+Epoch 32: avg decoder weight change = 0.00007940
+Epoch 33: avg decoder weight change = 0.00008618
+Epoch 34: avg decoder weight change = 0.00008558
+Epoch 35: avg decoder weight change = 0.00007520
+Epoch 36: avg decoder weight change = 0.00007963
+Epoch 37: avg decoder weight change = 0.00009030
+Epoch 38: avg decoder weight change = 0.00008501
+Epoch 39: avg decoder weight change = 0.00007906
+Epoch 40: avg decoder weight change = 0.00008281
+Epoch 41: avg decoder weight change = 0.00008103
+Epoch 42: avg decoder weight change = 0.00007579
+Epoch 43: avg decoder weight change = 0.00010389
+Epoch 44: avg decoder weight change = 0.00008431
+Epoch 45: avg decoder weight change = 0.00008594
+Epoch 46: avg decoder weight change = 0.00009002
+Epoch 47: avg decoder weight change = 0.00008341
+Epoch 48: avg decoder weight change = 0.00008544
+Epoch 49: avg decoder weight change = 0.00008399
+Epoch 50: avg decoder weight change = 0.00009158
+Epoch 51: avg decoder weight change = 0.00008521
+Epoch 52: avg decoder weight change = 0.00007861
+Epoch 53: avg decoder weight change = 0.00009039
+Epoch 54: avg decoder weight change = 0.00009223
+Epoch 55: avg decoder weight change = 0.00008831
+Epoch 56: avg decoder weight change = 0.00007634
+Epoch 57: avg decoder weight change = 0.00008391
+Epoch 58: avg decoder weight change = 0.00009007
+Epoch 59: avg decoder weight change = 0.00007587
+Epoch 60: avg decoder weight change = 0.00008497
+Epoch 61: avg decoder weight change = 0.00008467
+Epoch 62: avg decoder weight change = 0.00007851
+Epoch 63: avg decoder weight change = 0.00009185
+Epoch 64: avg decoder weight change = 0.00009523
+Epoch 65: avg decoder weight change = 0.00009423
+Epoch 66: avg decoder weight change = 0.00009741
+Epoch 67: avg decoder weight change = 0.00009228
+Epoch 68: avg decoder weight change = 0.00008695
+Epoch 69: avg decoder weight change = 0.00008519
+Epoch 70: avg decoder weight change = 0.00010601
+Epoch 71: avg decoder weight change = 0.00008296
+Epoch 72: avg decoder weight change = 0.00010113
+Epoch 73: avg decoder weight change = 0.00008722
+Epoch 74: avg decoder weight change = 0.00009960
+Epoch 75: avg decoder weight change = 0.00009762
+Epoch 76: avg decoder weight change = 0.00008989
+Epoch 77: avg decoder weight change = 0.00009026
+Epoch 78: avg decoder weight change = 0.00009333
+Epoch 79: avg decoder weight change = 0.00008764
+Epoch 80: avg decoder weight change = 0.00009367
+Exp has been early stopped!
+=== Seed 3 ===
+PID, device: 1958982 cuda
+Total records: 12000
+Dataset n_samples: 12000 7200 2400 2400
+overlap train∩val: 0 train∩test: 0 val∩test: 0
+Test record ids (first 20): ['141908', '143709', '142213', '162190', '138704', '160585', '150290', '156241', '137485', '150340', '135674', '141404', '135171', '133764', '146552', '154493', '136155', '146314', '136706', '134994']
+Test record ids (last 20): ['143505', '138293', '144879', '147553', '139211', '150556', '133287', '162637', '147110', '157654', '143326', '137795', '143915', '151353', '151772', '139738', '162735', '143245', '139112', '143576']
+data_max: tensor([9.0000e+01, 1.0000e+00, 4.6230e+02, 4.0000e+00, 4.7200e+02, 5.0000e+00,
+        4.1060e+03, 1.6920e+04, 2.3950e+04, 8.2800e+01, 2.0900e+02, 3.4200e+02,
+        2.2000e+01, 2.7200e+02, 1.0000e+00, 1.5000e+01, 1.5910e+03, 5.2000e+01,
+        6.1800e+01, 2.1150e+02, 2.2900e+01, 2.9300e+01, 2.2400e+01, 2.9800e+02,
+        1.0000e+00, 1.8000e+02, 1.8000e+02, 2.1500e+02, 2.6133e+02, 1.0000e+02,
+        5.0000e+02, 7.3500e+02, 2.2920e+03, 1.0000e+02, 1.0000e+02, 2.8500e+02,
+        4.2200e+01, 4.9600e+01, 2.9910e+01, 1.1000e+04, 5.2800e+02],
+       device='cuda:0')
+data_min: tensor([ 1.5000e+01, -1.0000e+00, -1.0000e+00,  1.0000e+00, -1.0000e+00,
+         1.0000e+00,  8.0000e+00,  1.0000e+00,  4.0000e+00,  0.0000e+00,
+         0.0000e+00,  3.5000e+01,  1.0000e-01, -1.0000e+00,  2.1000e-01,
+         3.0000e+00,  8.0000e+00,  5.0000e+00,  5.5000e+00,  0.0000e+00,
+         1.8000e+00,  3.0000e-01,  4.0000e-01,  0.0000e+00,  1.0000e+00,
+         9.8000e+01, -1.0000e+00,  0.0000e+00,  0.0000e+00,  0.0000e+00,
+         0.0000e+00,  0.0000e+00,  5.0000e+00,  0.0000e+00,  0.0000e+00,
+         0.0000e+00, -1.7800e+01,  3.0000e-01,  1.0000e-02,  0.0000e+00,
+         0.0000e+00], device='cuda:0')
+time_max: tensor(48., device='cuda:0')
+[MS] batch keys: ['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+[MS] #scales: 3
+[MS] per-scale shapes: [(32, 6, 4, 41), (32, 3, 8, 41), (32, 2, 12, 41)]
+[MS] data_to_predict: (32, 25, 41)
+[MS] mask_predicted_data sum: 5409.0
+[MS] tt_list mins/maxes: [(0.0, 0.9583333730697632), (0.0, 0.9583333730697632), (0.0, 0.9583333730697632)]
+[MS] tp_to_predict min/max: 0.0 2.0
+[MS] use_ms=True fusion=attn scales=4,8,12 strides=4,8,12 npatches_per_scale=[6, 3, 2]
+decoder exists: True
+fuse_proj exists: False
+attn_V exists: True
+attn_u exists: True
+gate_mlp exists: False
+Missing trainable params in optimizer: []
+Missing count: 0
+n_train_batches: 225
+Epoch 0: avg decoder weight change = 0.00008776
+Epoch 1: avg decoder weight change = 0.00006156
+Epoch 2: avg decoder weight change = 0.00005656
+Epoch 3: avg decoder weight change = 0.00005532
+Epoch 4: avg decoder weight change = 0.00005234
+Epoch 5: avg decoder weight change = 0.00004767
+Epoch 6: avg decoder weight change = 0.00006637
+Epoch 7: avg decoder weight change = 0.00004901
+Epoch 8: avg decoder weight change = 0.00005335
+Epoch 9: avg decoder weight change = 0.00005416
+Epoch 10: avg decoder weight change = 0.00006199
+Epoch 11: avg decoder weight change = 0.00005979
+Epoch 12: avg decoder weight change = 0.00006075
+Epoch 13: avg decoder weight change = 0.00006908
+Epoch 14: avg decoder weight change = 0.00005777
+Epoch 15: avg decoder weight change = 0.00006923
+Epoch 16: avg decoder weight change = 0.00006354
+Epoch 17: avg decoder weight change = 0.00006586
+Epoch 18: avg decoder weight change = 0.00009113
+Epoch 19: avg decoder weight change = 0.00007812
+Epoch 20: avg decoder weight change = 0.00006563
+Epoch 21: avg decoder weight change = 0.00006050
+Epoch 22: avg decoder weight change = 0.00007740
+Epoch 23: avg decoder weight change = 0.00006078
+Epoch 24: avg decoder weight change = 0.00006246
+Epoch 25: avg decoder weight change = 0.00006836
+Epoch 26: avg decoder weight change = 0.00006668
+Epoch 27: avg decoder weight change = 0.00006403
+Epoch 28: avg decoder weight change = 0.00007192
+Epoch 29: avg decoder weight change = 0.00009883
+Epoch 30: avg decoder weight change = 0.00008008
+Epoch 31: avg decoder weight change = 0.00009820
+Epoch 32: avg decoder weight change = 0.00007061
+Epoch 33: avg decoder weight change = 0.00005820
+Epoch 34: avg decoder weight change = 0.00007484
+Epoch 35: avg decoder weight change = 0.00005866
+Epoch 36: avg decoder weight change = 0.00006326
+Epoch 37: avg decoder weight change = 0.00007101
+Epoch 38: avg decoder weight change = 0.00006062
+Epoch 39: avg decoder weight change = 0.00007010
+Epoch 40: avg decoder weight change = 0.00007315
+Epoch 41: avg decoder weight change = 0.00007732
+Epoch 42: avg decoder weight change = 0.00008167
+Epoch 43: avg decoder weight change = 0.00007727
+Epoch 44: avg decoder weight change = 0.00008674
+Epoch 45: avg decoder weight change = 0.00008433
+Epoch 46: avg decoder weight change = 0.00010198
+Epoch 47: avg decoder weight change = 0.00008532
+Epoch 48: avg decoder weight change = 0.00007529
+Epoch 49: avg decoder weight change = 0.00009733
+Epoch 50: avg decoder weight change = 0.00007669
+Epoch 51: avg decoder weight change = 0.00007032
+Epoch 52: avg decoder weight change = 0.00007473
+Epoch 53: avg decoder weight change = 0.00006776
+Epoch 54: avg decoder weight change = 0.00008850
+Epoch 55: avg decoder weight change = 0.00009890
+Epoch 56: avg decoder weight change = 0.00011667
+Epoch 57: avg decoder weight change = 0.00007782
+Epoch 58: avg decoder weight change = 0.00008870
+Epoch 59: avg decoder weight change = 0.00007403
+Epoch 60: avg decoder weight change = 0.00008175
+Epoch 61: avg decoder weight change = 0.00008329
+Epoch 62: avg decoder weight change = 0.00009302
+Epoch 63: avg decoder weight change = 0.00008757
+Epoch 64: avg decoder weight change = 0.00008500
+Epoch 65: avg decoder weight change = 0.00008666
+Epoch 66: avg decoder weight change = 0.00007780
+Epoch 67: avg decoder weight change = 0.00008246
+Epoch 68: avg decoder weight change = 0.00008595
+Epoch 69: avg decoder weight change = 0.00011928
+Epoch 70: avg decoder weight change = 0.00009761
+Epoch 71: avg decoder weight change = 0.00007662
+Epoch 72: avg decoder weight change = 0.00009454
+Epoch 73: avg decoder weight change = 0.00008322
+Epoch 74: avg decoder weight change = 0.00007847
+Epoch 75: avg decoder weight change = 0.00007307
+Epoch 76: avg decoder weight change = 0.00008010
+Epoch 77: avg decoder weight change = 0.00008819
+Epoch 78: avg decoder weight change = 0.00007590
+Epoch 79: avg decoder weight change = 0.00007166
+Epoch 80: avg decoder weight change = 0.00006750
+Epoch 81: avg decoder weight change = 0.00008985
+Epoch 82: avg decoder weight change = 0.00008424
+Epoch 83: avg decoder weight change = 0.00010973
+Epoch 84: avg decoder weight change = 0.00006581
+Epoch 85: avg decoder weight change = 0.00006846
+Epoch 86: avg decoder weight change = 0.00008034
+Epoch 87: avg decoder weight change = 0.00007519
+Epoch 88: avg decoder weight change = 0.00008173
+Epoch 89: avg decoder weight change = 0.00008033
+Epoch 90: avg decoder weight change = 0.00007369
+Epoch 91: avg decoder weight change = 0.00006640
+Epoch 92: avg decoder weight change = 0.00006554
+Epoch 93: avg decoder weight change = 0.00006671
+Epoch 94: avg decoder weight change = 0.00006785
+Epoch 95: avg decoder weight change = 0.00007514
+Epoch 96: avg decoder weight change = 0.00007679
+Exp has been early stopped!
+=== Seed 4 ===
+PID, device: 1959178 cuda
+Total records: 12000
+Dataset n_samples: 12000 7200 2400 2400
+overlap train∩val: 0 train∩test: 0 val∩test: 0
+Test record ids (first 20): ['141908', '143709', '142213', '162190', '138704', '160585', '150290', '156241', '137485', '150340', '135674', '141404', '135171', '133764', '146552', '154493', '136155', '146314', '136706', '134994']
+Test record ids (last 20): ['143505', '138293', '144879', '147553', '139211', '150556', '133287', '162637', '147110', '157654', '143326', '137795', '143915', '151353', '151772', '139738', '162735', '143245', '139112', '143576']
+data_max: tensor([9.0000e+01, 1.0000e+00, 4.6230e+02, 4.0000e+00, 4.7200e+02, 5.0000e+00,
+        4.1060e+03, 1.6920e+04, 2.3950e+04, 8.2800e+01, 2.0900e+02, 3.4200e+02,
+        2.2000e+01, 2.7200e+02, 1.0000e+00, 1.5000e+01, 1.5910e+03, 5.2000e+01,
+        6.1800e+01, 2.1150e+02, 2.2900e+01, 2.9300e+01, 2.2400e+01, 2.9800e+02,
+        1.0000e+00, 1.8000e+02, 1.8000e+02, 2.1500e+02, 2.6133e+02, 1.0000e+02,
+        5.0000e+02, 7.3500e+02, 2.2920e+03, 1.0000e+02, 1.0000e+02, 2.8500e+02,
+        4.2200e+01, 4.9600e+01, 2.9910e+01, 1.1000e+04, 5.2800e+02],
+       device='cuda:0')
+data_min: tensor([ 1.5000e+01, -1.0000e+00, -1.0000e+00,  1.0000e+00, -1.0000e+00,
+         1.0000e+00,  8.0000e+00,  1.0000e+00,  4.0000e+00,  0.0000e+00,
+         0.0000e+00,  3.5000e+01,  1.0000e-01, -1.0000e+00,  2.1000e-01,
+         3.0000e+00,  8.0000e+00,  5.0000e+00,  5.5000e+00,  0.0000e+00,
+         1.8000e+00,  3.0000e-01,  4.0000e-01,  0.0000e+00,  1.0000e+00,
+         9.8000e+01, -1.0000e+00,  0.0000e+00,  0.0000e+00,  0.0000e+00,
+         0.0000e+00,  0.0000e+00,  5.0000e+00,  0.0000e+00,  0.0000e+00,
+         0.0000e+00, -1.7800e+01,  3.0000e-01,  1.0000e-02,  0.0000e+00,
+         0.0000e+00], device='cuda:0')
+time_max: tensor(48., device='cuda:0')
+[MS] batch keys: ['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+[MS] #scales: 3
+[MS] per-scale shapes: [(32, 6, 4, 41), (32, 3, 8, 41), (32, 2, 12, 41)]
+[MS] data_to_predict: (32, 25, 41)
+[MS] mask_predicted_data sum: 5409.0
+[MS] tt_list mins/maxes: [(0.0, 0.9583333730697632), (0.0, 0.9583333730697632), (0.0, 0.9583333730697632)]
+[MS] tp_to_predict min/max: 0.0 2.0
+[MS] use_ms=True fusion=attn scales=4,8,12 strides=4,8,12 npatches_per_scale=[6, 3, 2]
+decoder exists: True
+fuse_proj exists: False
+attn_V exists: True
+attn_u exists: True
+gate_mlp exists: False
+Missing trainable params in optimizer: []
+Missing count: 0
+n_train_batches: 225
+Epoch 0: avg decoder weight change = 0.00008717
+Epoch 1: avg decoder weight change = 0.00006633
+Epoch 2: avg decoder weight change = 0.00007799
+Epoch 3: avg decoder weight change = 0.00007126
+Epoch 4: avg decoder weight change = 0.00007991
+Epoch 5: avg decoder weight change = 0.00007536
+Epoch 6: avg decoder weight change = 0.00007153
+Epoch 7: avg decoder weight change = 0.00007805
+Epoch 8: avg decoder weight change = 0.00007556
+Epoch 9: avg decoder weight change = 0.00006956
+Epoch 10: avg decoder weight change = 0.00008991
+Epoch 11: avg decoder weight change = 0.00007330
+Epoch 12: avg decoder weight change = 0.00007584
+Epoch 13: avg decoder weight change = 0.00007588
+Epoch 14: avg decoder weight change = 0.00008277
+Epoch 15: avg decoder weight change = 0.00009055
+Epoch 16: avg decoder weight change = 0.00008738
+Epoch 17: avg decoder weight change = 0.00007963
+Epoch 18: avg decoder weight change = 0.00008110
+Epoch 19: avg decoder weight change = 0.00008374
+Epoch 20: avg decoder weight change = 0.00009183
+Epoch 21: avg decoder weight change = 0.00008668
+Epoch 22: avg decoder weight change = 0.00009341
+Epoch 23: avg decoder weight change = 0.00010039
+Epoch 24: avg decoder weight change = 0.00009287
+Epoch 25: avg decoder weight change = 0.00008242
+Epoch 26: avg decoder weight change = 0.00009829
+Epoch 27: avg decoder weight change = 0.00009028
+Epoch 28: avg decoder weight change = 0.00010015
+Epoch 29: avg decoder weight change = 0.00012348
+Epoch 30: avg decoder weight change = 0.00008826
+Epoch 31: avg decoder weight change = 0.00008672
+Epoch 32: avg decoder weight change = 0.00010124
+Epoch 33: avg decoder weight change = 0.00010282
+Epoch 34: avg decoder weight change = 0.00010140
+Epoch 35: avg decoder weight change = 0.00010007
+Epoch 36: avg decoder weight change = 0.00009718
+Epoch 37: avg decoder weight change = 0.00010499
+Epoch 38: avg decoder weight change = 0.00010954
+Epoch 39: avg decoder weight change = 0.00010599
+Epoch 40: avg decoder weight change = 0.00009468
+Epoch 41: avg decoder weight change = 0.00009310
+Epoch 42: avg decoder weight change = 0.00008836
+Epoch 43: avg decoder weight change = 0.00009559
+Epoch 44: avg decoder weight change = 0.00011598
+Epoch 45: avg decoder weight change = 0.00010199
+Epoch 46: avg decoder weight change = 0.00010318
+Epoch 47: avg decoder weight change = 0.00010388
+Epoch 48: avg decoder weight change = 0.00010222
+Epoch 49: avg decoder weight change = 0.00010345
+Epoch 50: avg decoder weight change = 0.00011318
+Epoch 51: avg decoder weight change = 0.00010718
+Epoch 52: avg decoder weight change = 0.00009167
+Epoch 53: avg decoder weight change = 0.00011106
+Epoch 54: avg decoder weight change = 0.00010588
+Epoch 55: avg decoder weight change = 0.00009776
+Epoch 56: avg decoder weight change = 0.00009365
+Epoch 57: avg decoder weight change = 0.00009545
+Epoch 58: avg decoder weight change = 0.00009952
+Epoch 59: avg decoder weight change = 0.00010650
+Epoch 60: avg decoder weight change = 0.00011609
+Epoch 61: avg decoder weight change = 0.00010148
+Epoch 62: avg decoder weight change = 0.00010599
+Epoch 63: avg decoder weight change = 0.00011967
+Epoch 64: avg decoder weight change = 0.00010035
+Exp has been early stopped!
+=== Seed 5 ===
+PID, device: 1959359 cuda
+Total records: 12000
+Dataset n_samples: 12000 7200 2400 2400
+overlap train∩val: 0 train∩test: 0 val∩test: 0
+Test record ids (first 20): ['141908', '143709', '142213', '162190', '138704', '160585', '150290', '156241', '137485', '150340', '135674', '141404', '135171', '133764', '146552', '154493', '136155', '146314', '136706', '134994']
+Test record ids (last 20): ['143505', '138293', '144879', '147553', '139211', '150556', '133287', '162637', '147110', '157654', '143326', '137795', '143915', '151353', '151772', '139738', '162735', '143245', '139112', '143576']
+data_max: tensor([9.0000e+01, 1.0000e+00, 4.6230e+02, 4.0000e+00, 4.7200e+02, 5.0000e+00,
+        4.1060e+03, 1.6920e+04, 2.3950e+04, 8.2800e+01, 2.0900e+02, 3.4200e+02,
+        2.2000e+01, 2.7200e+02, 1.0000e+00, 1.5000e+01, 1.5910e+03, 5.2000e+01,
+        6.1800e+01, 2.1150e+02, 2.2900e+01, 2.9300e+01, 2.2400e+01, 2.9800e+02,
+        1.0000e+00, 1.8000e+02, 1.8000e+02, 2.1500e+02, 2.6133e+02, 1.0000e+02,
+        5.0000e+02, 7.3500e+02, 2.2920e+03, 1.0000e+02, 1.0000e+02, 2.8500e+02,
+        4.2200e+01, 4.9600e+01, 2.9910e+01, 1.1000e+04, 5.2800e+02],
+       device='cuda:0')
+data_min: tensor([ 1.5000e+01, -1.0000e+00, -1.0000e+00,  1.0000e+00, -1.0000e+00,
+         1.0000e+00,  8.0000e+00,  1.0000e+00,  4.0000e+00,  0.0000e+00,
+         0.0000e+00,  3.5000e+01,  1.0000e-01, -1.0000e+00,  2.1000e-01,
+         3.0000e+00,  8.0000e+00,  5.0000e+00,  5.5000e+00,  0.0000e+00,
+         1.8000e+00,  3.0000e-01,  4.0000e-01,  0.0000e+00,  1.0000e+00,
+         9.8000e+01, -1.0000e+00,  0.0000e+00,  0.0000e+00,  0.0000e+00,
+         0.0000e+00,  0.0000e+00,  5.0000e+00,  0.0000e+00,  0.0000e+00,
+         0.0000e+00, -1.7800e+01,  3.0000e-01,  1.0000e-02,  0.0000e+00,
+         0.0000e+00], device='cuda:0')
+time_max: tensor(48., device='cuda:0')
+[MS] batch keys: ['X_list', 'tt_list', 'mk_list', 'npatches', 'tp_to_predict', 'data_to_predict', 'mask_predicted_data']
+[MS] #scales: 3
+[MS] per-scale shapes: [(32, 6, 4, 41), (32, 3, 8, 41), (32, 2, 12, 41)]
+[MS] data_to_predict: (32, 25, 41)
+[MS] mask_predicted_data sum: 5409.0
+[MS] tt_list mins/maxes: [(0.0, 0.9583333730697632), (0.0, 0.9583333730697632), (0.0, 0.9583333730697632)]
+[MS] tp_to_predict min/max: 0.0 2.0
+[MS] use_ms=True fusion=attn scales=4,8,12 strides=4,8,12 npatches_per_scale=[6, 3, 2]
+decoder exists: True
+fuse_proj exists: False
+attn_V exists: True
+attn_u exists: True
+gate_mlp exists: False
+Missing trainable params in optimizer: []
+Missing count: 0
+n_train_batches: 225
+Epoch 0: avg decoder weight change = 0.00005671
+Epoch 1: avg decoder weight change = 0.00003265
+Epoch 2: avg decoder weight change = 0.00003580
+Epoch 3: avg decoder weight change = 0.00003610
+Epoch 4: avg decoder weight change = 0.00004439
+Epoch 5: avg decoder weight change = 0.00004052
+Epoch 6: avg decoder weight change = 0.00004142
+Epoch 7: avg decoder weight change = 0.00006111
+Epoch 8: avg decoder weight change = 0.00004059
+Epoch 9: avg decoder weight change = 0.00004162
+Epoch 10: avg decoder weight change = 0.00005337
+Epoch 11: avg decoder weight change = 0.00006276
+Epoch 12: avg decoder weight change = 0.00005529
+Epoch 13: avg decoder weight change = 0.00004450
+Epoch 14: avg decoder weight change = 0.00007424
+Epoch 15: avg decoder weight change = 0.00005693
+Epoch 16: avg decoder weight change = 0.00004939
+Epoch 17: avg decoder weight change = 0.00005689
+Epoch 18: avg decoder weight change = 0.00005800
+Epoch 19: avg decoder weight change = 0.00005278
+Epoch 20: avg decoder weight change = 0.00006528
+Epoch 21: avg decoder weight change = 0.00004761
+Epoch 22: avg decoder weight change = 0.00005446
+Epoch 23: avg decoder weight change = 0.00006499
+Epoch 24: avg decoder weight change = 0.00006977
+Epoch 25: avg decoder weight change = 0.00004590
+Epoch 26: avg decoder weight change = 0.00005344
+Epoch 27: avg decoder weight change = 0.00005763
+Epoch 28: avg decoder weight change = 0.00006400
+Epoch 29: avg decoder weight change = 0.00006377
+Epoch 30: avg decoder weight change = 0.00006525
+Epoch 31: avg decoder weight change = 0.00007336
+Epoch 32: avg decoder weight change = 0.00006288
+Epoch 33: avg decoder weight change = 0.00007358
+Epoch 34: avg decoder weight change = 0.00006471
+Epoch 35: avg decoder weight change = 0.00007334
+Epoch 36: avg decoder weight change = 0.00006768
+Epoch 37: avg decoder weight change = 0.00005185
+Epoch 38: avg decoder weight change = 0.00005865
+Epoch 39: avg decoder weight change = 0.00005669
+Epoch 40: avg decoder weight change = 0.00006197
+Epoch 41: avg decoder weight change = 0.00007575
+Epoch 42: avg decoder weight change = 0.00006531
+Epoch 43: avg decoder weight change = 0.00006955
+Epoch 44: avg decoder weight change = 0.00006723
+Epoch 45: avg decoder weight change = 0.00007123
+Epoch 46: avg decoder weight change = 0.00008254
+Epoch 47: avg decoder weight change = 0.00005941
+Epoch 48: avg decoder weight change = 0.00006433
+Epoch 49: avg decoder weight change = 0.00007387
+Epoch 50: avg decoder weight change = 0.00007531
+Epoch 51: avg decoder weight change = 0.00008535
+Epoch 52: avg decoder weight change = 0.00007265
+Epoch 53: avg decoder weight change = 0.00007484
+Epoch 54: avg decoder weight change = 0.00006559
+Epoch 55: avg decoder weight change = 0.00007754
+Epoch 56: avg decoder weight change = 0.00008157
+Epoch 57: avg decoder weight change = 0.00008597
+Epoch 58: avg decoder weight change = 0.00007009
+Epoch 59: avg decoder weight change = 0.00007062
+Epoch 60: avg decoder weight change = 0.00007012
+Epoch 61: avg decoder weight change = 0.00009030
+Epoch 62: avg decoder weight change = 0.00009318
+Epoch 63: avg decoder weight change = 0.00008048
+Epoch 64: avg decoder weight change = 0.00009332
+Epoch 65: avg decoder weight change = 0.00008165
+Epoch 66: avg decoder weight change = 0.00008012
+Epoch 67: avg decoder weight change = 0.00007142
+Epoch 68: avg decoder weight change = 0.00008475
+Epoch 69: avg decoder weight change = 0.00008529
+Epoch 70: avg decoder weight change = 0.00007871
+Epoch 71: avg decoder weight change = 0.00007275
+Epoch 72: avg decoder weight change = 0.00007611
+Epoch 73: avg decoder weight change = 0.00008236
+Epoch 74: avg decoder weight change = 0.00008015
+Epoch 75: avg decoder weight change = 0.00008996
+Epoch 76: avg decoder weight change = 0.00007742
+Exp has been early stopped!

@@ -26,8 +26,8 @@ LR=1e-3
 HISTORY=24
 QUANT=1.0
 
-SCALES="2,8"
-STRIDES="2,8"
+SCALES="4,8"
+STRIDES="4,8"
 
 # scale-attn “best-bet”
 AT_HIDDEN=32

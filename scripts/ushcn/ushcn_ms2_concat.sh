@@ -1,17 +1,15 @@
 #!/usr/bin/env bash
-#SBATCH --job-name=ushcn_ms_2scale
-#SBATCH --partition=STUD
+#SBATCH --job-name=ushcn_gfw_ovrlp_1,2
+#SBATCH --partition=NGPU
+#SBATCH --nodelist=gpu-200
 #SBATCH --gres=gpu:1
-#SBATCH --cpus-per-task=8
-#SBATCH --mem=30G
 #SBATCH --output=%x_%j.out
 #SBATCH --error=%x_%j.err
-#SBATCH --chdir=/home/ouass/Test/MSP-IMTS/logs/ushcn
+#SBATCH --chdir=/home/ouass/Test/MSP-IMTS/abc
 
 set -euo pipefail
 source "$HOME/venv310/bin/activate"
-export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
-export MKL_NUM_THREADS=$SLURM_CPUS_PER_TASK
+
 export PYTHONPATH="/home/ouass/Test/MSP-IMTS:/home/ouass/Test/MSP-IMTS/tPatchGNN:${PYTHONPATH-}"
 
 cd /home/ouass/Test/MSP-IMTS/tPatchGNN
@@ -29,7 +27,7 @@ SCALES="1,2"
 # STRIDES="1,3"
 STRIDES="1,1"
 
-echo "USHCN MS 2-scale (concat): scales=$SCALES strides=$STRIDES"
+echo "USHCN MS 2-scale (gated): scales=$SCALES strides=$STRIDES"
 for SEED in 1 2 3 4 5; do
   echo "==== Seed $SEED ===="
   python run_models.py \
@@ -46,5 +44,6 @@ for SEED in 1 2 3 4 5; do
     --seed $SEED --gpu $GPU \
     --multi_scales "$SCALES" \
     --multi_strides "$STRIDES" \
-    --fusion concat
+    --metric per_dim \
+    --fusion gated_feat_wconcat
 done

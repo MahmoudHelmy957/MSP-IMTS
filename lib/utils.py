@@ -667,7 +667,14 @@ def multiscale_split_and_patch_batch(data_dict, args, history_hours, scales_hour
         mk_list.append(split_dict["observed_mask"])
         npatches.append(len(indices))
         setattr(args, "npatch", old_npatch)
-    return {"X_list": X_list, "tt_list": tt_list, "mk_list": mk_list, "npatches": npatches}
+    return {
+		"X_list": X_list,
+		"tt_list": tt_list,
+		"mk_list": mk_list,
+		"npatches": npatches,
+		"tp_to_predict": data_dict_norm.get("tp_to_predict", None),
+		"time_steps": data_dict_norm.get("time_steps", None),  # optional, for debugging
+	}
 
 
 def _normalize_timelines_for_history(data_dict, history_hours: float, *, n_months: float | None = None):
